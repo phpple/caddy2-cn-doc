@@ -3,7 +3,7 @@
 * [欢迎](readme.md)
 * [安装](install.md)
 * 教程
-    * [启步](tutorials/getting-started.md)
+    * [入门指南](tutorials/getting-started.md)
     * 快速开始
         * [使用API](tutorials/using-the-api.md)
         * [使用Caddyfile](tutorials/using-a-caddyfile.md)
