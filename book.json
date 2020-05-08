@@ -2,5 +2,11 @@
   "title": "Caddy2",
   "author": "Ronnie Deng",
   "description": "Caddy v2 服务器的中文文档",
-  "language": "zh-hans"
+  "language": "zh-hans",
+  "plugins": ["baiduana"],
+  "pluginsConfig" : {
+  	"baidu": {
+        "token": "b890a07e00e3228237f7405bc255db7c"
+    }
+  }
 }
