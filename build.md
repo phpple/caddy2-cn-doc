@@ -9,7 +9,7 @@
 git clone "https://github.com/caddyserver/caddy.git"
 ```
 
-如果您没有git，您可以从[GitHub](https://github.com/caddyserver/caddy)下载源代码压缩包。每个[版本](https://github.com/caddyserver/caddy/releases)也有源码快照。
+如果你没有git，你可以从[GitHub](https://github.com/caddyserver/caddy)下载源代码压缩包。每个[版本](https://github.com/caddyserver/caddy/releases)也有源码快照。
 
 构建：
 
@@ -18,7 +18,7 @@ cd caddy/cmd/caddy/
 go build
 ```
 
-> 由于[Go语言的一个bug](https://github.com/golang/go/issues/29228)，这些基本步骤没有嵌入版本信息。如果您想要版本(`caddy version`)，则需要将Caddy编译为依赖项而不是主模块。这方面的说明在Caddy的[main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go)文件中。当然，您也可以使用[`xcaddy`](https://caddyserver.com/docs/build#xcaddy)自动完成此操作。
+> 由于[Go语言的一个bug](https://github.com/golang/go/issues/29228)，这些基本步骤没有嵌入版本信息。如果你想要版本(`caddy version`)，则需要将Caddy编译为依赖项而不是主模块。这方面的说明在Caddy的[main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go)文件中。当然，你也可以使用[`xcaddy`](https://caddyserver.com/docs/build#xcaddy)自动完成此操作。
 
 
 ## xcaddy
@@ -28,7 +28,7 @@ go build
 要求：
 
 - 安装了Go（见上文）
-- 确保[`xcaddy`](https://github.com/caddyserver/xcaddy/releases)在您的`PATH`变量中
+- 确保[`xcaddy`](https://github.com/caddyserver/xcaddy/releases)在你的`PATH`变量中
 
 你不需要下载Caddy的源码，xcaddy会自动帮你完成。
 

@@ -91,7 +91,7 @@ Hello, world!
 }
 ```
 
-更新您的 JSON，然后再次执行 API 请求。
+更新你的 JSON，然后再次执行 API 请求。
 
 在[浏览器中](http://localhost:2016/)尝试新的“bye”端点，或使用`curl`以确保它有效：
 

@@ -1,6 +1,6 @@
 # 安装
 
-本页介绍了在您的系统上安装Caddy的各种方法。
+本页介绍了在你的系统上安装Caddy的各种方法。
 
 __官方的：__
 - [静态二进制文件](https://caddyserver.com/docs/install#static-binaries)
@@ -10,7 +10,7 @@ __官方的：__
 - [Docker](https://caddyserver.com/docs/install#docker)
 - [DigitalOcean](https://caddyserver.com/docs/install#digitalocean)
 
-> 我们的[官方软件包](https://github.com/caddyserver/dist)仅附带标准模块。如果您需要第三方插件，请使用[`xcaddy`从源代码构建](https://caddyserver.com/docs/build#xcaddy)，或者使用我们的[下载页面](https://caddyserver.com/download)。
+> 我们的[官方软件包](https://github.com/caddyserver/dist)仅附带标准模块。如果你需要第三方插件，请使用[`xcaddy`从源代码构建](https://caddyserver.com/docs/build#xcaddy)，或者使用我们的[下载页面](https://caddyserver.com/download)。
 
 
 __社区维护：__
@@ -55,7 +55,7 @@ sudo apt install caddy
 
 [查看Cloudsmith仓库](https://cloudsmith.io/~caddy/repos/)
 
-如果您希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
+如果你希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
 
 ## Fedora、红帽、CentOS
 
@@ -132,7 +132,7 @@ Windows：
 curl.exe -A MS https://webinstall.dev/caddy | powershell
 ```
 
-您可能需要调整 Windows 防火墙规则以允许非本地主机传入连接。
+你可能需要调整 Windows 防火墙规则以允许非本地主机传入连接。
 
 [查看Webi](https://webinstall.dev/caddy)
 
