@@ -6,8 +6,8 @@
 
 ## 菜单
 
-* [使用API](quick-starts/using-the-api.md)
-* [使用Caddyfile](quick-starts/using-a-caddyfile.md)
-* [静态文件](quick-starts/static-files.md)
-* [反向代理](quick-starts/reverse-proxy.md)
-* [https](quick-starts/https.md)
+* [使用API](/docs/quick-starts/api)
+* [使用Caddyfile](/docs/quick-starts/caddyfile)
+* [静态文件](/docs/quick-starts/static-files)
+* [反向代理](/docs/quick-starts/reverse-proxy)
+* [https](/docs/quick-starts/https)
