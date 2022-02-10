@@ -1,145 +1,177 @@
 # 安装
 
-每个平台都可以使用Caddy的静态二进制文件(它没有依赖项)。您还可以从源代码构建以定制你的Caddy。
+本页介绍了在您的系统上安装Caddy的各种方法。
 
-## 官方包
+__官方的：__
+- [静态二进制文件](https://caddyserver.com/docs/install#static-binaries)
+- [Debian、Ubuntu、Raspbian](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)
+- [Fedora、Redhat、CentOS](https://caddyserver.com/docs/install#fedora-redhat-centos)
+- [Arch Linux, Manjaro, Parabola](https://caddyserver.com/docs/install#arch-linux-manjaro-parabola)
+- [Docker](https://caddyserver.com/docs/install#docker)
+- [DigitalOcean](https://caddyserver.com/docs/install#digitalocean)
 
-我们为以下平台提供官方发行版本：
+> 我们的[官方软件包](https://github.com/caddyserver/dist)仅附带标准模块。如果您需要第三方插件，请使用[`xcaddy`从源代码构建](https://caddyserver.com/docs/build#xcaddy)，或者使用我们的[下载页面](https://caddyserver.com/download)。
 
-### Docker
+
+__社区维护：__
+- [Homebrew](https://caddyserver.com/docs/install#homebrew)
+- [Webi](https://caddyserver.com/docs/install#webi)
+- [Chocolatey](https://caddyserver.com/docs/install#chocolatey)
+- [Ansible](https://caddyserver.com/docs/install#ansible)
+- [Scoop](https://caddyserver.com/docs/install#scoop)
+- [Termux](https://caddyserver.com/docs/install#termux)
+
+
+## 静态二进制文件
+
+只需要简单地下载Caddy二进制文件，并不会[将其安装为服务](https://caddyserver.com/docs/running#manual-installation)，这种方式在开发或升级现有安装时非常有用。
+
+- [在GitHub上查看发布](https://github.com/caddyserver/caddy/releases)（展开“Assets”）
+- [使用官方下载页面](https://caddyserver.com/download)
+
+## Debian、Ubuntu、Raspbian
+
+安装此软件包会自动启动将Caddy作为systemd服务（名称为`caddy`）运行，另外，还有一个名为`caddy-api`可供使用，它默认没有被启用。
+
+稳定版本：
+
+```bash
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-stable.asc
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy
+```
+
+测试版本（包括 beta 和候选版本）：
+
+```bash
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/testing/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-testing.asc
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/testing/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-testing.list
+sudo apt update
+sudo apt install caddy
+```
+
+[查看Cloudsmith仓库](https://cloudsmith.io/~caddy/repos/)
+
+如果您希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
+
+## Fedora、红帽、CentOS
+
+这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
+
+Fedora 或 RHEL/CentOS 8：
+
+```bash
+dnf install 'dnf-command(copr)'
+dnf copr enable @caddy/caddy
+dnf install caddy
+```
+
+RHEL/CentOS 7：
+
+```bash
+yum install yum-plugin-copr
+yum copr enable @caddy/caddy
+yum install caddy
+```
+
+[查看COPR](https://copr.fedorainfracloud.org/coprs/g/caddy/caddy/)
+
+
+## Arch Linux, Manjaro, Parabola
+
+这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
+
+```bash
+pacman -Syu caddy
+```
+
+[查看Arch Linux 仓库](https://archlinux.org/packages/community/x86_64/caddy/)
+
+## Docker
 
 ```bash
 docker pull caddy
 ```
 
-[在Docker Hub上查看](https://hub.docker.com/_/caddy)
+[查看Docker Hub](https://hub.docker.com/_/caddy)
 
-### Debian, Ubuntu, Raspbian
+## DigitalOcean
 
-```bash
-echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" \
-    | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
-sudo apt update
-sudo apt install caddy
-```
+[在 DigitalOcean 上部署 Caddy Droplet](https://marketplace.digitalocean.com/apps/caddy)
 
-### Fedora, RedHat, CentOS
+通过[`apt`库](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)安装，Droplet被预先配置为将Caddy作为[systemd服务](https://caddyserver.com/docs/running#linux-service)运行。
 
-查看如何[安装Caddy COPR](https://copr.fedorainfracloud.org/coprs/g/caddy/caddy/)。
 
-### DigitalOcean
+## Homebrew
 
-[创建Caddy droplet](https://marketplace.digitalocean.com/apps/caddy)，90s内开始启动。
-
-## Linux服务
-
-本节描述如何将Caddy作为Linux服务手动安装。
-
-需求：
-* 下载或者从源码构建的`caddy`
-* `systemctl --version`版本至少为232
-* `sudo`权限
-
-将caddy二进制文件移到到`$PATH`所在目录，例如:
-```bash
-$ sudo mv caddy /usr/bin
-```
-
-测试一下是否ok：
+__注意：这是社区维护的安装方法。__
 
 ```bash
-caddy version
+brew install caddy
 ```
 
-创建一个`caddy`的组
+[查看Homebrew的formula](https://formulae.brew.sh/formula/caddy)
+
+
+## Webi
+
+__注意：这是社区维护的安装方法。__
+
+Linux 和 macOS：
 
 ```bash
-$ groupadd --system caddy
+curl -sS https://webinstall.dev/caddy | bash
 ```
 
-创建一个名字为`caddy`的用户，确保在家目录有写的权限。
+Windows：
 
 ```bash
-useradd --system \
-	--gid caddy \
-	--create-home \
-	--home-dir /var/lib/caddy \
-	--shell /usr/sbin/nologin \
-	--comment "Caddy web server" \
-	caddy
+curl.exe -A MS https://webinstall.dev/caddy | powershell
 ```
 
-接下来，按照使用场景创建对应的[systemd服务文件](https://github.com/caddyserver/dist/blob/master/init)。
-* 如果使用一个文件来配置Caddy，则取名`caddy.service`
-* 如果仅仅通过API配置Caddy，则取名`caddy-api.servie`
+您可能需要调整 Windows 防火墙规则以允许非本地主机传入连接。
 
-它们非常相似，不同点主要在于ExecStart和ExecReload命令，以适应你的工作流，需要相应地定制文件。
+[查看Webi](https://webinstall.dev/caddy)
 
-再次检查ExecStart和ExecReload指令，确保二进制文件的位置和命令行参数和你的安装是一致的!
+## Chocolatey
 
-通常保存服务文件的位置是：`/etc/systemd/system/caddy.service`。
-
-保存你的服务文件后，可以用通常的systemctl命令完成它的第一次启动：
+__注意：这是社区维护的安装方法。__
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable caddy
-sudo systemctl start caddy
+choco install caddy
 ```
 
-验证一下是否运行成功。
+[查看Chocolatey包](https://chocolatey.org/packages/caddy)
+
+## Ansible
+
+__注意：这是社区维护的安装方法。__
 
 ```bash
-systemctl status caddy
+ansible-galaxy install nvjacobo.caddy
 ```
 
-当运行我们的官方服务文件时，Caddy的输出将被重定向到`journalctl`：
+[查看Ansible角色仓库](https://github.com/nvjacobo/caddy)
+
+## Scoop
+
+__注意：这是社区维护的安装方法。__
 
 ```bash
-journalctl -u caddy
+scoop install caddy
 ```
 
-如果使用配置文件，你可以优雅地应用任何变化：
+[查看Scoop的manifest文件](https://github.com/ScoopInstaller/Main/blob/master/bucket/caddy.json)
+
+## Termux
+
+__注意：这是社区维护的安装方法。__
 
 ```bash
-sudo systemctl reload caddy
+pkg install caddy
 ```
 
-你可以使用下面的命令停止Caddy：
-
-```bash
-sudo systemctl stop caddy
-```
-
-> 如果要改变Caddy的配置，不要直接停止服务，这将导致服务终止。正确的做法是使用reload命令。
-
-## 从源代码构建
-
-需求：
-* [Go](https://golang.org/dl)语言版本>=1.14
-* 支持[Go Module](https://github.com/golang/go/wiki/Modules)功能
-
-下载源代码：
-
-```bash
-git clone "https://github.com/caddyserver/caddy.git"
-```
-
-构建：
-
-```bash
-cd caddy/cmd/caddy/
-go build
-```
-
-### 使用插件
-
-使用[xcaddy](https://github.com/caddyserver/xcaddy)，你可以给Caddy编译额外的插件，例如：
-
-```bash
-xcaddy build \
-    --with github.com/caddyserver/nginx-adapter
-	--with github.com/caddyserver/ntlm-transport@v0.1.0
-```
-
-
+[查看Termux的build.sh文件](https://github.com/termux/termux-packages/blob/master/packages/caddy/build.sh)
