@@ -1,31 +1,20 @@
-# 欢迎使用Caddy
+Caddy v2 中文文档
+=================
 
-Caddy是一款基于Go语言编写的强大且可扩展的平台，可以给你的站点、服务和应用程序提供服务。如果你是Caddy的新手，那么你提供Web服务的方式即将改变。
+这是Caddy v2中文文档的网站, [https://dengxiaolong.com/caddy/v2/]([https://dengxiaolong.com/caddy/v2/).
 
-## 介绍
-大多数人将Caddy用作Web服务器或代理，但Caddy的本质是诸多服务器的服务器。在安装了必要的[模块](modules/readme.md)后，它就可以充当长时间运行的进程的角色！
 
-基于Caddy的[API](api.md)，它的配置能被动态修改，且能导出来。虽然不需要配置文件，但你仍然可以使用它们；大多数人还是最喜欢通过[Caddyfile](caddyfile.md)对Caddy进行配置。虽然通过[配置适配器](config-adapters.md)可以对Caddy使用多种的配置文件格式，但它的原生配置语言是JSON。
+## 要求
 
-Caddy已经编译好了所有主流平台的版本，且没有运行时依赖项。
+- 安装Caddy 2 (在PATH可直接运行`caddy`)
 
-## 第一次？
-没问题！我们建议每个人，无论经验如何，都可以阅读我们的[入门指南](getting-started.md)。它将为你提供对这款新 Web服务器的全面了解，这对于你继续学习将是非常实用的。
 
-如果你只有几分钟的时间去开始运行它，可以请尝试我们的[快速入门](quick-starts.md)。
+## 快速开始
 
-一些扩充性的内容，如特殊的示例，请查看我们的社区[wiki](https://caddy.community/c/wiki/13) - 也欢迎你贡献更多的内容！
+1. `git clone https://github.com/phpple/caddy2-cn-doc/`
+2. `cd caddy2-cn-doc`
+3. `caddy run`
 
-我们建议你坚持使用这些官方资源来[安装](install.md)、[配置](configure.md)和[运行](command-line.md)Caddy，而不是随机从一些博客或者问答版块上直接拿过来运行命令或复制配置片段。你会发现我们的材料通常更准确和及时。我们还鼓励你按照需要定制自己的配置，以确保你了解服务器的工作原理，这样即便以后出现问题，你也有能力更快地解决问题。
+第一次，系统可能会提示您输入密码。这样Caddy就可以通过本地HTTPS为站点提供服务。如果无法绑定低端口，请更改[`Caddyfile`](Caddyfile)顶部的地址，例如`localhost:2015`。
 
-不管如何，你都可以享受使用这款新Web服务器的乐趣。Caddy将会带给你前所未有的服务器软件的使用体验！
-
-## 获取帮助
-
-如果你在使用Caddy时需要帮助，请在我们的[社区](https://caddy.community/)中好好提问，我们很乐意为你提供帮助。请你尽可能完整地按照帮助模板填写。当然，你也可以去帮助他人，我们也总是需要更多的帮手。
-
-只有当你确定是Caddy中的错误或有特定功能请求时，才使用我们的[问题跟踪器](https://github.com/caddyserver/caddy/issues)。
-
-该网站在[GitHub](https://github.com/caddyserver/website)上维护。要提交改进，请打开问题或拉取请求。
-
-感谢你参与我们的社区！我们希望Caddy能让你满意。
+然后你可以通过浏览器访问[https://localhost](https://localhost) (或者你配置的其他地址)。
