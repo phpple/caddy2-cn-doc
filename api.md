@@ -40,7 +40,7 @@ curl localhost:2019/load \
 EOF
 ```
 
-使用[Heredoc](https://en.wikipedia.org/wiki/Here_document#Unix_shells)提供POST包体可能很乏味，因此，如果你更喜欢使用文件，请将JSON保存成`caddy.json`的文件，然后改用以下命令：
+使用[Heredoc](https://en.wikipedia.org/wiki/Here_document#Unix_shells)提供POST包体可能很乏味，如果你更喜欢使用文件，请将JSON保存成`caddy.json`的文件，然后改用以下命令：
 
 ```bash
 curl localhost:2019/load \
