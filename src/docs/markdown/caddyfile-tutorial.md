@@ -1,41 +1,41 @@
 ---
-title: Caddyfile Tutorial
+title: Caddyfile教程
 ---
 
-# Caddyfile Tutorial
+# Caddyfile教程
 
-This tutorial will teach you the basics of the [HTTP Caddyfile](/docs/caddyfile) so that you can quickly and easily produce good-looking, functional site configs.
+本教程将教你[HTTP Caddyfile](/docs/caddyfile)的基础知识，以便你可以快速轻松地生成美观、功能强大的站点配置。
 
-**Objectives:**
-- 🔲 First site
-- 🔲 Static file server
-- 🔲 Templates
-- 🔲 Compression
-- 🔲 Multiple sites
-- 🔲 Matchers
-- 🔲 Environment variables
-- 🔲 Comments
+**目标：**
+- 🔲 第一个站点
+- 🔲 静态文件服务器
+- 🔲 模板
+- 🔲 压缩
+- 🔲 多个站点
+- 🔲 匹配器
+- 🔲 环境变量
+- 🔲 注释
 
-**Prerequisites:**
-- Basic terminal / command line skills
-- Basic text editor skills
-- `caddy` in your PATH
+**先决条件：**
+- 基本的终端/命令行技能
+- 基本的文本编辑器技能
+- PATH变量包含`caddy`
 
 ---
 
-Create a new text file named `Caddyfile` (no extension).
+新建一个名为`Caddyfile`（无扩展名）的文本文件。
 
-The first thing you should type is your site's [address](/docs/caddyfile/concepts#addresses):
+首先应该输入的是你的网站[地址](/docs/caddyfile/concepts#addresses)。
 
 ```caddy
 localhost
 ```
 
 <aside class="tip">
-	If the HTTP and HTTPS ports (80 and 443, respectively) are privileged ports on your OS, you will either need to run with elevated privileges or use a higher port. To use a higher port, just change the address to something like <code>localhost:2015</code> and change the HTTP port using the <a href="/docs/caddyfile/options">http_port</a> Caddyfile option.
+    如果HTTP和HTTPS端口（分别为80和443）是你操作系统上的特权端口，你将需要以提升的特权运行或使用更高的端口。要使用更高的端口，只需将其更改为类似<code>localhost:2015</code>的地址，并使用Caddyfile的<a href="/docs/caddyfile/options">http_port</a>选项更改HTTP端口。	
 </aside>
 
-Then hit enter and type what you want it to do. For this tutorial, make your Caddyfile look like this:
+然后按回车键并输入你想要它执行的操作。对于本教程，使你的Caddyfile如下所示：
 
 ```caddy
 localhost
@@ -43,25 +43,29 @@ localhost
 respond "Hello, world!"
 ```
 
-Save that and run Caddy (since this is a training tutorial, we'll use the `--watch` flag so changes to our Caddyfile are applied automatically):
+保存并运行Caddy（因为这是一个培训教程，我们将使用该`--watch`标志，以便自动应用对Caddyfile的更改）：
 
 <pre><code class="cmd bash">caddy run --watch</code></pre>
 
 <aside class="tip">
-	If you get permissions errors, try using a higher port in your address (like <code>localhost:2015</code>) and <a href="/docs/caddyfile/options">change the HTTP port</a>, or run with elevated privileges.
+    如果你遇到权限错误，请尝试在你的地址中使用更高的端口（如<code>localhost:2015</code>）并<a href="/docs/caddyfile/options">更改HTTP端口</a>，或者提升权限后再次运行。
 </aside>
 
-The first time, you'll be asked for your password. This is so Caddy can serve your site over HTTPS.
+第一次，系统会要求你输入密码。这样Caddy就可以通过HTTPS为你的网站提供服务。
 
-<aside class="tip">Caddy serves all sites over HTTPS by default as long as a host or IP is part of the site's address. <a href="/docs/automatic-https">Automatic HTTPS</a> can be disabled by prefixing the address with <code>http://</code> explicitly.</aside>
+<aside class="tip">
+只要主机或IP是站点地址的一部分，Caddy默认通过HTTPS为所有站点提供服务。<a href="/docs/automatic-https">自动HTTPS</a>可以通过显式地为地址添加前缀<code>http://</code>予以禁用。
+</aside>
 
-<aside class="complete">First site</aside>
+<aside class="complete">第一个站点</aside>
 
-Open [localhost](https://localhost) in your browser and see your web server working, complete with HTTPS!
+在你的浏览器中使用HTTPS浏览[https://localhost](https://localhost)，检查你的网站服务器是否正常运行。
 
-<aside class="tip">You might need to restart your browser if you get a certificate error the first time.</aside>
+<aside class="tip">
+    如果你第一次遇到证书错误，你可能需要重新启动浏览器。
+</aside>
 
-That's not particularly exciting, so let's change our static response to a [file server](/docs/caddyfile/directives/file_server) with directory listings enabled:
+这并不是特别令人兴奋，所以让我们将静态响应更改为启用目录列表的[文件服务器](/docs/caddyfile/directives/file_server) ：
 
 ```caddy
 localhost
@@ -69,13 +73,13 @@ localhost
 file_server browse
 ```
 
-Save your Caddyfile, then refresh your browser tab. You should either see a list of files or an HTML page if there is an index file in the current directory.
+保存你的 Caddyfile，然后刷新你的浏览器页面。如果当前目录中有索引文件，你应该会看到文件列表或HTML页面。
 
-<aside class="complete">Static file server</aside>
+<aside class="complete">静态文件服务器</aside>
 
-## Adding functionality
+## 添加功能
 
-Let's do something interesting with our file server: serve a templated page. Create a new file and paste this into it:
+利用文件服务器还可以做一些更有意思事情：基于模板页面展示。创建一个新文件并粘贴如下内容：
 
 ```html
 <!DOCTYPE html>
@@ -89,15 +93,15 @@ Let's do something interesting with our file server: serve a templated page. Cre
 </html>
 ```
 
-Save this as `caddy.html` in the current directory and load it in your browser: [https://localhost/caddy.html](https://localhost/caddy.html)
+将其在当前目录保存为`caddy.html`，然后在浏览器中访问：[https://localhost/caddy.html](https://localhost/caddy.html)
 
-The output is:
+输出内容如下：
 
 ```
 Page loaded at: {{`{{`}}now | date "Mon Jan 2 15:04:05 MST 2006"{{`}}`}}
 ```
 
-Wait a minute. We should see today's date. Why didn't it work? It's because the server hasn't yet been configured to evaluate templates! Easy to fix, just add a line to the Caddyfile so it looks like this:
+等一下，我们不是应该能看到今天的日期吗？为什么它不起作用呢？这是因为：服务器尚未配置模板！小事一桩，只需在Caddyfile中添加一行即可：
 
 ```caddy
 localhost
@@ -106,42 +110,17 @@ templates
 file_server browse
 ```
 
-Save that, then reload the browser tab. You should see:
+保存它，然后刷新浏览器页面，你将会看到：
 
 ```
 Page loaded at: {{now | date "Mon Jan 2 15:04:05 MST 2006"}}
 ```
 
-With Caddy's [templates module](/docs/modules/http.handlers.templates), you can do a lot of useful things with static files, such as including other HTML files, making sub-requests, setting response headers, working with data structures, and more!
+使用Caddy的[模板模块](/docs/modules/http.handlers.templates)，你可以对静态文件做很多有用的事情，例如包含其他HTML文件、制作子请求、设置响应头、处理数据结构等等！
 
-<aside class="complete">Templates</aside>
+<aside class="complete">模板</aside>
 
-It's good practice to compress responses with a quick and modern compression algorithm. Let's enable Gzip and Zstandard support using the [`encode`](/docs/caddyfile/directives/encode) directive:
-
-```caddy
-localhost
-
-encode zstd gzip
-templates
-file_server browse
-```
-
-<aside class="tip">Browsers don't support Zstandard encodings yet. Hopefully soon!</aside>
-
-
-<aside class="complete">Compression</aside>
-
-That's the basic process for getting a semi-advanced, production-ready site up and running!
-
-When you're ready to turn on [automatic HTTPS](/docs/automatic-https), just replace your site's address (`localhost` in our tutorial) with your domain name. See our [HTTPS quick-start guide](/docs/quick-starts/https) for more information.
-
-## Multiple sites
-
-With our current Caddyfile, we can only have the one site definition! Only the first line can be the address(es) of the site, and then all the rest of the file has to be directives for that site.
-
-But it is easy to make it so we can add more sites!
-
-Our Caddyfile so far:
+使用快速且现代的压缩算法压缩响应是一种很好的做法。使用 [`encode`](/docs/caddyfile/directives/encode)可以启用Gzip和Zstandard支持：
 
 ```caddy
 localhost
@@ -151,7 +130,31 @@ templates
 file_server browse
 ```
 
-is equivalent to this one:
+<aside class="tip">浏览器还不支持Zstandard编码。希望很快能支持了！</aside>
+
+<aside class="complete">压缩</aside>
+
+这是启动和运行半高级、可应用于生产的站点的基本过程！
+
+当你准备好开启[自动HTTPS](/docs/automatic-https)时，只需将你的网站地址（`localhost`在我们的教程中）替换为你的域名即可。有关更多信息，请参阅我们的[HTTPS快速入门指南](/docs/quick-starts/https)。
+
+## 多个站点
+
+使用我们当前的Caddyfile，我们只能有一个站点定义！只有第一行可以是站点的地址，然后文件的所有其余部分都必须是该站点的指令。
+
+但是制作起来很容易，所以我们可以添加更多网站！
+
+到目前为止，我们的Caddyfile内容如下：
+
+```caddy
+localhost
+
+encode zstd gzip
+templates
+file_server browse
+```
+
+相当于这个：
 
 ```caddy
 localhost {
@@ -161,11 +164,11 @@ localhost {
 }
 ```
 
-except the second one allows us to add more sites.
+这样就能添加两个甚至更多的站点了。
 
-By wrapping our site block in curly braces `{ }` we are able to define multiple, different sites in the same Caddyfile.
+通过将我们的站点块包裹在花括号`{ }`中，我们可以在同一个Caddyfile中定义多个不同的站点。
 
-For example:
+例如：
 
 ```caddy
 :8080 {
@@ -177,9 +180,9 @@ For example:
 }
 ```
 
-When wrapping site blocks in curly braces, only [addresses](/docs/caddyfile/concepts#addresses) appear outside the curly braces and only [directives](/docs/caddyfile/directives) appear inside them.
+当用花括号包裹站点块时，只有[地址](/docs/caddyfile/concepts#addresses)出现在花括号外，[指令](/docs/caddyfile/directives)都出现在花括号内。
 
-For multiple sites which share the same configuration, you can add more addresses, for example:
+对于共享相同配置的多个站点，你可以添加更多地址，例如：
 
 ```caddy
 :8080, :8081 {
@@ -187,16 +190,16 @@ For multiple sites which share the same configuration, you can add more addresse
 }
 ```
 
-You can then define as many different sites as you want, as long as each address is unique.
+然后，你可以根据需要定义任意数量的不同站点，只要每个地址都是唯一的。
 
-<aside class="complete">Multiple sites</aside>
+<aside class="complete">多个站点</aside>
 
 
-## Matchers
+## 匹配器
 
-We may want to apply some directives only to certain requests. For example, let's suppose we want to have both a file server and a reverse proxy, but we obviously can't do both on every request! Either the file server will write a static file, or the reverse proxy will proxy the request to a backend.
+我们可能只想将某些指令应用于某些请求。例如，假设我们想要同时拥有一个文件服务器和一个反向代理，但我们显然不能在每个请求上都这样做！文件服务器将写入静态文件，或者反向代理将请求代理到后端。
 
-This config will not work like we want:
+这个配置不会像我们想要的那样工作：
 
 ```caddy
 localhost
@@ -205,7 +208,7 @@ file_server
 reverse_proxy 127.0.0.1:9005
 ```
 
-In practice, we may want to use the reverse proxy only for API requests, i.e. requests with a base path of `/api/`. This is easy to do by adding a [matcher token](/docs/caddyfile/matchers#syntax):
+在实践中，我们可能只想对 API 请求使用反向代理，即基本路径为`/api/`。通过添加[匹配器标记](/docs/caddyfile/matchers#syntax)很容易做到这一点：
 
 ```caddy
 localhost
@@ -214,23 +217,23 @@ file_server
 reverse_proxy /api/* 127.0.0.1:9005
 ```
 
-There; now the reverse proxy will be prioritized for all requests starting with `/api/`.
+这里，现在反向代理只会处理所有以`/api/`开始的请求。
 
-The `/api/*` token we just added is called a **matcher token**. You can tell it's a matcher token because it starts with a forward slash `/` and it appears right after the directive (but you can always look it up in the [directive's docs](/docs/caddyfile/directives) to be sure).
+我们刚刚添加的`/api/*`标记就被称为**匹配器标记**，你可以说它是一个匹配器标记，因为它以正斜杠开头，并且出现在指令之后（但你始终可以在[指令文档](/docs/caddyfile/directives)中查找它以确定）。
 
-Matchers are really powerful. You can name matchers and use them like `@name` to match on more than just the request path! Take a moment to [learn more about matchers](/docs/caddyfile/matchers) before continuing!
+匹配器真的很强大。你可以命名匹配器并使用它们`@name`来匹配不仅仅是请求路径！在继续之前花点时间了解更多关于[匹配器](/docs/caddyfile/matchers)的信息！
 
-<aside class="complete">Matchers</aside>
+<aside class="complete">匹配器</aside>
 
-## Environment variables
+## 环境变量
 
-The Caddyfile adapter allows substituting [environment variables](/docs/caddyfile/concepts#environment-variables) before the Caddyfile is parsed.
+Caddyfile适配器允许在解析Caddyfile之前替换[环境变量](/docs/caddyfile/concepts#environment-variables)。
 
-First, set an environment variable (in the same shell that runs Caddy):
+首先，设置一个环境变量（在运行Caddy的同一shell中）：
 
 <pre><code class="cmd bash">export SITE_ADDRESS=localhost:9055</code></pre>
 
-Then you can use it like this in the Caddyfile:
+然后你可以在Caddyfile中这样使用它：
 
 ```caddy
 {$SITE_ADDRESS}
@@ -238,7 +241,7 @@ Then you can use it like this in the Caddyfile:
 file_server
 ```
 
-Before the Caddyfile is parsed, it will be expanded to:
+在解析Caddyfile之前，它将被扩展为：
 
 ```caddy
 localhost:9055
@@ -246,23 +249,23 @@ localhost:9055
 file_server
 ```
 
-You can use environment variables anywhere in the Caddyfile, for any number of tokens.
+你可以在Caddyfile中的任何位置使用环境变量，使用数量也没有限制。
 
-<aside class="complete">Environment variables</aside>
+<aside class="complete">环境变量</aside>
 
 
-## Comments
+## 注释
 
-One last thing that you will find most helpful: if you want to remark or note anything in your Caddyfile, you can use comments, starting with `#`:
+最后一件你会发现最有帮助的事情：如果你想在你的Caddyfile中添加注释或注释任何东西，你可以将`#`放在行首：
 
 ```caddy
 # this starts a comment
 ```
 
-<aside class="complete">Comments</aside>
+<aside class="complete">注释</aside>
 
-## Further reading
+## 进一步阅读
 
-- [Common patterns](/docs/caddyfile/patterns)
-- [Caddyfile concepts](/docs/caddyfile/concepts)
-- [Directives](/docs/caddyfile/directives)
+- [常见模式](/docs/caddyfile/patterns)
+- [Caddyfile概念](/docs/caddyfile/concepts)
+- [指令](/docs/caddyfile/directives)

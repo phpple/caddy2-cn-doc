@@ -10,4 +10,4 @@
 * [使用Caddyfile](/docs/quick-starts/caddyfile)
 * [静态文件](/docs/quick-starts/static-files)
 * [反向代理](/docs/quick-starts/reverse-proxy)
-* [https](/docs/quick-starts/https)
+* [HTTPS](/docs/quick-starts/https)
