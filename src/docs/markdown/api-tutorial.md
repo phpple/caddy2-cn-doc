@@ -4,7 +4,7 @@ title: "API教程"
 
 # API教程
 
-本教程将向您展示如何使用Caddy的[管理API](/docs/api)，这使得以可编程方式实现自动化成为可能。
+本教程将向你展示如何使用Caddy的[管理API](/docs/api)，这使得以可编程方式实现自动化成为可能。
 
 **目标：**
 - 🔲 运行守护程序
@@ -113,13 +113,13 @@ Hello, world!</code></pre>
 
 <pre><code class="cmd bash">curl localhost:2019/config/</code></pre>
 
-通过在浏览器中刷新页面（或再次运行`curl`）来测试它，您将看到一条鼓舞人心的消息！
+通过在浏览器中刷新页面（或再次运行`curl`）来测试它，你将看到一条鼓舞人心的消息！
 
 ## 遍历配置
 
 让我们使用 Caddy API 的强大功能来进行更改，而不需要修改我们的配置文件，而不是上传整个配置文件。
 
-通过像我们上面所做的那样替换整个配置来对生产服务器进行少量更改可能是危险的；这就像拥有对文件系统的 root 访问权限。Caddy 的 API 允许您限制更改的范围，以确保配置的其他部分不会被意外更改。
+通过像我们上面所做的那样替换整个配置来对生产服务器进行少量更改可能是危险的；这就像拥有对文件系统的 root 访问权限。Caddy 的 API 允许你限制更改的范围，以确保配置的其他部分不会被意外更改。
 使用请求 URI 的路径，我们可以遍历配置结构并仅更新消息字符串（如果被剪裁，请确保向右滚动）：
 
 Instead of uploading the entire config file for a small change, let's use a powerful feature of Caddy's API to make the change without ever touching our config file.
@@ -138,10 +138,10 @@ Instead of uploading the entire config file for a small change, let's use a powe
 </code></pre>
 
 <aside class="tip">
-	每次您使用 API 更改配置时，Caddy 都会保留一份新配置的副本，便于你可以通过<a href="/docs/command-line#caddy-run"><b>--resume</b>恢复</a>!
+	每次你使用 API 更改配置时，Caddy 都会保留一份新配置的副本，便于你可以通过<a href="/docs/command-line#caddy-run"><b>--resume</b>恢复</a>!
 </aside>
 
-您可以验证它是否适用于类似的GET请求，例如：
+你可以验证它是否适用于类似的GET请求，例如：
 
 <pre><code class="cmd bash">curl localhost:2019/config/apps/http/servers/example/routes</code></pre>
 
@@ -152,7 +152,7 @@ Instead of uploading the entire config file for a small change, let's use a powe
 ```
 
 <aside class="tip">
-    您可以使用<a href="https://stedolan.github.io/jq/">jq command</a>命令来美化 JSON 输出：<code>curl ... | jq</code>
+    你可以使用<a href="https://stedolan.github.io/jq/">jq command</a>命令来美化 JSON 输出：<code>curl ... | jq</code>
 </aside>
 
 <aside class="complete">遍历配置</aside>

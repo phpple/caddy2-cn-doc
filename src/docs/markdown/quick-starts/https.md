@@ -1,44 +1,46 @@
 ---
-title: HTTPS quick-start
+title: HTTPS快速入门
 ---
 
-# HTTPS quick-start
+# HTTPS快速入门
 
-This guide will show you how to get up and running with [fully-managed HTTPS](/docs/automatic-https) in no time.
+本指南将向你展示如何立即启动并运行[完全托管的HTTPS](/docs/automatic-https)。
 
 <aside class="tip">
-	Caddy uses HTTPS for all sites by default, as long as a host name is provided in the config. This tutorial assumes you want to get a publicly-trusted site (i.e. not "localhost") up over HTTPS, so we'll be using a public domain name and external ports.
+    Caddy默认对所有站点使用HTTPS，只要在配置中提供了主机名。本教程假设你希望通过HTTPS获得一个公共信任的站点（即不是“localhost”），因此我们将使用公共域名和外部端口。
 </aside>
 
-**Prerequisites:**
-- Basic terminal / command line skills
-- Basic understanding of DNS
-- A registered public domain name
-- External access to ports 80 and 443
-- `caddy` and `curl` in your PATH
+**先决条件：**
+- 基本的终端/命令行技能
+- 对DNS的基本了解
+- 已注册的公共域名
+- 外部访问端口 80 和 443
+- PATH变量中包含`caddy`和`curl`
 
 ---
 
-In this tutorial, replace `example.com` with your actual domain name.
+在本教程中，替换`example.com`为你的实际域名。
 
-Set your domain's A/AAAA records point to your server. You can do this by logging into your DNS provider and managing your domain name.
+将你域的`A/AAAA`记录指向你的服务器。你可以通过登录你的DNS提供商并管理你的域名来做到这一点。
 
-Before continuing, verify correct records with an authoritative lookup. Replace `example.com` with your domain name, and if you are using IPv6 replace `type=A` with `type=AAAA`:
+在继续之前，请使用权威查找验证正确的记录。替换`example.com`为你的域名，如果你使用的是`IPv6`，请替换`type=A`为`type=AAAA`：
 
 <pre><code class="cmd bash">curl "https://cloudflare-dns.com/dns-query?name=example.com&type=A" \
   -H "accept: application/dns-json"</code></pre>
 
-Also make sure your server is externally reachable on ports 80 and 443 from a public interface.
+还要确保你的服务器可从公共接口通过端口`80`和`443`进行外部访问。
 
-<aside class="tip">If you're on your home or other restricted network, you may need to forward ports or adjust firewall settings.</aside>
+<aside class="tip">
+    如果你在家庭或其他受限网络上，你可能需要转发端口或调整防火墙设置。
+</aside>
 
-All we have to do is start Caddy with your domain name in the config. There are several ways to do this.
+我们所要做的就是在配置中使用你的域名启动Caddy。有几种方法可以做到这一点。
 
 ## Caddyfile
 
-This is the most common way to get HTTPS.
+这是获取HTTPS最常用的方法。
 
-Create a file called `Caddyfile` (no extension) where the first line is your domain name, for example:
+创建一个名为`Caddyfile`（无扩展名）的文件，其中第一行是你的域名，例如：
 
 ```caddy
 example.com
@@ -46,36 +48,34 @@ example.com
 respond "Hello, privacy!"
 ```
 
-Then from the same directory, run:
+然后从同一目录运行：
 
 <pre><code class="cmd bash">caddy run</code></pre>
 
-You will see Caddy provision a TLS certificate and serve your site over HTTPS. This was possible because your site's address in the Caddyfile contained a domain name.
+你将看到Caddy提供TLS证书并通过HTTPS为你的站点提供服务。这是可能的，因为你的站点在Caddyfile中的地址包含一个域名。
 
+## `file-server`命令
 
-## The `file-server` command
-
-If all you need is serving static files over HTTPS, run this command (replacing your domain name):
+如果你只需要通过 HTTPS 提供静态文件，请运行以下命令（替换你的域名）：
 
 <pre><code class="cmd bash">caddy file-server --domain example.com</code></pre>
 
-You will see Caddy provision a TLS certificate and serve your site over HTTPS.
+你将看到Caddy提供TLS证书并通过HTTPS为你的站点提供服务。
 
 
-## The `reverse-proxy` command
+## `reverse-proxy`命令
 
-If all you need is a simple reverse proxy over HTTPS (as a TLS terminator), run this command (replacing your domain name and actual backend address):
+如果你只需要一个基于HTTPS的简单反向代理（作为TLS终结器），请运行以下命令（替换你的域名和实际后端地址）：
 
 <pre><code class="cmd bash">caddy reverse-proxy --from example.com --to localhost:9000</code></pre>
 
-You will see Caddy provision a TLS certificate and serve your site over HTTPS.
+你将看到Caddy提供TLS证书并通过HTTPS为你的站点提供服务。
 
+## JSON配置
 
-## JSON config
+一般的经验法则是任何[主机匹配器]((/docs/json/apps/http/servers/routes/match/host/))都会触发自动HTTPS。
 
-The general rule of thumb is that any [host matcher](/docs/json/apps/http/servers/routes/match/host/) will trigger automatic HTTPS.
-
-Thus, a JSON config such as the following will enable production-ready [automatic HTTPS](/docs/automatic-https):
+因此，如下所示的JSON配置将启用生产就绪的[自动HTTPS](/docs/automatic-https)：
 
 ```json
 {
