@@ -1,5 +1,5 @@
 ---
-title: Global options (Caddyfile)
+title: 全局选项
 ---
 
 <script>
@@ -22,11 +22,11 @@ $(function() {
 });
 </script>
 
-# Global options
+# 全局选项
 
-The Caddyfile has a way for you to specify options that apply globally. Some options act as default values, while others customize the behavior of the Caddyfile [adapter](/docs/config-adapters).
+Caddyfile可以让你指定全局应用的选项。一些选项充当默认值，而其他选项自定义Caddyfile[适配器](/docs/config-adapters)的行为。
 
-The very top of your Caddyfile can be a **global options block**. This is a block that has no keys:
+Caddyfile的最顶部可以是**全局选项块**。这是一个没有键的块：
 
 ```caddy
 {
@@ -34,9 +34,9 @@ The very top of your Caddyfile can be a **global options block**. This is a bloc
 }
 ```
 
-There can only be one at most, and it must be the first block of the Caddyfile.
+最多只能有一个，而且必须是Caddyfile的第一个块。
 
-Possible options are:
+可能的选项是：
 
 ```caddy
 {
@@ -107,24 +107,26 @@ Possible options are:
 ```
 
 
-## General Options
+## 常规选项
 
 ##### `debug`
-Enables debug mode, which sets the log level to `DEBUG` for the default logger. This reveals more details that can be useful when troubleshooting (and is very verbose in production). We ask that you enable this before asking for help on the [community forums](https://caddy.community).
+
+启用调试模式，将默认日至器的日志级别设置为`DEBUG`。这将展示在排除故障时展示更多有用的细节（且在生产模式下将非常详细）。请你在[社区](https://caddy.community)寻求帮助之前先启用此功能。
 
 
 ##### `http_port`
-The port for the server to use for HTTP. For internal use only; does not change the HTTP port for clients. Default: `80`
+服务器用于HTTP的端口。仅限内部使用; 不会更改客户端的HTTP端口。默认：`80`
 
 
 ##### `https_port`
-The port for the server to use for HTTPS. For internal use only; does not change the HTTPS port for clients. Default: `443`
+
+服务器用于HTTPS的端口。仅限内部使用; 不会更改客户端的HTTPS端口。默认：`443`
 
 
 ##### `order`
-Assigns an order to HTTP handler directive(s). As HTTP handlers execute in a sequential chain, it is necessary for the handlers to be executed in the right order. Standard directives have [a pre-defined order](/docs/caddyfile/directives#directive-order), but if using third-party HTTP handler modules, you'll need to define the order explicitly by either using this option or placing the directive in a [`route` block](/docs/caddyfile/directives/route). Ordering can be described absolutely (`first` or `last`), or relatively (`before` or `after`) to another directive.
+对HTTP处理指令进行排序。由于HTTP处理器按照顺序链执行，因此处理程序必须以正确的顺序执行。标准指令有[预定义顺序](/docs/caddyfile/directives#directive-order)，但如果使用第三方 HTTP 处理程序模块，则需要通过使用此选项或将指令放在
 
-For example, to use the [`replace-response` plugin](https://github.com/caddyserver/replace-response), you'd want to make sure its directive is ordered after `encode` so that it can perform replacements before the response is encoded (because responses flow up the handler chain, not down):
+例如，要使用[`replace-response`插件](https://github.com/caddyserver/replace-response)，而且你希望它在`encode`之后才被执行，以便它可以在响应编码之前进行。（因为响应流向上处理程序链，而不是向下）：
 
 ```caddy-d
 order replace after encode
@@ -132,126 +134,127 @@ order replace after encode
 
 
 ##### `storage`
-Configures Caddy's storage mechanism. The default is [`file_system`](/docs/json/storage/file_system/). There are many other available [storage modules](/docs/json/storage/) provided as plugins.
 
-For example, to change the file system's storage location:
+配置Caddy的存储机制。默认值为 [`file_system`](/docs/json/storage/file_system/)。还有许多其他可用的存储模块作为插件提供。
+
+例如，要更改文件系统的存储位置：
 
 ```caddy-d
 storage file_system /path/to/custom/location
 ```
 
-Customizing the storage module is typically needed when syncing Caddy's storage across multiple instances of Caddy to make sure they all use the same certificates and keys. See the [Automatic HTTPS section on storage](/docs/automatic-https#storage) for more details.
+在跨多个Caddy实例同步Caddy的存储时，通常需要自定义存储模块，以确保它们都使用相同的证书和密钥。有关更多详细信息，请参阅[有关存储的自动HTTPS]部分(/docs/automatic-https#storage)。
 
 
 ##### `storage_clean_interval`
-How often to scan storage units for old or expired assets and remove them. These scans exert lots of reads (and list operations) on the storage module, so choose a longer interval for large deployments. The value is a [duration value](/docs/conventions#durations). Default: 24h.
 
-Storage will always be cleaned when the process first starts. Then, a new cleaning will be started this duration after the previous cleaning started if the previous cleaning finished in less than half the time of this interval (otherwise next start will be skipped).
+多久扫描一次存储单元以查找旧资源或过期资源并将其移除。这些扫描会在存储模块上进行大量读取（和列表操作），因此对于大型部署需要设置成更长的时间间隔。该值是一个持续时间值。默认值：24小时。
 
+该过程首次启动时，总是会清理存储。然后，如果上次清理在该间隔的一半时间内完成，则在上次清理开始后的这段时间内将开始新的清洁（否则将跳过下次启动）。
 
 ##### `admin`
-Customizes the [admin API endpoint](/docs/api). If `off`, then the admin endpoint will be disabled. If disabled, config changes will be impossible without stopping and starting the server.
 
-- **origins** configures the list of remotes/origins that are allowed to connect to the endpoint.
+自定义[管理API端点](/docs/api)。如果为`off`，则管理端点将被禁用。如果禁用，则在不停止和启动服务器的情况下将无法更改配置。
 
-- **enforce_origin** enables enforcement of the Origin header. (This is different from enforcing origins generally, which is always done.)
+- **origins** 配置允许连接到端点的远程/源列表。
+
+- **enforce_origin** 启用Origin标头的强制执行。（这与通常强制执行起源不同，后者总是执行。）
 
 
 ##### `log`
-Customizes the named logger. The name can be passed to indicate a specific logger to customize the behavior for. If no name is specified, the behavior of the default logger is modified. This option can be specified multiple times to configure different loggers. You can read more about the default logger and other logging behaviors in the [logging documentation](/docs/logging).
 
-- **output** configures where to write the logs. See the [log directive](/docs/caddyfile/directives/log#output-modules) documentation for more information, which has the same structure.
-- **format** describes how to encode, or format, the logs. See the [log directive](/docs/caddyfile/directives/log#format-modules) documentation for more information, which has the same structure.
-- **level** is the minimum entry level to log. Default: `INFO`
-- **include** identifies the loggers that are included in this log configuration. See the [JSON documentation](/docs/json/logging/logs/include/) for more information.
-- **exclude** identifies the loggers that are excluded from this log configuration. See the [JSON documentation](/docs/json/logging/logs/exclude/) for more information.
+自定义命名日志器。可以传递名称以指示要为其自定义行为的特定日志器。如果未指定名称，则修改默认日志器的行为。可以多次指定此选项以配置不同的日志器。你可以在[日志记录文档](/docs/logging)中阅读有关默认日志器和其他日志记录行为的更多信息。
+
+- **output** 配置写入日志的位置。有关更多信息，请参阅[log指令](/docs/caddyfile/directives/log#output-modules)文档，该文档具有相同的结构。
+- **format** 描述如何编码或格式化日志。有关更多信息，请参阅[log指令](/docs/caddyfile/directives/log#format-modules)文档，该文档具有相同的结构。
+- **level** 是要记录的最低入口级别。默认：`INFO`
+- **include** 标识此日志配置中包含的记录器。有关更多信息，请参阅[JSON文档](/docs/json/logging/logs/include/)。
+- **exclude** 标识从该日志配置中排除的记录器。有关更多信息，请参阅[JSON文档](/docs/json/logging/logs/exclude/)。
 
 
 ##### `grace_period`
-Defines the grace period for shutting down HTTP servers during config reloads. If clients do not finish their requests within the grace period, the server will be forcefully terminated to allow the reload to complete and free up resources. By default, no grace period is set.
 
+定义在配置重新加载期间关闭HTTP服务器的宽限期。如果客户端没有在宽限期内完成他们的请求，服务器将被强制终止以允许重新加载完成并释放资源。默认情况下，没有设置宽限期。
 
-
-## TLS Options
+## TLS选项
 
 ##### `auto_https`
-Configure automatic HTTPS. It can be disabled entirely (`off`), disable only HTTP-to-HTTPS redirects (`disable_redirects`), or be configured to automate certificates even for names which appear on manually-loaded certificates (`ignore_loaded_certs`). See the [Automatic HTTPS](/docs/automatic-https) page for more details.
+
+配置自动HTTPS。它可以完全禁用(`off`)，仅禁用HTTP到HTTPS的重定向(`disable_redirects`)，或者配置为自动生成证书，即使是出现在手动加载的证书上的名称(`ignore_loaded_certs`)。有关更多详细信息，请参阅[自动HTTPS](/docs/automatic-https) 页面。
 
 
 ##### `email`
-Your email address. Mainly used when creating an ACME account with your CA, and is highly recommended in case there are problems with your certificates.
 
+你的电子邮件地址。主要在使用 CA 创建 ACME 帐户时使用，强烈建议在证书出现问题时使用。
 
 ##### `default_sni`
-Sets a default TLS ServerName for when clients do not use SNI in their ClientHello.
 
+当客户端在其`ClientHello`中不使用SNI时，设置默认TLS服务器名称(TLS ServerName)。
 
 ##### `local_certs`
-Causes all certificates to be issued internally by default, rather than through a (public) ACME CA such as Let's Encrypt. This is useful in development environments.
 
+导致所有证书默认在内部颁发，而不是通过（公共）ACME CA，例如Let's Encrypt。这在开发环境中很有用。
 
 ##### `skip_install_trust`
-Skips the attempts to install the local CA's root into the system trust store, as well as into Java and Mozilla Firefox trust stores.
 
+跳过将本地CA的根安装到系统信任库以及Java和Mozilla Firefox信任库的尝试。
 
 ##### `acme_ca`
-Specifies the URL to the ACME CA's directory. It is strongly recommended to set this to Let's Encrypt's [staging endpoint](https://letsencrypt.org/docs/staging-environment/) for testing or development. Default: ZeroSSL and Let's Encrypt's production endpoints.
 
+指定ACME CA目录的URL。强烈建议将此设置为Let's Encrypt的[暂存端点](https://letsencrypt.org/docs/staging-environment/)以进行测试或开发。默认值：ZeroSSL和Let's Encrypt 的生产端点。
 
 ##### `acme_ca_root`
-Specifies a PEM file that contains a trusted root certificate for ACME CA endpoints, if not in the system trust store.
 
+指定一个PEM文件，其中包含ACME CA端点的受信任根证书（如果不在系统信任库中）。
 
 ##### `acme_eab`
-Specifies an External Account Binding to use for all ACME transactions.
 
+指定用于所有 ACME 交易的外部帐户绑定(External Account Binding)。
 
 ##### `acme_dns`
-Configures the ACME DNS challenge provider to use for all ACME transactions. The tokens following the name of the provider set up the provider the same as if specified in the [`tls` directive's `acme` issuer](/docs/caddyfile/directives/tls#acme).
 
+配置用于所有ACME事务的ACME DNS质询提供者。在该标识后设置的提供者名字指定了提供者，就像在[`tls`指令的`acme`问题](/docs/caddyfile/directives/tls#acme)中指定的一样。
 
 ##### `on_demand_tls`
-Configures [On-Demand TLS](/docs/automatic-https#on-demand-tls) where it is enabled, but does not enable it (to enable it, use the [on_demand `tls` subdirective](/docs/caddyfile/directives/tls#syntax)). Highly recommended if using in production environments, to prevent abuse.
 
-- **ask** will cause Caddy to make an HTTP request to the given URL with a query string of `?domain=` containing the value of the domain name. If the endpoint returns 200 OK, Caddy will be authorized to obtain a certificate for that name.
+在启用的地方配置[按需TLS](/docs/automatic-https#on-demand-tls)，但不启用它（要启用它，请使用[按需`tls`子指令](/docs/caddyfile/directives/tls#syntax)）。强烈建议只在生产环境中使用，以防止滥用。
 
-- **interval** and **burst** allows `<n>` certificate operations within `<duration>` interval.
-
+- **ask** 将导致Caddy使用包含域名值的查询字符串`?domain=`向给定URL发出HTTP请求。如果端点返回 200 OK，Caddy 将被授权获取该名称的证书。
+- **interval**和**burst** 允许在 `<duration>`间隔进行`<n>`次证书操作。
 
 ##### `key_type`
-Specifies the type of key to generate for TLS certificates; only change this if you have a specific need to customize it. The possible values are: `ed25519`, `p256`, `p384`, `rsa2048`, `rsa4096`.
 
+指定为 TLS 证书生成的密钥类型；仅当你有特定需要对其进行自定义时才更改此设置。可能的值为：`ed25519`、`p256`、`p384`、`rsa2048`、`rsa4096`。
 
 ##### `cert_issuer`
-Defines the issuer (or source) of TLS certificates. The tokens following the name of the issuer set up the issuer the same as if specified in the [`tls` directive](/docs/caddyfile/directives/tls#issuer). May be repeated if you wish to configure more than one issuer to try. They will be tried in the order they are defined.
 
+定义TLS证书的颁发者（或来源）。发行者名称后面的标记设置发行者，就像在[tls指令](/docs/caddyfile/directives/tls#issuer)中指定的一样。如果你希望配置多个发行者来尝试，可以重复。它们将按照定义的顺序进行尝试。
 
 ##### `ocsp_stapling`
-Can be set to `off` to disable OCSP stapling. Useful in environments where responders are not reachable due to firewalls.
 
+可以设置`off`为禁用OCSP装订。在由于防火墙而无法访问响应者的环境中很有用。
 
 ##### `preferred_chains`
-If your CA provides multiple certificate chains, you can use this option to specify which chain Caddy should prefer. Set one of the following options:
 
-- **smallest** will tell Caddy to prefer chains with the fewest amount of bytes.
-- **root_common_name** is a list of one or more common names; Caddy will choose the first chain that has a root that matches with at least one of the specified common names.
-- **any_common_name** is a list of one or more common names; Caddy will choose the first chain that has an issuer that matches with at least one of the specified common names.
+如果你的CA提供多个证书链，你可以使用此选项来指定Caddy应该首选哪个链。设置以下选项之一：
 
-Note that specifying `preferred_chains` as a global option will affect all issuers if there isn't any [overriding issuer level config](/docs/caddyfile/directives/tls#acme).
+- **smallest** 将告诉Caddy首选字节数最少的链。
+- **root_common_name** 是一个或多个常用名称的列表；Caddy将选择第一个具有与至少一个指定的通用名称匹配的根的链。
+- **any_common_name** 是一个或多个常用名称的列表；Caddy将选择第一个具有与至少一个指定的通用名称匹配的发行者的链。
 
+请注意，如果没有任何[覆盖发行人级别的配置](/docs/caddyfile/directives/tls#acme)，`preferred_chains`将被作为全局选项影响所有发行人。
 
+## 服务器选项
 
-## Server Options
+使用可能跨越多个站点的设置自定义[HTTP服务器](/docs/json/apps/http/servers/)，因此无法在站点块中正确配置。这些选项会影响侦听器/套接字或 HTTP 层下的其他行为。
 
-Customizes [HTTP servers](/docs/json/apps/http/servers/) with settings that potentially span multiple sites and thus can't be rightly configured in site blocks. These options affect the listener/socket, or other behavior beneath the HTTP layer.
-
-Can be specified more than once, with different `listener_address` values, to configure different options per server. For example, `servers :443` will only apply to the server that is bound to the listener address `:443`. Omitting the listener address will apply the options to any remaining server.
+可以多次指定，使用不同的`listener_address`值，为每个服务器配置不同的选项。例如，`servers :443`将仅适用于绑定到侦听器地址的服务器`:443`。省略侦听器地址会将选项应用于任何剩余的服务器。
 
 <aside class="tip">
-	Use the <a href="/docs/command-line#caddy-adapt"><code>caddy adapt</code></a> command to find the listen address for the servers in your Caddyfile.
+	使用该<a href="/docs/command-line#caddy-adapt"><code>caddy适配器</code></a>命令在 Caddyfile 中查找服务器的侦听地址。
 </aside>
 
-For example, to configure different options for the servers on port `:80` and `:443`, you would specify two `servers` blocks:
+例如，要为port`:80`和`:443`指定不同的服务器配置，你可以指定两个`servers`块：
 
 ```caddy
 {
@@ -271,11 +274,11 @@ For example, to configure different options for the servers on port `:80` and `:
 
 ##### `listener_wrappers`
 
-Allows configuring [listener wrappers](/docs/json/apps/http/servers/listener_wrappers/), which can modify the behaviour of the base listener. They are applied in the given order.
+允许配置[监听包装器](/docs/json/apps/http/servers/listener_wrappers/)，它可以修改基本侦听器的行为。它们按给定的顺序应用。
 
-There is a special no-op [`tls`](/docs/json/apps/http/servers/listener_wrappers/tls/) listener wrapper provided as a standard module which marks where TLS should be handled in the chain of listener wrappers. It should only be used if another listener wrapper must be placed in front of the TLS handshake.
+有一个特殊的无操作[`tls`](/docs/json/apps/http/servers/listener_wrappers/tls/)侦听器包装器作为标准模块提供，它标记应在侦听器包装器链中处理TLS的位置。仅当必须在TLS握手之前放置另一个侦听器包装器时才应使用它。
 
-For example, assuming you have the [`proxy_protocol`](/docs/json/apps/http/servers/listener_wrappers/proxy_protocol/) plugin installed:
+例如，假设你安装了[`proxy_protocol`](/docs/json/apps/http/servers/listener_wrappers/proxy_protocol/)插件：
 
 ```caddy-d
 listener_wrappers {
@@ -290,24 +293,22 @@ listener_wrappers {
 
 ##### `timeouts`
 
-- **read_body** is a [duration value](/docs/conventions#durations) that sets how long to allow a read from a client's upload. Setting this to a short, non-zero value can mitigate slowloris attacks, but may also affect legitimately slow clients. Defaults to no timeout.
+- **read_body** 是一个[持续时间值](/docs/conventions#durations)，它设置允许从客户端上传读取多长时间。将此设置为一个较短的非零值可以减轻慢速攻击，但也可能影响合法慢速客户端。默认为无超时。
 
-- **read_header** is a [duration value](/docs/conventions#durations) that sets how long to allow a read from a client's request headers. Defaults to no timeout.
+- **read_header** 是一个[持续时间值](/docs/conventions#durations)，它设置允许从客户端的请求标头读取多长时间。默认为无超时。
 
-- **write** is a [duration value](/docs/conventions#durations) that sets how long to allow a write to a client. Note that setting this to a small value when serving large files may negatively affect legitimately slow clients. Defaults to no timeout.
-
-- **idle** is a [duration value](/docs/conventions#durations) that sets the maximum time to wait for the next request when keep-alives are enabled. Defaults to 5 minutes to help avoid resource exhaustion.
-
+- **write** 是一个[持续时间值](/docs/conventions#durations)，用于设置允许写入客户端的时间长度。请注意，在提供大文件时将其设置为较小的值可能会对合法缓慢的客户端产生负面影响。默认为无超时。
+- 
+- **idle** 是一个[持续时间值](/docs/conventions#durations)，用于设置启用 keep-alives 时等待下一个请求的最长时间。默认为 5 分钟，以帮助避免资源耗尽。
 
 ##### `max_header_size`
 
-The maximum size to parse from a client's HTTP request headers. It accepts all formats supported by [go-humanize](https://github.com/dustin/go-humanize/blob/master/bytes.go).
-
+从客户端的 HTTP 请求标头中解析的最大大小。它接受[go-humanize](https://github.com/dustin/go-humanize/blob/master/bytes.go)支持的所有格式。
 
 ##### `protocol`
 
-- **allow_h2c** enables H2C ("Cleartext HTTP/2" or "H2 over TCP") support, which will serve HTTP/2 over plaintext TCP connections if a client support it. Because this is not implemented by the Go standard library, using H2C is incompatible with most of the other options for this server. Do not enable this only to achieve maximum client compatibility. In practice, very few clients implement H2C, and even fewer require it. This setting applies only to unencrypted HTTP listeners. ⚠️ Experimental feature; subject to change or removal.
+- **allow_h2c** 启用 H2C（“明文 HTTP/2”或“H2 over TCP”）支持，如果客户端支持，它将通过明文 TCP 连接提供 HTTP/2。由于 Go 标准库没有实现这一点，因此使用 H2C 与该服务器的大多数其他选项不兼容。不要仅仅为了实现最大的客户端兼容性而启用它。在实践中，很少有客户端实现 H2C，甚至更少需要它。此设置仅适用于未加密的 HTTP 侦听器。⚠️实验功能；可能会更改或删除。
 
-- **experimental_http3** enables experimental draft HTTP/3 support. Note that HTTP/3 is not a finished spec and client support is extremely limited. This option will go away in the future. _This option is not subject to compatibility promises._
+- **experimental_http3** 启用实验性草案 HTTP/3 支持。请注意，HTTP/3 不是一个完整的规范，客户端支持非常有限。此选项将在未来消失。此选项不受兼容性承诺的约束。
 
-- **strict_sni_host** require that a request's `Host` header matches the value of the ServerName sent by the client's TLS ClientHello; often a necessary safeguard when using TLS client authentication.
+- **strict_sni_host** 要求请求的`Host`标头与客户端的TLS ClientHello发送的ServerName的值匹配；使用TLS客户端身份验证时，通常是必要的保护措施。
