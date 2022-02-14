@@ -13,7 +13,7 @@ $.get("/api/docs/config"+configPath, function(json) {
 
 		// establish the breadcrumb
 		var $bc = $('.breadcrumbs');
-		$('<a href="'+jsonDocsPathPrefix+'" id="top-breadcrumb">JSON Config Structure</a> &rsaquo;').appendTo($bc);
+		$('<a href="'+jsonDocsPathPrefix+'" id="top-breadcrumb">JSON配置结构</a> &rsaquo;').appendTo($bc);
 		for (var i = 1; i < pathComponents.length-1; i++) {
 			var bcPath = pathComponents.slice(0, i+1).join('/');
 			var bcSiblingPath = pathComponents.slice(1, i).join('/');
