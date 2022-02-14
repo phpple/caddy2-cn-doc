@@ -1,0 +1,909 @@
+{
+  "status_code": 200,
+  "result": {
+    "structure": {
+      "type": "struct",
+      "type_name": "github.com/caddyserver/caddy/v2.Config",
+      "struct_fields": [
+        {
+          "key": "admin",
+          "value": {
+            "type": "struct",
+            "type_name": "github.com/caddyserver/caddy/v2.AdminConfig",
+            "struct_fields": [
+              {
+                "key": "disabled",
+                "value": {
+                  "type": "bool",
+                  "doc": "If true, the admin endpoint will be completely disabled.\nNote that this makes any runtime changes to the config\nimpossible, since the interface to do so is through the\nadmin endpoint."
+                },
+                "doc": "If true, the admin endpoint will be completely disabled.\nNote that this makes any runtime changes to the config\nimpossible, since the interface to do so is through the\nadmin endpoint."
+              },
+              {
+                "key": "listen",
+                "value": {
+                  "type": "string",
+                  "doc": "The address to which the admin endpoint's listener should\nbind itself. Can be any single network address that can be\nparsed by Caddy. Default: localhost:2019"
+                },
+                "doc": "The address to which the admin endpoint's listener should\nbind itself. Can be any single network address that can be\nparsed by Caddy. Default: localhost:2019"
+              },
+              {
+                "key": "enforce_origin",
+                "value": {
+                  "type": "bool",
+                  "doc": "If true, CORS headers will be emitted, and requests to the\nAPI will be rejected if their `Host` and `Origin` headers\ndo not match the expected value(s). Use `origins` to\ncustomize which origins/hosts are allowed. If `origins` is\nnot set, the listen address is the only value allowed by\ndefault. Enforced only on local (plaintext) endpoint."
+                },
+                "doc": "If true, CORS headers will be emitted, and requests to the\nAPI will be rejected if their `Host` and `Origin` headers\ndo not match the expected value(s). Use `origins` to\ncustomize which origins/hosts are allowed. If `origins` is\nnot set, the listen address is the only value allowed by\ndefault. Enforced only on local (plaintext) endpoint."
+              },
+              {
+                "key": "origins",
+                "value": {
+                  "type": "array",
+                  "elems": {
+                    "type": "string",
+                    "doc": "The list of allowed origins/hosts for API requests. Only needed\nif accessing the admin endpoint from a host different from the\nsocket's network interface or if `enforce_origin` is true. If not\nset, the listener address will be the default value. If set but\nempty, no origins will be allowed. Enforced only on local\n(plaintext) endpoint."
+                  }
+                },
+                "doc": "The list of allowed origins/hosts for API requests. Only needed\nif accessing the admin endpoint from a host different from the\nsocket's network interface or if `enforce_origin` is true. If not\nset, the listener address will be the default value. If set but\nempty, no origins will be allowed. Enforced only on local\n(plaintext) endpoint."
+              },
+              {
+                "key": "config",
+                "value": {
+                  "type": "struct",
+                  "type_name": "github.com/caddyserver/caddy/v2.ConfigSettings",
+                  "struct_fields": [
+                    {
+                      "key": "persist",
+                      "value": {
+                        "type": "bool",
+                        "doc": "Whether to keep a copy of the active config on disk. Default is true.\nNote that \"pulled\" dynamic configs (using the neighboring \"load\" module)\nare not persisted; only configs that are pushed to Caddy get persisted."
+                      },
+                      "doc": "Whether to keep a copy of the active config on disk. Default is true.\nNote that \"pulled\" dynamic configs (using the neighboring \"load\" module)\nare not persisted; only configs that are pushed to Caddy get persisted."
+                    },
+                    {
+                      "key": "load",
+                      "value": {
+                        "type": "module",
+                        "doc": "Loads a configuration to use. This is helpful if your configs are\nmanaged elsewhere, and you want Caddy to pull its config dynamically\nwhen it starts. The pulled config completely replaces the current\none, just like any other config load. It is an error if a pulled\nconfig is configured to pull another config.\n\nEXPERIMENTAL: Subject to change.",
+                        "module_namespace": "caddy.config_loaders",
+                        "module_inline_key": "module"
+                      },
+                      "doc": "Loads a configuration to use. This is helpful if your configs are\nmanaged elsewhere, and you want Caddy to pull its config dynamically\nwhen it starts. The pulled config completely replaces the current\none, just like any other config load. It is an error if a pulled\nconfig is configured to pull another config.\n\nEXPERIMENTAL: Subject to change."
+                    }
+                  ],
+                  "doc": "Options pertaining to configuration management.\n\n\nConfigSettings configures the management of configuration."
+                },
+                "doc": "Options pertaining to configuration management.\n\n\nConfigSettings configures the management of configuration."
+              },
+              {
+                "key": "identity",
+                "value": {
+                  "type": "struct",
+                  "type_name": "github.com/caddyserver/caddy/v2.IdentityConfig",
+                  "struct_fields": [
+                    {
+                      "key": "identifiers",
+                      "value": {
+                        "type": "array",
+                        "elems": {
+                          "type": "string",
+                          "doc": "List of names or IP addresses which refer to this server.\nCertificates will be obtained for these identifiers so\nsecure TLS connections can be made using them."
+                        }
+                      },
+                      "doc": "List of names or IP addresses which refer to this server.\nCertificates will be obtained for these identifiers so\nsecure TLS connections can be made using them."
+                    },
+                    {
+                      "key": "issuers",
+                      "value": {
+                        "type": "array",
+                        "elems": {
+                          "type": "module",
+                          "doc": "Issuers that can provide this admin endpoint its identity\ncertificate(s). Default: ACME issuers configured for\nZeroSSL and Let's Encrypt. Be sure to change this if you\nrequire credentials for private identifiers.",
+                          "module_namespace": "tls.issuance",
+                          "module_inline_key": "module"
+                        }
+                      },
+                      "doc": "Issuers that can provide this admin endpoint its identity\ncertificate(s). Default: ACME issuers configured for\nZeroSSL and Let's Encrypt. Be sure to change this if you\nrequire credentials for private identifiers."
+                    }
+                  ],
+                  "doc": "Options that establish this server's identity. Identity refers to\ncredentials which can be used to uniquely identify and authenticate\nthis server instance. This is required if remote administration is\nenabled (but does not require remote administration to be enabled).\nDefault: no identity management.\n\n\nIdentityConfig configures management of this server's identity. An identity\nconsists of credentials that uniquely verify this instance; for example,\nTLS certificates (public + private key pairs)."
+                },
+                "doc": "Options that establish this server's identity. Identity refers to\ncredentials which can be used to uniquely identify and authenticate\nthis server instance. This is required if remote administration is\nenabled (but does not require remote administration to be enabled).\nDefault: no identity management.\n\n\nIdentityConfig configures management of this server's identity. An identity\nconsists of credentials that uniquely verify this instance; for example,\nTLS certificates (public + private key pairs)."
+              },
+              {
+                "key": "remote",
+                "value": {
+                  "type": "struct",
+                  "type_name": "github.com/caddyserver/caddy/v2.RemoteAdmin",
+                  "struct_fields": [
+                    {
+                      "key": "listen",
+                      "value": {
+                        "type": "string",
+                        "doc": "The address on which to start the secure listener.\nDefault: :2021"
+                      },
+                      "doc": "The address on which to start the secure listener.\nDefault: :2021"
+                    },
+                    {
+                      "key": "access_control",
+                      "value": {
+                        "type": "array",
+                        "elems": {
+                          "type": "struct",
+                          "type_name": "github.com/caddyserver/caddy/v2.AdminAccess",
+                          "struct_fields": [
+                            {
+                              "key": "public_keys",
+                              "value": {
+                                "type": "array",
+                                "elems": {
+                                  "type": "string",
+                                  "doc": "Base64-encoded DER certificates containing public keys to accept.\n(The contents of PEM certificate blocks are base64-encoded DER.)\nAny of these public keys can appear in any part of a verified chain."
+                                }
+                              },
+                              "doc": "Base64-encoded DER certificates containing public keys to accept.\n(The contents of PEM certificate blocks are base64-encoded DER.)\nAny of these public keys can appear in any part of a verified chain."
+                            },
+                            {
+                              "key": "permissions",
+                              "value": {
+                                "type": "array",
+                                "elems": {
+                                  "type": "struct",
+                                  "type_name": "github.com/caddyserver/caddy/v2.AdminPermissions",
+                                  "struct_fields": [
+                                    {
+                                      "key": "paths",
+                                      "value": {
+                                        "type": "array",
+                                        "elems": {
+                                          "type": "string",
+                                          "doc": "The API paths allowed. Paths are simple prefix matches.\nAny subpath of the specified paths will be allowed."
+                                        }
+                                      },
+                                      "doc": "The API paths allowed. Paths are simple prefix matches.\nAny subpath of the specified paths will be allowed."
+                                    },
+                                    {
+                                      "key": "methods",
+                                      "value": {
+                                        "type": "array",
+                                        "elems": {
+                                          "type": "string",
+                                          "doc": "The HTTP methods allowed for the given paths."
+                                        }
+                                      },
+                                      "doc": "The HTTP methods allowed for the given paths."
+                                    }
+                                  ],
+                                  "doc": "Limits what the associated identities are allowed to do.\nIf unspecified, all permissions are granted.\n\n\nAdminPermissions specifies what kinds of requests are allowed\nto be made to the admin endpoint."
+                                }
+                              },
+                              "doc": "Limits what the associated identities are allowed to do.\nIf unspecified, all permissions are granted.\n\n\nAdminPermissions specifies what kinds of requests are allowed\nto be made to the admin endpoint."
+                            }
+                          ],
+                          "doc": "List of access controls for this secure admin endpoint.\nThis configures TLS mutual authentication (i.e. authorized\nclient certificates), but also application-layer permissions\nlike which paths and methods each identity is authorized for.\n\n\nAdminAccess specifies what permissions an identity or group\nof identities are granted."
+                        }
+                      },
+                      "doc": "List of access controls for this secure admin endpoint.\nThis configures TLS mutual authentication (i.e. authorized\nclient certificates), but also application-layer permissions\nlike which paths and methods each identity is authorized for.\n\n\nAdminAccess specifies what permissions an identity or group\nof identities are granted."
+                    }
+                  ],
+                  "doc": "Options pertaining to remote administration. By default, remote\nadministration is disabled. If enabled, identity management must\nalso be configured, as that is how the endpoint is secured.\nSee the neighboring \"identity\" object.\n\nEXPERIMENTAL: This feature is subject to change.\n\n\nRemoteAdmin enables and configures remote administration. If enabled,\na secure listener enforcing mutual TLS authentication will be started\non a different port from the standard plaintext admin server.\n\nThis endpoint is secured using identity management, which must be\nconfigured separately (because identity management does not depend\non remote administration). See the admin/identity config struct.\n\nEXPERIMENTAL: Subject to change."
+                },
+                "doc": "Options pertaining to remote administration. By default, remote\nadministration is disabled. If enabled, identity management must\nalso be configured, as that is how the endpoint is secured.\nSee the neighboring \"identity\" object.\n\nEXPERIMENTAL: This feature is subject to change.\n\n\nRemoteAdmin enables and configures remote administration. If enabled,\na secure listener enforcing mutual TLS authentication will be started\non a different port from the standard plaintext admin server.\n\nThis endpoint is secured using identity management, which must be\nconfigured separately (because identity management does not depend\non remote administration). See the admin/identity config struct.\n\nEXPERIMENTAL: Subject to change."
+              }
+            ],
+            "doc": "AdminConfig configures Caddy's API endpoint, which is used\nto manage Caddy while it is running.\n"
+          },
+          "doc": "AdminConfig configures Caddy's API endpoint, which is used\nto manage Caddy while it is running.\n"
+        },
+        {
+          "key": "logging",
+          "value": {
+            "type": "struct",
+            "type_name": "github.com/caddyserver/caddy/v2.Logging",
+            "struct_fields": [
+              {
+                "key": "sink",
+                "value": {
+                  "type": "struct",
+                  "type_name": "github.com/caddyserver/caddy/v2.StandardLibLog",
+                  "struct_fields": [
+                    {
+                      "key": "writer",
+                      "value": {
+                        "type": "module",
+                        "doc": "The module that writes out log entries for the sink.",
+                        "module_namespace": "caddy.logging.writers",
+                        "module_inline_key": "output"
+                      },
+                      "doc": "The module that writes out log entries for the sink."
+                    }
+                  ],
+                  "doc": "Sink is the destination for all unstructured logs emitted\nfrom Go's standard library logger. These logs are common\nin dependencies that are not designed specifically for use\nin Caddy. Because it is global and unstructured, the sink\nlacks most advanced features and customizations.\n\n\nStandardLibLog configures the default Go standard library\nglobal logger in the log package. This is necessary because\nmodule dependencies which are not built specifically for\nCaddy will use the standard logger. This is also known as\nthe \"sink\" logger."
+                },
+                "doc": "Sink is the destination for all unstructured logs emitted\nfrom Go's standard library logger. These logs are common\nin dependencies that are not designed specifically for use\nin Caddy. Because it is global and unstructured, the sink\nlacks most advanced features and customizations.\n\n\nStandardLibLog configures the default Go standard library\nglobal logger in the log package. This is necessary because\nmodule dependencies which are not built specifically for\nCaddy will use the standard logger. This is also known as\nthe \"sink\" logger."
+              },
+              {
+                "key": "logs",
+                "value": {
+                  "type": "map",
+                  "map_keys": {
+                    "type": "string"
+                  },
+                  "elems": {
+                    "type": "struct",
+                    "type_name": "github.com/caddyserver/caddy/v2.CustomLog",
+                    "struct_fields": [
+                      {
+                        "key": "writer",
+                        "value": {
+                          "type": "module",
+                          "doc": "The writer defines where log entries are emitted.",
+                          "module_namespace": "caddy.logging.writers",
+                          "module_inline_key": "output"
+                        },
+                        "doc": "The writer defines where log entries are emitted."
+                      },
+                      {
+                        "key": "encoder",
+                        "value": {
+                          "type": "module",
+                          "doc": "The encoder is how the log entries are formatted or encoded.",
+                          "module_namespace": "caddy.logging.encoders",
+                          "module_inline_key": "format"
+                        },
+                        "doc": "The encoder is how the log entries are formatted or encoded."
+                      },
+                      {
+                        "key": "level",
+                        "value": {
+                          "type": "string",
+                          "doc": "Level is the minimum level to emit, and is inclusive.\nPossible levels: DEBUG, INFO, WARN, ERROR, PANIC, and FATAL"
+                        },
+                        "doc": "Level is the minimum level to emit, and is inclusive.\nPossible levels: DEBUG, INFO, WARN, ERROR, PANIC, and FATAL"
+                      },
+                      {
+                        "key": "sampling",
+                        "value": {
+                          "type": "struct",
+                          "type_name": "github.com/caddyserver/caddy/v2.LogSampling",
+                          "struct_fields": [
+                            {
+                              "key": "interval",
+                              "value": {
+                                "type": "int",
+                                "type_name": "time.Duration",
+                                "doc": "The window over which to conduct sampling.\n\n\nA Duration represents the elapsed time between two instants\nas an int64 nanosecond count. The representation limits the\nlargest representable duration to approximately 290 years."
+                              },
+                              "doc": "The window over which to conduct sampling.\n\n\nA Duration represents the elapsed time between two instants\nas an int64 nanosecond count. The representation limits the\nlargest representable duration to approximately 290 years."
+                            },
+                            {
+                              "key": "first",
+                              "value": {
+                                "type": "int",
+                                "doc": "Log this many entries within a given level and\nmessage for each interval."
+                              },
+                              "doc": "Log this many entries within a given level and\nmessage for each interval."
+                            },
+                            {
+                              "key": "thereafter",
+                              "value": {
+                                "type": "int",
+                                "doc": "If more entries with the same level and message\nare seen during the same interval, keep one in\nthis many entries until the end of the interval."
+                              },
+                              "doc": "If more entries with the same level and message\nare seen during the same interval, keep one in\nthis many entries until the end of the interval."
+                            }
+                          ],
+                          "doc": "Sampling configures log entry sampling. If enabled,\nonly some log entries will be emitted. This is useful\nfor improving performance on extremely high-pressure\nservers.\n\n\nLogSampling configures log entry sampling."
+                        },
+                        "doc": "Sampling configures log entry sampling. If enabled,\nonly some log entries will be emitted. This is useful\nfor improving performance on extremely high-pressure\nservers.\n\n\nLogSampling configures log entry sampling."
+                      },
+                      {
+                        "key": "include",
+                        "value": {
+                          "type": "array",
+                          "elems": {
+                            "type": "string",
+                            "doc": "Include defines the names of loggers to emit in this\nlog. For example, to include only logs emitted by the\nadmin API, you would include \"admin.api\"."
+                          }
+                        },
+                        "doc": "Include defines the names of loggers to emit in this\nlog. For example, to include only logs emitted by the\nadmin API, you would include \"admin.api\"."
+                      },
+                      {
+                        "key": "exclude",
+                        "value": {
+                          "type": "array",
+                          "elems": {
+                            "type": "string",
+                            "doc": "Exclude defines the names of loggers that should be\nskipped by this log. For example, to exclude only\nHTTP access logs, you would exclude \"http.log.access\"."
+                          }
+                        },
+                        "doc": "Exclude defines the names of loggers that should be\nskipped by this log. For example, to exclude only\nHTTP access logs, you would exclude \"http.log.access\"."
+                      }
+                    ],
+                    "doc": "Logs are your logs, keyed by an arbitrary name of your\nchoosing. The default log can be customized by defining\na log called \"default\". You can further define other logs\nand filter what kinds of entries they accept.\n\n\nCustomLog represents a custom logger configuration.\n\nBy default, a log will emit all log entries. Some entries\nwill be skipped if sampling is enabled. Further, the Include\nand Exclude parameters define which loggers (by name) are\nallowed or rejected from emitting in this log. If both Include\nand Exclude are populated, their values must be mutually\nexclusive, and longer namespaces have priority. If neither\nare populated, all logs are emitted."
+                  }
+                },
+                "doc": "Logs are your logs, keyed by an arbitrary name of your\nchoosing. The default log can be customized by defining\na log called \"default\". You can further define other logs\nand filter what kinds of entries they accept.\n\n\nCustomLog represents a custom logger configuration.\n\nBy default, a log will emit all log entries. Some entries\nwill be skipped if sampling is enabled. Further, the Include\nand Exclude parameters define which loggers (by name) are\nallowed or rejected from emitting in this log. If both Include\nand Exclude are populated, their values must be mutually\nexclusive, and longer namespaces have priority. If neither\nare populated, all logs are emitted."
+              }
+            ],
+            "doc": "Logging facilitates logging within Caddy. The default log is\ncalled \"default\" and you can customize it. You can also define\nadditional logs.\n\nBy default, all logs at INFO level and higher are written to\nstandard error (\"stderr\" writer) in a human-readable format\n(\"console\" encoder if stdout is an interactive terminal, \"json\"\nencoder otherwise).\n\nAll defined logs accept all log entries by default, but you\ncan filter by level and module/logger names. A logger's name\nis the same as the module's name, but a module may append to\nlogger names for more specificity. For example, you can\nfilter logs emitted only by HTTP handlers using the name\n\"http.handlers\", because all HTTP handler module names have\nthat prefix.\n\nCaddy logs (except the sink) are zero-allocation, so they are\nvery high-performing in terms of memory and CPU time. Enabling\nsampling can further increase throughput on extremely high-load\nservers.\n"
+          },
+          "doc": "Logging facilitates logging within Caddy. The default log is\ncalled \"default\" and you can customize it. You can also define\nadditional logs.\n\nBy default, all logs at INFO level and higher are written to\nstandard error (\"stderr\" writer) in a human-readable format\n(\"console\" encoder if stdout is an interactive terminal, \"json\"\nencoder otherwise).\n\nAll defined logs accept all log entries by default, but you\ncan filter by level and module/logger names. A logger's name\nis the same as the module's name, but a module may append to\nlogger names for more specificity. For example, you can\nfilter logs emitted only by HTTP handlers using the name\n\"http.handlers\", because all HTTP handler module names have\nthat prefix.\n\nCaddy logs (except the sink) are zero-allocation, so they are\nvery high-performing in terms of memory and CPU time. Enabling\nsampling can further increase throughput on extremely high-load\nservers.\n"
+        },
+        {
+          "key": "storage",
+          "value": {
+            "type": "module",
+            "doc": "StorageRaw is a storage module that defines how/where Caddy\nstores assets (such as TLS certificates). The default storage\nmodule is `caddy.storage.file_system` (the local file system),\nand the default path\n[depends on the OS and environment](/docs/conventions#data-directory).",
+            "module_namespace": "caddy.storage",
+            "module_inline_key": "module"
+          },
+          "doc": "StorageRaw is a storage module that defines how/where Caddy\nstores assets (such as TLS certificates). The default storage\nmodule is `caddy.storage.file_system` (the local file system),\nand the default path\n[depends on the OS and environment](/docs/conventions#data-directory)."
+        },
+        {
+          "key": "apps",
+          "value": {
+            "type": "module_map",
+            "type_name": "github.com/caddyserver/caddy/v2.ModuleMap",
+            "doc": "AppsRaw are the apps that Caddy will load and run. The\napp module name is the key, and the app's config is the\nassociated value.\n\n\nModuleMap is a map that can contain multiple modules,\nwhere the map key is the module's name. (The namespace\nis usually read from an associated field's struct tag.)\nBecause the module's name is given as the key in a\nmodule map, the name does not have to be given in the\njson.RawMessage.",
+            "module_namespace": ""
+          },
+          "doc": "AppsRaw are the apps that Caddy will load and run. The\napp module name is the key, and the app's config is the\nassociated value.\n\n\nModuleMap is a map that can contain multiple modules,\nwhere the map key is the module's name. (The namespace\nis usually read from an associated field's struct tag.)\nBecause the module's name is given as the key in a\nmodule map, the name does not have to be given in the\njson.RawMessage."
+        }
+      ],
+      "doc": "Config is the top (or beginning) of the Caddy configuration structure.\nCaddy config is expressed natively as a JSON document. If you prefer\nnot to work with JSON directly, there are [many config adapters](/docs/config-adapters)\navailable that can convert various inputs into Caddy JSON.\n\nMany parts of this config are extensible through the use of Caddy modules.\nFields which have a json.RawMessage type and which appear as dots (•••) in\nthe online docs can be fulfilled by modules in a certain module\nnamespace. The docs show which modules can be used in a given place.\n\nWhenever a module is used, its name must be given either inline as part of\nthe module, or as the key to the module's value. The docs will make it clear\nwhich to use.\n\nGenerally, all config settings are optional, as it is Caddy convention to\nhave good, documented default values. If a parameter is required, the docs\nshould say so.\n\nGo programs which are directly building a Config struct value should take\ncare to populate the JSON-encodable fields of the struct (i.e. the fields\nwith `json` struct tags) if employing the module lifecycle (e.g. Provision\nmethod calls).\n"
+    },
+    "namespaces": {
+      "": [
+        {
+          "name": "exec",
+          "docs": "exec is top level module that runs shell commands.",
+          "package": "github.com/abiosoft/caddy-exec",
+          "repo": "https://github.com/abiosoft/caddy-exec"
+        },
+        {
+          "name": "supervisor",
+          "package": "github.com/baldinof/caddy-supervisor",
+          "repo": "https://github.com/baldinof/caddy-supervisor"
+        },
+        {
+          "name": "http",
+          "docs": "http is a robust, production-ready HTTP server.\n\nHTTPS is enabled by default if host matchers with qualifying names are used\nin any of routes; certificates are automatically provisioned and renewed.\nAdditionally, automatic HTTPS will also enable HTTPS for servers that listen\nonly on the HTTPS port but which do not have any TLS connection policies\ndefined by adding a good, default TLS connection policy.\n\nIn HTTP routes, additional placeholders are available (replace any `*`):\n\nPlaceholder | Description\n------------|---------------\n`{http.request.body}` | The request body (⚠️ inefficient; use only for debugging)\n`{http.request.cookie.*}` | HTTP request cookie\n`{http.request.duration}` | Time up to now spent handling the request (after decoding headers from client)\n`{http.request.header.*}` | Specific request header field\n`{http.request.host.labels.*}` | Request host labels (0-based from right); e.g. for foo.example.com: 0=com, 1=example, 2=foo\n`{http.request.host}` | The host part of the request's Host header\n`{http.request.hostport}` | The host and port from the request's Host header\n`{http.request.method}` | The request method\n`{http.request.orig_method}` | The request's original method\n`{http.request.orig_uri.path.dir}` | The request's original directory\n`{http.request.orig_uri.path.file}` | The request's original filename\n`{http.request.orig_uri.path}` | The request's original path\n`{http.request.orig_uri.query}` | The request's original query string (without `?`)\n`{http.request.orig_uri}` | The request's original URI\n`{http.request.port}` | The port part of the request's Host header\n`{http.request.proto}` | The protocol of the request\n`{http.request.remote.host}` | The host part of the remote client's address\n`{http.request.remote.port}` | The port part of the remote client's address\n`{http.request.remote}` | The address of the remote client\n`{http.request.scheme}` | The request scheme\n`{http.request.tls.version}` | The TLS version name\n`{http.request.tls.cipher_suite}` | The TLS cipher suite\n`{http.request.tls.resumed}` | The TLS connection resumed a previous connection\n`{http.request.tls.proto}` | The negotiated next protocol\n`{http.request.tls.proto_mutual}` | The negotiated next protocol was advertised by the server\n`{http.request.tls.server_name}` | The server name requested by the client, if any\n`{http.request.tls.client.fingerprint}` | The SHA256 checksum of the client certificate\n`{http.request.tls.client.public_key}` | The public key of the client certificate.\n`{http.request.tls.client.public_key_sha256}` | The SHA256 checksum of the client's public key.\n`{http.request.tls.client.certificate_pem}` | The PEM-encoded value of the certificate.\n`{http.request.tls.client.certificate_der_base64}` | The base64-encoded value of the certificate.\n`{http.request.tls.client.issuer}` | The issuer DN of the client certificate\n`{http.request.tls.client.serial}` | The serial number of the client certificate\n`{http.request.tls.client.subject}` | The subject DN of the client certificate\n`{http.request.tls.client.san.dns_names.*}` | SAN DNS names(index optional)\n`{http.request.tls.client.san.emails.*}` | SAN email addresses (index optional)\n`{http.request.tls.client.san.ips.*}` | SAN IP addresses (index optional)\n`{http.request.tls.client.san.uris.*}` | SAN URIs (index optional)\n`{http.request.uri.path.*}` | Parts of the path, split by `/` (0-based from left)\n`{http.request.uri.path.dir}` | The directory, excluding leaf filename\n`{http.request.uri.path.file}` | The filename of the path, excluding directory\n`{http.request.uri.path}` | The path component of the request URI\n`{http.request.uri.query.*}` | Individual query string value\n`{http.request.uri.query}` | The query string (without `?`)\n`{http.request.uri}` | The full request URI\n`{http.response.header.*}` | Specific response header field\n`{http.vars.*}` | Custom variables in the HTTP handler chain",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "pki",
+          "docs": "pki provides Public Key Infrastructure facilities for Caddy.\n\nThis app can define certificate authorities (CAs) which are capable\nof signing certificates. Other modules can be configured to use\nthe CAs defined by this app for issuing certificates or getting\nkey information needed for establishing trust.",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddypki",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "tls",
+          "docs": "tls provides TLS facilities including certificate\nloading and management, client auth, and more.",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "security",
+          "docs": "security implements security manager.",
+          "package": "github.com/greenpau/caddy-security",
+          "repo": "https://github.com/greenpau/caddy-security"
+        },
+        {
+          "name": "crowdsec",
+          "docs": "crowdsec is a Caddy App that functions as a CrowdSec bouncer. It acts\nas a CrowdSec API client as well as a local cache for CrowdSec decisions,\nwhich can be used by the HTTP handler and Layer4 matcher to decide if\na request or connection is allowed or not.",
+          "package": "github.com/hslatman/caddy-crowdsec-bouncer/crowdsec",
+          "repo": "https://github.com/hslatman/caddy-crowdsec-bouncer"
+        },
+        {
+          "name": "dynamic_dns",
+          "docs": "dynamic_dns is a Caddy app that keeps your DNS records updated with the public\nIP address of your instance. It updates A and AAAA records.",
+          "package": "github.com/mholt/caddy-dynamicdns",
+          "repo": "https://github.com/mholt/caddy-dynamicdns"
+        },
+        {
+          "name": "layer4",
+          "docs": "layer4 is a Caddy app that operates closest to layer 4 of the OSI model.",
+          "package": "github.com/mholt/caddy-l4/layer4",
+          "repo": "https://github.com/mholt/caddy-l4"
+        }
+      ],
+      "caddy.config_loaders": [
+        {
+          "name": "http",
+          "docs": "http can load Caddy configs over HTTP(S). It can adapt the config\nbased on the Content-Type header of the HTTP response.",
+          "package": "github.com/caddyserver/caddy/v2/caddyconfig",
+          "repo": "https://github.com/caddyserver/caddy"
+        }
+      ],
+      "caddy.logging.encoders": [
+        {
+          "name": "console",
+          "docs": "console encodes log entries that are mostly human-readable.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "filter",
+          "docs": "filter can filter (manipulate) fields on\nlog entries before they are actually encoded by\nan underlying encoder.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "json",
+          "docs": "json encodes entries as JSON.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "logfmt",
+          "docs": "logfmt encodes log entries as logfmt:\nhttps://www.brandur.org/logfmt\n\nNote that logfmt does not encode nested structures\nproperly, so it is not a good fit for most logs.\n\n⚠️ DEPRECATED. Do not use. It will eventually be removed\nfrom the standard Caddy modules. For more information,\nsee https://github.com/caddyserver/caddy/issues/3575.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "single_field",
+          "docs": "single_field writes a log entry that consists entirely\nof a single string field in the log entry. This is useful\nfor custom, self-encoded log entries that consist of a\nsingle field in the structured log entry.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "formatted",
+          "docs": "formatted allows the user to provide custom template for log prints. The\nencoder builds atop the json encoder, thus it follows its message structure. The placeholders\nare namespaced by the name of the app logging the message.",
+          "package": "github.com/caddyserver/format-encoder",
+          "repo": "https://github.com/caddyserver/format-encoder"
+        }
+      ],
+      "caddy.logging.writers": [
+        {
+          "name": "discard",
+          "docs": "discard discards all writes.",
+          "package": "github.com/caddyserver/caddy/v2",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "stderr",
+          "docs": "stderr writes logs to standard error.",
+          "package": "github.com/caddyserver/caddy/v2",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "stdout",
+          "docs": "stdout writes logs to standard out.",
+          "package": "github.com/caddyserver/caddy/v2",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "file",
+          "docs": "file can write logs to files. By default, log files\nare rotated (\"rolled\") when they get large, and old log\nfiles get deleted, to ensure that the process does not\nexhaust disk space.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "net",
+          "docs": "net implements a log writer that outputs to a network socket. If\nthe socket goes down, it will dump logs to stderr while it attempts to\nreconnect.",
+          "package": "github.com/caddyserver/caddy/v2/modules/logging",
+          "repo": "https://github.com/caddyserver/caddy"
+        }
+      ],
+      "caddy.storage": [
+        {
+          "name": "file_system",
+          "docs": "file_system is a certmagic.Storage wrapper for certmagic.FileStorage.",
+          "package": "github.com/caddyserver/caddy/v2/modules/filestorage",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "redis",
+          "docs": "redis contain Redis client, and plugin option",
+          "package": "github.com/gamalan/caddy-tlsredis",
+          "repo": "https://github.com/gamalan/caddy-tlsredis"
+        },
+        {
+          "name": "consul",
+          "docs": "consul allows to store certificates and other TLS resources\nin a shared cluster environment using Consul's key/value-store.\nIt uses distributed locks to ensure consistency.",
+          "package": "github.com/pteich/caddy-tlsconsul",
+          "repo": "https://github.com/pteich/caddy-tlsconsul"
+        },
+        {
+          "name": "consul",
+          "docs": "consul holds all parameters for the Consul connection",
+          "package": "github.com/pteich/caddy-tlsconsul",
+          "repo": "https://github.com/pteich/caddy-tlsconsul"
+        },
+        {
+          "name": "dynamodb",
+          "docs": "dynamodb implements certmagic.Storage to facilitate\nstorage of certificates in DynamoDB for a clustered environment.\nAlso implements certmagic.Locker to facilitate locking\nand unlocking of cert data during storage",
+          "package": "github.com/silinternational/certmagic-storage-dynamodb/v2",
+          "repo": "https://github.com/silinternational/certmagic-storage-dynamodb"
+        },
+        {
+          "name": "s3",
+          "package": "github.com/ss098/certmagic-s3",
+          "repo": "https://github.com/ss098/certmagic-s3"
+        },
+        {
+          "name": "s3",
+          "package": "github.com/techknowlogick/certmagic-s3",
+          "repo": "https://github.com/techknowlogick/certmagic-s3"
+        }
+      ],
+      "tls.issuance": [
+        {
+          "name": "acme",
+          "docs": "acme manages certificates using the ACME protocol (RFC 8555).",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "internal",
+          "docs": "internal is a certificate issuer that generates\ncertificates internally using a locally-configured\nCA which can be customized using the `pki` app.",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+          "repo": "https://github.com/caddyserver/caddy"
+        },
+        {
+          "name": "zerossl",
+          "docs": "zerossl makes an ACME manager\nfor managing certificates using ACME.",
+          "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+          "repo": "https://github.com/caddyserver/caddy"
+        }
+      ]
+    },
+    "breadcrumb": {
+      "": {
+        "type": "struct",
+        "type_name": "github.com/caddyserver/caddy/v2.Config",
+        "struct_fields": [
+          {
+            "key": "admin",
+            "value": {
+              "type": "struct",
+              "type_name": "github.com/caddyserver/caddy/v2.AdminConfig",
+              "struct_fields": [
+                {
+                  "key": "disabled",
+                  "value": {
+                    "type": "bool",
+                    "doc": "If true, the admin endpoint will be completely disabled.\nNote that this makes any runtime changes to the config\nimpossible, since the interface to do so is through the\nadmin endpoint."
+                  },
+                  "doc": "If true, the admin endpoint will be completely disabled.\nNote that this makes any runtime changes to the config\nimpossible, since the interface to do so is through the\nadmin endpoint."
+                },
+                {
+                  "key": "listen",
+                  "value": {
+                    "type": "string",
+                    "doc": "The address to which the admin endpoint's listener should\nbind itself. Can be any single network address that can be\nparsed by Caddy. Default: localhost:2019"
+                  },
+                  "doc": "The address to which the admin endpoint's listener should\nbind itself. Can be any single network address that can be\nparsed by Caddy. Default: localhost:2019"
+                },
+                {
+                  "key": "enforce_origin",
+                  "value": {
+                    "type": "bool",
+                    "doc": "If true, CORS headers will be emitted, and requests to the\nAPI will be rejected if their `Host` and `Origin` headers\ndo not match the expected value(s). Use `origins` to\ncustomize which origins/hosts are allowed. If `origins` is\nnot set, the listen address is the only value allowed by\ndefault. Enforced only on local (plaintext) endpoint."
+                  },
+                  "doc": "If true, CORS headers will be emitted, and requests to the\nAPI will be rejected if their `Host` and `Origin` headers\ndo not match the expected value(s). Use `origins` to\ncustomize which origins/hosts are allowed. If `origins` is\nnot set, the listen address is the only value allowed by\ndefault. Enforced only on local (plaintext) endpoint."
+                },
+                {
+                  "key": "origins",
+                  "value": {
+                    "type": "array",
+                    "elems": {
+                      "type": "string",
+                      "doc": "The list of allowed origins/hosts for API requests. Only needed\nif accessing the admin endpoint from a host different from the\nsocket's network interface or if `enforce_origin` is true. If not\nset, the listener address will be the default value. If set but\nempty, no origins will be allowed. Enforced only on local\n(plaintext) endpoint."
+                    }
+                  },
+                  "doc": "The list of allowed origins/hosts for API requests. Only needed\nif accessing the admin endpoint from a host different from the\nsocket's network interface or if `enforce_origin` is true. If not\nset, the listener address will be the default value. If set but\nempty, no origins will be allowed. Enforced only on local\n(plaintext) endpoint."
+                },
+                {
+                  "key": "config",
+                  "value": {
+                    "type": "struct",
+                    "type_name": "github.com/caddyserver/caddy/v2.ConfigSettings",
+                    "struct_fields": [
+                      {
+                        "key": "persist",
+                        "value": {
+                          "type": "bool",
+                          "doc": "Whether to keep a copy of the active config on disk. Default is true.\nNote that \"pulled\" dynamic configs (using the neighboring \"load\" module)\nare not persisted; only configs that are pushed to Caddy get persisted."
+                        },
+                        "doc": "Whether to keep a copy of the active config on disk. Default is true.\nNote that \"pulled\" dynamic configs (using the neighboring \"load\" module)\nare not persisted; only configs that are pushed to Caddy get persisted."
+                      },
+                      {
+                        "key": "load",
+                        "value": {
+                          "type": "module",
+                          "doc": "Loads a configuration to use. This is helpful if your configs are\nmanaged elsewhere, and you want Caddy to pull its config dynamically\nwhen it starts. The pulled config completely replaces the current\none, just like any other config load. It is an error if a pulled\nconfig is configured to pull another config.\n\nEXPERIMENTAL: Subject to change.",
+                          "module_namespace": "caddy.config_loaders",
+                          "module_inline_key": "module"
+                        },
+                        "doc": "Loads a configuration to use. This is helpful if your configs are\nmanaged elsewhere, and you want Caddy to pull its config dynamically\nwhen it starts. The pulled config completely replaces the current\none, just like any other config load. It is an error if a pulled\nconfig is configured to pull another config.\n\nEXPERIMENTAL: Subject to change."
+                      }
+                    ],
+                    "doc": "Options pertaining to configuration management.\n\n\nConfigSettings configures the management of configuration."
+                  },
+                  "doc": "Options pertaining to configuration management.\n\n\nConfigSettings configures the management of configuration."
+                },
+                {
+                  "key": "identity",
+                  "value": {
+                    "type": "struct",
+                    "type_name": "github.com/caddyserver/caddy/v2.IdentityConfig",
+                    "struct_fields": [
+                      {
+                        "key": "identifiers",
+                        "value": {
+                          "type": "array",
+                          "elems": {
+                            "type": "string",
+                            "doc": "List of names or IP addresses which refer to this server.\nCertificates will be obtained for these identifiers so\nsecure TLS connections can be made using them."
+                          }
+                        },
+                        "doc": "List of names or IP addresses which refer to this server.\nCertificates will be obtained for these identifiers so\nsecure TLS connections can be made using them."
+                      },
+                      {
+                        "key": "issuers",
+                        "value": {
+                          "type": "array",
+                          "elems": {
+                            "type": "module",
+                            "doc": "Issuers that can provide this admin endpoint its identity\ncertificate(s). Default: ACME issuers configured for\nZeroSSL and Let's Encrypt. Be sure to change this if you\nrequire credentials for private identifiers.",
+                            "module_namespace": "tls.issuance",
+                            "module_inline_key": "module"
+                          }
+                        },
+                        "doc": "Issuers that can provide this admin endpoint its identity\ncertificate(s). Default: ACME issuers configured for\nZeroSSL and Let's Encrypt. Be sure to change this if you\nrequire credentials for private identifiers."
+                      }
+                    ],
+                    "doc": "Options that establish this server's identity. Identity refers to\ncredentials which can be used to uniquely identify and authenticate\nthis server instance. This is required if remote administration is\nenabled (but does not require remote administration to be enabled).\nDefault: no identity management.\n\n\nIdentityConfig configures management of this server's identity. An identity\nconsists of credentials that uniquely verify this instance; for example,\nTLS certificates (public + private key pairs)."
+                  },
+                  "doc": "Options that establish this server's identity. Identity refers to\ncredentials which can be used to uniquely identify and authenticate\nthis server instance. This is required if remote administration is\nenabled (but does not require remote administration to be enabled).\nDefault: no identity management.\n\n\nIdentityConfig configures management of this server's identity. An identity\nconsists of credentials that uniquely verify this instance; for example,\nTLS certificates (public + private key pairs)."
+                },
+                {
+                  "key": "remote",
+                  "value": {
+                    "type": "struct",
+                    "type_name": "github.com/caddyserver/caddy/v2.RemoteAdmin",
+                    "struct_fields": [
+                      {
+                        "key": "listen",
+                        "value": {
+                          "type": "string",
+                          "doc": "The address on which to start the secure listener.\nDefault: :2021"
+                        },
+                        "doc": "The address on which to start the secure listener.\nDefault: :2021"
+                      },
+                      {
+                        "key": "access_control",
+                        "value": {
+                          "type": "array",
+                          "elems": {
+                            "type": "struct",
+                            "type_name": "github.com/caddyserver/caddy/v2.AdminAccess",
+                            "struct_fields": [
+                              {
+                                "key": "public_keys",
+                                "value": {
+                                  "type": "array",
+                                  "elems": {
+                                    "type": "string",
+                                    "doc": "Base64-encoded DER certificates containing public keys to accept.\n(The contents of PEM certificate blocks are base64-encoded DER.)\nAny of these public keys can appear in any part of a verified chain."
+                                  }
+                                },
+                                "doc": "Base64-encoded DER certificates containing public keys to accept.\n(The contents of PEM certificate blocks are base64-encoded DER.)\nAny of these public keys can appear in any part of a verified chain."
+                              },
+                              {
+                                "key": "permissions",
+                                "value": {
+                                  "type": "array",
+                                  "elems": {
+                                    "type": "struct",
+                                    "type_name": "github.com/caddyserver/caddy/v2.AdminPermissions",
+                                    "struct_fields": [
+                                      {
+                                        "key": "paths",
+                                        "value": {
+                                          "type": "array",
+                                          "elems": {
+                                            "type": "string",
+                                            "doc": "The API paths allowed. Paths are simple prefix matches.\nAny subpath of the specified paths will be allowed."
+                                          }
+                                        },
+                                        "doc": "The API paths allowed. Paths are simple prefix matches.\nAny subpath of the specified paths will be allowed."
+                                      },
+                                      {
+                                        "key": "methods",
+                                        "value": {
+                                          "type": "array",
+                                          "elems": {
+                                            "type": "string",
+                                            "doc": "The HTTP methods allowed for the given paths."
+                                          }
+                                        },
+                                        "doc": "The HTTP methods allowed for the given paths."
+                                      }
+                                    ],
+                                    "doc": "Limits what the associated identities are allowed to do.\nIf unspecified, all permissions are granted.\n\n\nAdminPermissions specifies what kinds of requests are allowed\nto be made to the admin endpoint."
+                                  }
+                                },
+                                "doc": "Limits what the associated identities are allowed to do.\nIf unspecified, all permissions are granted.\n\n\nAdminPermissions specifies what kinds of requests are allowed\nto be made to the admin endpoint."
+                              }
+                            ],
+                            "doc": "List of access controls for this secure admin endpoint.\nThis configures TLS mutual authentication (i.e. authorized\nclient certificates), but also application-layer permissions\nlike which paths and methods each identity is authorized for.\n\n\nAdminAccess specifies what permissions an identity or group\nof identities are granted."
+                          }
+                        },
+                        "doc": "List of access controls for this secure admin endpoint.\nThis configures TLS mutual authentication (i.e. authorized\nclient certificates), but also application-layer permissions\nlike which paths and methods each identity is authorized for.\n\n\nAdminAccess specifies what permissions an identity or group\nof identities are granted."
+                      }
+                    ],
+                    "doc": "Options pertaining to remote administration. By default, remote\nadministration is disabled. If enabled, identity management must\nalso be configured, as that is how the endpoint is secured.\nSee the neighboring \"identity\" object.\n\nEXPERIMENTAL: This feature is subject to change.\n\n\nRemoteAdmin enables and configures remote administration. If enabled,\na secure listener enforcing mutual TLS authentication will be started\non a different port from the standard plaintext admin server.\n\nThis endpoint is secured using identity management, which must be\nconfigured separately (because identity management does not depend\non remote administration). See the admin/identity config struct.\n\nEXPERIMENTAL: Subject to change."
+                  },
+                  "doc": "Options pertaining to remote administration. By default, remote\nadministration is disabled. If enabled, identity management must\nalso be configured, as that is how the endpoint is secured.\nSee the neighboring \"identity\" object.\n\nEXPERIMENTAL: This feature is subject to change.\n\n\nRemoteAdmin enables and configures remote administration. If enabled,\na secure listener enforcing mutual TLS authentication will be started\non a different port from the standard plaintext admin server.\n\nThis endpoint is secured using identity management, which must be\nconfigured separately (because identity management does not depend\non remote administration). See the admin/identity config struct.\n\nEXPERIMENTAL: Subject to change."
+                }
+              ],
+              "doc": "AdminConfig configures Caddy's API endpoint, which is used\nto manage Caddy while it is running.\n"
+            },
+            "doc": "AdminConfig configures Caddy's API endpoint, which is used\nto manage Caddy while it is running.\n"
+          },
+          {
+            "key": "logging",
+            "value": {
+              "type": "struct",
+              "type_name": "github.com/caddyserver/caddy/v2.Logging",
+              "struct_fields": [
+                {
+                  "key": "sink",
+                  "value": {
+                    "type": "struct",
+                    "type_name": "github.com/caddyserver/caddy/v2.StandardLibLog",
+                    "struct_fields": [
+                      {
+                        "key": "writer",
+                        "value": {
+                          "type": "module",
+                          "doc": "The module that writes out log entries for the sink.",
+                          "module_namespace": "caddy.logging.writers",
+                          "module_inline_key": "output"
+                        },
+                        "doc": "The module that writes out log entries for the sink."
+                      }
+                    ],
+                    "doc": "Sink is the destination for all unstructured logs emitted\nfrom Go's standard library logger. These logs are common\nin dependencies that are not designed specifically for use\nin Caddy. Because it is global and unstructured, the sink\nlacks most advanced features and customizations.\n\n\nStandardLibLog configures the default Go standard library\nglobal logger in the log package. This is necessary because\nmodule dependencies which are not built specifically for\nCaddy will use the standard logger. This is also known as\nthe \"sink\" logger."
+                  },
+                  "doc": "Sink is the destination for all unstructured logs emitted\nfrom Go's standard library logger. These logs are common\nin dependencies that are not designed specifically for use\nin Caddy. Because it is global and unstructured, the sink\nlacks most advanced features and customizations.\n\n\nStandardLibLog configures the default Go standard library\nglobal logger in the log package. This is necessary because\nmodule dependencies which are not built specifically for\nCaddy will use the standard logger. This is also known as\nthe \"sink\" logger."
+                },
+                {
+                  "key": "logs",
+                  "value": {
+                    "type": "map",
+                    "map_keys": {
+                      "type": "string"
+                    },
+                    "elems": {
+                      "type": "struct",
+                      "type_name": "github.com/caddyserver/caddy/v2.CustomLog",
+                      "struct_fields": [
+                        {
+                          "key": "writer",
+                          "value": {
+                            "type": "module",
+                            "doc": "The writer defines where log entries are emitted.",
+                            "module_namespace": "caddy.logging.writers",
+                            "module_inline_key": "output"
+                          },
+                          "doc": "The writer defines where log entries are emitted."
+                        },
+                        {
+                          "key": "encoder",
+                          "value": {
+                            "type": "module",
+                            "doc": "The encoder is how the log entries are formatted or encoded.",
+                            "module_namespace": "caddy.logging.encoders",
+                            "module_inline_key": "format"
+                          },
+                          "doc": "The encoder is how the log entries are formatted or encoded."
+                        },
+                        {
+                          "key": "level",
+                          "value": {
+                            "type": "string",
+                            "doc": "Level is the minimum level to emit, and is inclusive.\nPossible levels: DEBUG, INFO, WARN, ERROR, PANIC, and FATAL"
+                          },
+                          "doc": "Level is the minimum level to emit, and is inclusive.\nPossible levels: DEBUG, INFO, WARN, ERROR, PANIC, and FATAL"
+                        },
+                        {
+                          "key": "sampling",
+                          "value": {
+                            "type": "struct",
+                            "type_name": "github.com/caddyserver/caddy/v2.LogSampling",
+                            "struct_fields": [
+                              {
+                                "key": "interval",
+                                "value": {
+                                  "type": "int",
+                                  "type_name": "time.Duration",
+                                  "doc": "The window over which to conduct sampling.\n\n\nA Duration represents the elapsed time between two instants\nas an int64 nanosecond count. The representation limits the\nlargest representable duration to approximately 290 years."
+                                },
+                                "doc": "The window over which to conduct sampling.\n\n\nA Duration represents the elapsed time between two instants\nas an int64 nanosecond count. The representation limits the\nlargest representable duration to approximately 290 years."
+                              },
+                              {
+                                "key": "first",
+                                "value": {
+                                  "type": "int",
+                                  "doc": "Log this many entries within a given level and\nmessage for each interval."
+                                },
+                                "doc": "Log this many entries within a given level and\nmessage for each interval."
+                              },
+                              {
+                                "key": "thereafter",
+                                "value": {
+                                  "type": "int",
+                                  "doc": "If more entries with the same level and message\nare seen during the same interval, keep one in\nthis many entries until the end of the interval."
+                                },
+                                "doc": "If more entries with the same level and message\nare seen during the same interval, keep one in\nthis many entries until the end of the interval."
+                              }
+                            ],
+                            "doc": "Sampling configures log entry sampling. If enabled,\nonly some log entries will be emitted. This is useful\nfor improving performance on extremely high-pressure\nservers.\n\n\nLogSampling configures log entry sampling."
+                          },
+                          "doc": "Sampling configures log entry sampling. If enabled,\nonly some log entries will be emitted. This is useful\nfor improving performance on extremely high-pressure\nservers.\n\n\nLogSampling configures log entry sampling."
+                        },
+                        {
+                          "key": "include",
+                          "value": {
+                            "type": "array",
+                            "elems": {
+                              "type": "string",
+                              "doc": "Include defines the names of loggers to emit in this\nlog. For example, to include only logs emitted by the\nadmin API, you would include \"admin.api\"."
+                            }
+                          },
+                          "doc": "Include defines the names of loggers to emit in this\nlog. For example, to include only logs emitted by the\nadmin API, you would include \"admin.api\"."
+                        },
+                        {
+                          "key": "exclude",
+                          "value": {
+                            "type": "array",
+                            "elems": {
+                              "type": "string",
+                              "doc": "Exclude defines the names of loggers that should be\nskipped by this log. For example, to exclude only\nHTTP access logs, you would exclude \"http.log.access\"."
+                            }
+                          },
+                          "doc": "Exclude defines the names of loggers that should be\nskipped by this log. For example, to exclude only\nHTTP access logs, you would exclude \"http.log.access\"."
+                        }
+                      ],
+                      "doc": "Logs are your logs, keyed by an arbitrary name of your\nchoosing. The default log can be customized by defining\na log called \"default\". You can further define other logs\nand filter what kinds of entries they accept.\n\n\nCustomLog represents a custom logger configuration.\n\nBy default, a log will emit all log entries. Some entries\nwill be skipped if sampling is enabled. Further, the Include\nand Exclude parameters define which loggers (by name) are\nallowed or rejected from emitting in this log. If both Include\nand Exclude are populated, their values must be mutually\nexclusive, and longer namespaces have priority. If neither\nare populated, all logs are emitted."
+                    }
+                  },
+                  "doc": "Logs are your logs, keyed by an arbitrary name of your\nchoosing. The default log can be customized by defining\na log called \"default\". You can further define other logs\nand filter what kinds of entries they accept.\n\n\nCustomLog represents a custom logger configuration.\n\nBy default, a log will emit all log entries. Some entries\nwill be skipped if sampling is enabled. Further, the Include\nand Exclude parameters define which loggers (by name) are\nallowed or rejected from emitting in this log. If both Include\nand Exclude are populated, their values must be mutually\nexclusive, and longer namespaces have priority. If neither\nare populated, all logs are emitted."
+                }
+              ],
+              "doc": "Logging facilitates logging within Caddy. The default log is\ncalled \"default\" and you can customize it. You can also define\nadditional logs.\n\nBy default, all logs at INFO level and higher are written to\nstandard error (\"stderr\" writer) in a human-readable format\n(\"console\" encoder if stdout is an interactive terminal, \"json\"\nencoder otherwise).\n\nAll defined logs accept all log entries by default, but you\ncan filter by level and module/logger names. A logger's name\nis the same as the module's name, but a module may append to\nlogger names for more specificity. For example, you can\nfilter logs emitted only by HTTP handlers using the name\n\"http.handlers\", because all HTTP handler module names have\nthat prefix.\n\nCaddy logs (except the sink) are zero-allocation, so they are\nvery high-performing in terms of memory and CPU time. Enabling\nsampling can further increase throughput on extremely high-load\nservers.\n"
+            },
+            "doc": "Logging facilitates logging within Caddy. The default log is\ncalled \"default\" and you can customize it. You can also define\nadditional logs.\n\nBy default, all logs at INFO level and higher are written to\nstandard error (\"stderr\" writer) in a human-readable format\n(\"console\" encoder if stdout is an interactive terminal, \"json\"\nencoder otherwise).\n\nAll defined logs accept all log entries by default, but you\ncan filter by level and module/logger names. A logger's name\nis the same as the module's name, but a module may append to\nlogger names for more specificity. For example, you can\nfilter logs emitted only by HTTP handlers using the name\n\"http.handlers\", because all HTTP handler module names have\nthat prefix.\n\nCaddy logs (except the sink) are zero-allocation, so they are\nvery high-performing in terms of memory and CPU time. Enabling\nsampling can further increase throughput on extremely high-load\nservers.\n"
+          },
+          {
+            "key": "storage",
+            "value": {
+              "type": "module",
+              "doc": "StorageRaw is a storage module that defines how/where Caddy\nstores assets (such as TLS certificates). The default storage\nmodule is `caddy.storage.file_system` (the local file system),\nand the default path\n[depends on the OS and environment](/docs/conventions#data-directory).",
+              "module_namespace": "caddy.storage",
+              "module_inline_key": "module"
+            },
+            "doc": "StorageRaw is a storage module that defines how/where Caddy\nstores assets (such as TLS certificates). The default storage\nmodule is `caddy.storage.file_system` (the local file system),\nand the default path\n[depends on the OS and environment](/docs/conventions#data-directory)."
+          },
+          {
+            "key": "apps",
+            "value": {
+              "type": "module_map",
+              "type_name": "github.com/caddyserver/caddy/v2.ModuleMap",
+              "doc": "AppsRaw are the apps that Caddy will load and run. The\napp module name is the key, and the app's config is the\nassociated value.\n\n\nModuleMap is a map that can contain multiple modules,\nwhere the map key is the module's name. (The namespace\nis usually read from an associated field's struct tag.)\nBecause the module's name is given as the key in a\nmodule map, the name does not have to be given in the\njson.RawMessage.",
+              "module_namespace": ""
+            },
+            "doc": "AppsRaw are the apps that Caddy will load and run. The\napp module name is the key, and the app's config is the\nassociated value.\n\n\nModuleMap is a map that can contain multiple modules,\nwhere the map key is the module's name. (The namespace\nis usually read from an associated field's struct tag.)\nBecause the module's name is given as the key in a\nmodule map, the name does not have to be given in the\njson.RawMessage."
+          }
+        ],
+        "doc": "Config is the top (or beginning) of the Caddy configuration structure.\nCaddy config is expressed natively as a JSON document. If you prefer\nnot to work with JSON directly, there are [many config adapters](/docs/config-adapters)\navailable that can convert various inputs into Caddy JSON.\n\nMany parts of this config are extensible through the use of Caddy modules.\nFields which have a json.RawMessage type and which appear as dots (•••) in\nthe online docs can be fulfilled by modules in a certain module\nnamespace. The docs show which modules can be used in a given place.\n\nWhenever a module is used, its name must be given either inline as part of\nthe module, or as the key to the module's value. The docs will make it clear\nwhich to use.\n\nGenerally, all config settings are optional, as it is Caddy convention to\nhave good, documented default values. If a parameter is required, the docs\nshould say so.\n\nGo programs which are directly building a Config struct value should take\ncare to populate the JSON-encodable fields of the struct (i.e. the fields\nwith `json` struct tags) if employing the module lifecycle (e.g. Provision\nmethod calls).\n"
+      }
+    },
+    "repo": "https://github.com/caddyserver/caddy"
+  }
+}
