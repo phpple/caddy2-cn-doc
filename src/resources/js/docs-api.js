@@ -4,8 +4,8 @@ var pageDocs = {};
 var pageData = {};
 var $hovercard;
 
-const nonStandardFlag = '<span class="nonstandard-flag" title="This module does not come with official Caddy distributions by default; it needs to be added to custom Caddy builds.">Non-standard</span>';
-const standardFlag = '<span class="standard-flag" title="This module comes with official Caddy distributions by default.">Standard</span>';
+const nonStandardFlag = '<span class="nonstandard-flag" title="这个模块不随官方Caddy默认发行;它需要添加到自定义的Caddy构建。">非标</span>';
+const standardFlag = '<span class="standard-flag" title="这个模块默认随正式的Caddy发行版一起提供。">标准</span>';
 
 
 $(function() {

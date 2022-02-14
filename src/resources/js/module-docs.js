@@ -78,7 +78,7 @@ if (moduleID) {
 					var standard = isStandard(info.package);
 					var $tr = $('<tr/>');
 					$tr.append('<td>'+(standard ? standardFlag : nonStandardFlag)+'</td>');
-					var $tdLink = $('<td><a href="'+modLink+'" class="module-link">'+modID+'</a></td>');
+					var $tdLink = $('<td><a target="_blank" href="https://caddyserver.com/docs/modules/'+modLink+'" class="module-link">'+modID+'</a></td>');
 					if (infos.length > 1) {
 						$tdLink.append($('<div class="module-repo-differentiator">').text('('+stripScheme(info.repo)+')'));
 					}

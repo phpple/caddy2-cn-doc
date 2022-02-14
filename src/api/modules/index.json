@@ -1,0 +1,1446 @@
+{
+  "status_code": 200,
+  "result": {
+    "admin.api.load": [
+      {
+        "name": "admin.api.load",
+        "docs": "admin.api.load is a module that provides the /load endpoint\nfor the Caddy admin API. The only reason it's not baked\ninto the caddy package directly is because of the import\nof the caddyconfig package for its GetAdapter function.\nIf the caddy package depends on the caddyconfig package,\nthen the caddyconfig package will not be able to import\nthe caddy package, and it can more easily cause backward\nedges in the dependency tree (i.e. import cycle).\nFortunately, the admin API has first-class support for\nadding endpoints from modules.",
+        "package": "github.com/caddyserver/caddy/v2/caddyconfig",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "admin.api.metrics": [
+      {
+        "name": "admin.api.metrics",
+        "docs": "admin.api.metrics is a module that serves a metrics endpoint so that any gathered\nmetrics can be exposed for scraping. This module is not configurable, and\nis permanently mounted to the admin API endpoint at \"/metrics\".\nSee the Metrics module for a configurable endpoint that is usable if the\nAdmin API is disabled.",
+        "package": "github.com/caddyserver/caddy/v2/modules/metrics",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "admin.api.reverse_proxy": [
+      {
+        "name": "admin.api.reverse_proxy",
+        "docs": "admin.api.reverse_proxy is a module that provides the\n/reverse_proxy/upstreams endpoint for the Caddy admin\nAPI. This allows for checking the health of configured\nreverse proxy upstreams in the pool.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.config_loaders.http": [
+      {
+        "name": "caddy.config_loaders.http",
+        "docs": "caddy.config_loaders.http can load Caddy configs over HTTP(S). It can adapt the config\nbased on the Content-Type header of the HTTP response.",
+        "package": "github.com/caddyserver/caddy/v2/caddyconfig",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.listeners.proxy_protocol": [
+      {
+        "name": "caddy.listeners.proxy_protocol",
+        "package": "github.com/mastercactapus/caddy2-proxyprotocol",
+        "repo": "https://github.com/mastercactapus/caddy2-proxyprotocol"
+      }
+    ],
+    "caddy.listeners.tls": [
+      {
+        "name": "caddy.listeners.tls",
+        "docs": "caddy.listeners.tls is a no-op listener wrapper that marks\nwhere the TLS listener should be in a chain of listener wrappers.\nIt should only be used if another listener wrapper must be placed\nin front of the TLS handshake.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.console": [
+      {
+        "name": "caddy.logging.encoders.console",
+        "docs": "caddy.logging.encoders.console encodes log entries that are mostly human-readable.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.filter": [
+      {
+        "name": "caddy.logging.encoders.filter",
+        "docs": "caddy.logging.encoders.filter can filter (manipulate) fields on\nlog entries before they are actually encoded by\nan underlying encoder.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.filter.basic_auth_user": [
+      {
+        "name": "caddy.logging.encoders.filter.basic_auth_user",
+        "docs": "caddy.logging.encoders.filter.basic_auth_user is a Caddy log field filter that replaces the a base64 encoded authorization\nheader with just the user name.",
+        "package": "github.com/ueffel/caddy-basic-auth-filter",
+        "repo": "https://github.com/ueffel/caddy-basic-auth-filter"
+      }
+    ],
+    "caddy.logging.encoders.filter.delete": [
+      {
+        "name": "caddy.logging.encoders.filter.delete",
+        "docs": "caddy.logging.encoders.filter.delete is a Caddy log field filter that\ndeletes the field.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.filter.ip_mask": [
+      {
+        "name": "caddy.logging.encoders.filter.ip_mask",
+        "docs": "caddy.logging.encoders.filter.ip_mask is a Caddy log field filter that\nmasks IP addresses.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.filter.replace": [
+      {
+        "name": "caddy.logging.encoders.filter.replace",
+        "docs": "caddy.logging.encoders.filter.replace is a Caddy log field filter that\nreplaces the field with the indicated string.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.filter.tls_cipher": [
+      {
+        "name": "caddy.logging.encoders.filter.tls_cipher",
+        "docs": "caddy.logging.encoders.filter.tls_cipher is Caddy log field filter that replaces the numeric TLS cipher_suite value with\nthe string representation.",
+        "package": "github.com/ueffel/caddy-tls-format",
+        "repo": "https://github.com/ueffel/caddy-tls-format"
+      }
+    ],
+    "caddy.logging.encoders.filter.tls_version": [
+      {
+        "name": "caddy.logging.encoders.filter.tls_version",
+        "docs": "caddy.logging.encoders.filter.tls_version is a Caddy log field filter that replaces the numeric TLS version with the\nstring version and optionally adds a prefix.",
+        "package": "github.com/ueffel/caddy-tls-format",
+        "repo": "https://github.com/ueffel/caddy-tls-format"
+      }
+    ],
+    "caddy.logging.encoders.formatted": [
+      {
+        "name": "caddy.logging.encoders.formatted",
+        "docs": "caddy.logging.encoders.formatted allows the user to provide custom template for log prints. The\nencoder builds atop the json encoder, thus it follows its message structure. The placeholders\nare namespaced by the name of the app logging the message.",
+        "package": "github.com/caddyserver/format-encoder",
+        "repo": "https://github.com/caddyserver/format-encoder"
+      }
+    ],
+    "caddy.logging.encoders.json": [
+      {
+        "name": "caddy.logging.encoders.json",
+        "docs": "caddy.logging.encoders.json encodes entries as JSON.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.logfmt": [
+      {
+        "name": "caddy.logging.encoders.logfmt",
+        "docs": "caddy.logging.encoders.logfmt encodes log entries as logfmt:\nhttps://www.brandur.org/logfmt\n\nNote that logfmt does not encode nested structures\nproperly, so it is not a good fit for most logs.\n\n⚠️ DEPRECATED. Do not use. It will eventually be removed\nfrom the standard Caddy modules. For more information,\nsee https://github.com/caddyserver/caddy/issues/3575.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.encoders.single_field": [
+      {
+        "name": "caddy.logging.encoders.single_field",
+        "docs": "caddy.logging.encoders.single_field writes a log entry that consists entirely\nof a single string field in the log entry. This is useful\nfor custom, self-encoded log entries that consist of a\nsingle field in the structured log entry.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.writers.discard": [
+      {
+        "name": "caddy.logging.writers.discard",
+        "docs": "caddy.logging.writers.discard discards all writes.",
+        "package": "github.com/caddyserver/caddy/v2",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.writers.file": [
+      {
+        "name": "caddy.logging.writers.file",
+        "docs": "caddy.logging.writers.file can write logs to files. By default, log files\nare rotated (\"rolled\") when they get large, and old log\nfiles get deleted, to ensure that the process does not\nexhaust disk space.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.writers.net": [
+      {
+        "name": "caddy.logging.writers.net",
+        "docs": "caddy.logging.writers.net implements a log writer that outputs to a network socket. If\nthe socket goes down, it will dump logs to stderr while it attempts to\nreconnect.",
+        "package": "github.com/caddyserver/caddy/v2/modules/logging",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.writers.stderr": [
+      {
+        "name": "caddy.logging.writers.stderr",
+        "docs": "caddy.logging.writers.stderr writes logs to standard error.",
+        "package": "github.com/caddyserver/caddy/v2",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.logging.writers.stdout": [
+      {
+        "name": "caddy.logging.writers.stdout",
+        "docs": "caddy.logging.writers.stdout writes logs to standard out.",
+        "package": "github.com/caddyserver/caddy/v2",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.storage.consul": [
+      {
+        "name": "caddy.storage.consul",
+        "docs": "caddy.storage.consul allows to store certificates and other TLS resources\nin a shared cluster environment using Consul's key/value-store.\nIt uses distributed locks to ensure consistency.",
+        "package": "github.com/pteich/caddy-tlsconsul",
+        "repo": "https://github.com/pteich/caddy-tlsconsul"
+      },
+      {
+        "name": "caddy.storage.consul",
+        "docs": "caddy.storage.consul holds all parameters for the Consul connection",
+        "package": "github.com/pteich/caddy-tlsconsul",
+        "repo": "https://github.com/pteich/caddy-tlsconsul"
+      }
+    ],
+    "caddy.storage.dynamodb": [
+      {
+        "name": "caddy.storage.dynamodb",
+        "docs": "caddy.storage.dynamodb implements certmagic.Storage to facilitate\nstorage of certificates in DynamoDB for a clustered environment.\nAlso implements certmagic.Locker to facilitate locking\nand unlocking of cert data during storage",
+        "package": "github.com/silinternational/certmagic-storage-dynamodb/v2",
+        "repo": "https://github.com/silinternational/certmagic-storage-dynamodb"
+      }
+    ],
+    "caddy.storage.file_system": [
+      {
+        "name": "caddy.storage.file_system",
+        "docs": "caddy.storage.file_system is a certmagic.Storage wrapper for certmagic.FileStorage.",
+        "package": "github.com/caddyserver/caddy/v2/modules/filestorage",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "caddy.storage.redis": [
+      {
+        "name": "caddy.storage.redis",
+        "docs": "caddy.storage.redis contain Redis client, and plugin option",
+        "package": "github.com/gamalan/caddy-tlsredis",
+        "repo": "https://github.com/gamalan/caddy-tlsredis"
+      }
+    ],
+    "caddy.storage.s3": [
+      {
+        "name": "caddy.storage.s3",
+        "package": "github.com/ss098/certmagic-s3",
+        "repo": "https://github.com/ss098/certmagic-s3"
+      },
+      {
+        "name": "caddy.storage.s3",
+        "package": "github.com/techknowlogick/certmagic-s3",
+        "repo": "https://github.com/techknowlogick/certmagic-s3"
+      }
+    ],
+    "crowdsec": [
+      {
+        "name": "crowdsec",
+        "docs": "crowdsec is a Caddy App that functions as a CrowdSec bouncer. It acts\nas a CrowdSec API client as well as a local cache for CrowdSec decisions,\nwhich can be used by the HTTP handler and Layer4 matcher to decide if\na request or connection is allowed or not.",
+        "package": "github.com/hslatman/caddy-crowdsec-bouncer/crowdsec",
+        "repo": "https://github.com/hslatman/caddy-crowdsec-bouncer"
+      }
+    ],
+    "dns.providers.alidns": [
+      {
+        "name": "dns.providers.alidns",
+        "docs": "dns.providers.alidns wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/alidns",
+        "repo": "https://github.com/caddy-dns/alidns"
+      }
+    ],
+    "dns.providers.azure": [
+      {
+        "name": "dns.providers.azure",
+        "docs": "dns.providers.azure wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/azure",
+        "repo": "https://github.com/caddy-dns/azure"
+      }
+    ],
+    "dns.providers.cloudflare": [
+      {
+        "name": "dns.providers.cloudflare",
+        "docs": "dns.providers.cloudflare wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/cloudflare",
+        "repo": "https://github.com/caddy-dns/cloudflare"
+      }
+    ],
+    "dns.providers.digitalocean": [
+      {
+        "name": "dns.providers.digitalocean",
+        "docs": "dns.providers.digitalocean wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/digitalocean",
+        "repo": "https://github.com/caddy-dns/digitalocean"
+      }
+    ],
+    "dns.providers.dnspod": [
+      {
+        "name": "dns.providers.dnspod",
+        "docs": "dns.providers.dnspod wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/dnspod",
+        "repo": "https://github.com/caddy-dns/dnspod"
+      }
+    ],
+    "dns.providers.duckdns": [
+      {
+        "name": "dns.providers.duckdns",
+        "docs": "dns.providers.duckdns wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/duckdns",
+        "repo": "https://github.com/caddy-dns/duckdns"
+      }
+    ],
+    "dns.providers.gandi": [
+      {
+        "name": "dns.providers.gandi",
+        "docs": "dns.providers.gandi wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/gandi",
+        "repo": "https://github.com/caddy-dns/gandi"
+      }
+    ],
+    "dns.providers.godaddy": [
+      {
+        "name": "dns.providers.godaddy",
+        "docs": "dns.providers.godaddy wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/godaddy",
+        "repo": "https://github.com/caddy-dns/godaddy"
+      }
+    ],
+    "dns.providers.googleclouddns": [
+      {
+        "name": "dns.providers.googleclouddns",
+        "docs": "dns.providers.googleclouddns lets Caddy read and manipulate DNS records hosted by this DNS provider.",
+        "package": "github.com/caddy-dns/googleclouddns",
+        "repo": "https://github.com/caddy-dns/googleclouddns"
+      }
+    ],
+    "dns.providers.hetzner": [
+      {
+        "name": "dns.providers.hetzner",
+        "docs": "dns.providers.hetzner wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/hetzner",
+        "repo": "https://github.com/caddy-dns/hetzner"
+      }
+    ],
+    "dns.providers.lego_deprecated": [
+      {
+        "name": "dns.providers.lego_deprecated",
+        "docs": "dns.providers.lego_deprecated is a shim module that allows any and all of the\nDNS providers in go-acme/lego to be used with Caddy. They must\nbe configured via environment variables, they do not support\ncancellation in the case of frequent config changes.\n\nEven though this module is in the dns.providers namespace, it\nis only a special case for solving ACME challenges, intended to\nreplace the modules that used to be in the now-defunct tls.dns\nnamespace. Using it in other places of the Caddy config will\nresult in errors.\n\nThis module will eventually go away in favor of the modules that\nmake use of the libdns APIs: https://github.com/libdns",
+        "package": "github.com/caddy-dns/lego-deprecated",
+        "repo": "https://github.com/caddy-dns/lego-deprecated"
+      }
+    ],
+    "dns.providers.netcup": [
+      {
+        "name": "dns.providers.netcup",
+        "docs": "dns.providers.netcup lets Caddy read and manipulate DNS records hosted by this DNS provider.",
+        "package": "github.com/caddy-dns/netcup",
+        "repo": "https://github.com/caddy-dns/netcup"
+      }
+    ],
+    "dns.providers.openstack-designate": [
+      {
+        "name": "dns.providers.openstack-designate",
+        "docs": "dns.providers.openstack-designate wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/openstack-designate",
+        "repo": "https://github.com/caddy-dns/openstack-designate"
+      }
+    ],
+    "dns.providers.route53": [
+      {
+        "name": "dns.providers.route53",
+        "docs": "dns.providers.route53 wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/route53",
+        "repo": "https://github.com/caddy-dns/route53"
+      }
+    ],
+    "dns.providers.vultr": [
+      {
+        "name": "dns.providers.vultr",
+        "docs": "dns.providers.vultr wraps the provider implementation as a Caddy module.",
+        "package": "github.com/caddy-dns/vultr",
+        "repo": "https://github.com/caddy-dns/vultr"
+      }
+    ],
+    "dynamic_dns": [
+      {
+        "name": "dynamic_dns",
+        "docs": "dynamic_dns is a Caddy app that keeps your DNS records updated with the public\nIP address of your instance. It updates A and AAAA records.",
+        "package": "github.com/mholt/caddy-dynamicdns",
+        "repo": "https://github.com/mholt/caddy-dynamicdns"
+      }
+    ],
+    "dynamic_dns.ip_sources.simple_http": [
+      {
+        "name": "dynamic_dns.ip_sources.simple_http",
+        "docs": "dynamic_dns.ip_sources.simple_http is an IP source that looks up the public IP addresses by\nmaking HTTP(S) requests to the specified endpoints; it will try each\nendpoint with IPv4 and IPv6 until at least one returns a valid value.\nIt is OK if an endpoint doesn't support both IP versions; returning\na single valid IP address is sufficient.\n\nThe endpoints must return HTTP status 200 and the response body must\ncontain only the IP address in plain text.",
+        "package": "github.com/mholt/caddy-dynamicdns",
+        "repo": "https://github.com/mholt/caddy-dynamicdns"
+      }
+    ],
+    "dynamic_dns.ip_sources.upnp": [
+      {
+        "name": "dynamic_dns.ip_sources.upnp",
+        "docs": "dynamic_dns.ip_sources.upnp gets the IP address from UPnP device.",
+        "package": "github.com/mholt/caddy-dynamicdns",
+        "repo": "https://github.com/mholt/caddy-dynamicdns"
+      }
+    ],
+    "exec": [
+      {
+        "name": "exec",
+        "docs": "exec is top level module that runs shell commands.",
+        "package": "github.com/abiosoft/caddy-exec",
+        "repo": "https://github.com/abiosoft/caddy-exec"
+      }
+    ],
+    "http": [
+      {
+        "name": "http",
+        "docs": "http is a robust, production-ready HTTP server.\n\nHTTPS is enabled by default if host matchers with qualifying names are used\nin any of routes; certificates are automatically provisioned and renewed.\nAdditionally, automatic HTTPS will also enable HTTPS for servers that listen\nonly on the HTTPS port but which do not have any TLS connection policies\ndefined by adding a good, default TLS connection policy.\n\nIn HTTP routes, additional placeholders are available (replace any `*`):\n\nPlaceholder | Description\n------------|---------------\n`{http.request.body}` | The request body (⚠️ inefficient; use only for debugging)\n`{http.request.cookie.*}` | HTTP request cookie\n`{http.request.duration}` | Time up to now spent handling the request (after decoding headers from client)\n`{http.request.header.*}` | Specific request header field\n`{http.request.host.labels.*}` | Request host labels (0-based from right); e.g. for foo.example.com: 0=com, 1=example, 2=foo\n`{http.request.host}` | The host part of the request's Host header\n`{http.request.hostport}` | The host and port from the request's Host header\n`{http.request.method}` | The request method\n`{http.request.orig_method}` | The request's original method\n`{http.request.orig_uri.path.dir}` | The request's original directory\n`{http.request.orig_uri.path.file}` | The request's original filename\n`{http.request.orig_uri.path}` | The request's original path\n`{http.request.orig_uri.query}` | The request's original query string (without `?`)\n`{http.request.orig_uri}` | The request's original URI\n`{http.request.port}` | The port part of the request's Host header\n`{http.request.proto}` | The protocol of the request\n`{http.request.remote.host}` | The host part of the remote client's address\n`{http.request.remote.port}` | The port part of the remote client's address\n`{http.request.remote}` | The address of the remote client\n`{http.request.scheme}` | The request scheme\n`{http.request.tls.version}` | The TLS version name\n`{http.request.tls.cipher_suite}` | The TLS cipher suite\n`{http.request.tls.resumed}` | The TLS connection resumed a previous connection\n`{http.request.tls.proto}` | The negotiated next protocol\n`{http.request.tls.proto_mutual}` | The negotiated next protocol was advertised by the server\n`{http.request.tls.server_name}` | The server name requested by the client, if any\n`{http.request.tls.client.fingerprint}` | The SHA256 checksum of the client certificate\n`{http.request.tls.client.public_key}` | The public key of the client certificate.\n`{http.request.tls.client.public_key_sha256}` | The SHA256 checksum of the client's public key.\n`{http.request.tls.client.certificate_pem}` | The PEM-encoded value of the certificate.\n`{http.request.tls.client.certificate_der_base64}` | The base64-encoded value of the certificate.\n`{http.request.tls.client.issuer}` | The issuer DN of the client certificate\n`{http.request.tls.client.serial}` | The serial number of the client certificate\n`{http.request.tls.client.subject}` | The subject DN of the client certificate\n`{http.request.tls.client.san.dns_names.*}` | SAN DNS names(index optional)\n`{http.request.tls.client.san.emails.*}` | SAN email addresses (index optional)\n`{http.request.tls.client.san.ips.*}` | SAN IP addresses (index optional)\n`{http.request.tls.client.san.uris.*}` | SAN URIs (index optional)\n`{http.request.uri.path.*}` | Parts of the path, split by `/` (0-based from left)\n`{http.request.uri.path.dir}` | The directory, excluding leaf filename\n`{http.request.uri.path.file}` | The filename of the path, excluding directory\n`{http.request.uri.path}` | The path component of the request URI\n`{http.request.uri.query.*}` | Individual query string value\n`{http.request.uri.query}` | The query string (without `?`)\n`{http.request.uri}` | The full request URI\n`{http.response.header.*}` | Specific response header field\n`{http.vars.*}` | Custom variables in the HTTP handler chain",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.authentication.hashes.bcrypt": [
+      {
+        "name": "http.authentication.hashes.bcrypt",
+        "docs": "http.authentication.hashes.bcrypt implements the bcrypt hash.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/caddyauth",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.authentication.hashes.scrypt": [
+      {
+        "name": "http.authentication.hashes.scrypt",
+        "docs": "http.authentication.hashes.scrypt implements the scrypt KDF as a hash.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/caddyauth",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.authentication.providers.authorize": [
+      {
+        "name": "http.authentication.providers.authorize",
+        "docs": "http.authentication.providers.authorize authorizes access to endpoints based on\nthe presense and content of JWT token.",
+        "package": "github.com/greenpau/caddy-authorize",
+        "repo": "https://github.com/greenpau/caddy-authorize"
+      }
+    ],
+    "http.authentication.providers.authorizer": [
+      {
+        "name": "http.authentication.providers.authorizer",
+        "docs": "http.authentication.providers.authorizer authorizes access to endpoints based on\nthe presense and content of JWT token.",
+        "package": "github.com/greenpau/caddy-security",
+        "repo": "https://github.com/greenpau/caddy-security"
+      }
+    ],
+    "http.authentication.providers.forms": [
+      {
+        "name": "http.authentication.providers.forms",
+        "docs": "http.authentication.providers.forms authorizes access to endpoints based on\nthe credentials provided in a request.",
+        "package": "github.com/greenpau/caddy-auth-forms",
+        "repo": "https://github.com/greenpau/caddy-auth-forms"
+      }
+    ],
+    "http.authentication.providers.http_basic": [
+      {
+        "name": "http.authentication.providers.http_basic",
+        "docs": "http.authentication.providers.http_basic facilitates HTTP basic authentication.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/caddyauth",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.authentication.providers.jwt": [
+      {
+        "name": "http.authentication.providers.jwt",
+        "docs": "http.authentication.providers.jwt facilitates JWT (JSON Web Token) authentication.",
+        "package": "github.com/ggicci/caddy-jwt",
+        "repo": "https://github.com/ggicci/caddy-jwt"
+      },
+      {
+        "name": "http.authentication.providers.jwt",
+        "docs": "http.authentication.providers.jwt authorizes access to endpoints based on\nthe presense and content of JWT token.",
+        "package": "github.com/greenpau/caddy-auth-jwt",
+        "repo": "https://github.com/greenpau/caddy-auth-jwt"
+      }
+    ],
+    "http.authentication.providers.saml": [
+      {
+        "name": "http.authentication.providers.saml",
+        "docs": "http.authentication.providers.saml authenticates requests the SAML Response to the SP Assertion\nConsumer Service using the HTTP-POST Binding.",
+        "package": "github.com/greenpau/caddy-auth-saml",
+        "repo": "https://github.com/greenpau/caddy-auth-saml"
+      }
+    ],
+    "http.encoders.br": [
+      {
+        "name": "http.encoders.br",
+        "docs": "http.encoders.br can create brotli encoders.",
+        "package": "github.com/ueffel/caddy-brotli",
+        "repo": "https://github.com/ueffel/caddy-brotli"
+      }
+    ],
+    "http.encoders.gzip": [
+      {
+        "name": "http.encoders.gzip",
+        "docs": "http.encoders.gzip can create gzip encoders.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode/gzip",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.encoders.zstd": [
+      {
+        "name": "http.encoders.zstd",
+        "docs": "http.encoders.zstd can create Zstandard encoders.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode/zstd",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.acme_server": [
+      {
+        "name": "http.handlers.acme_server",
+        "docs": "http.handlers.acme_server is an ACME server handler.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddypki/acmeserver",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.authelia": [
+      {
+        "name": "http.handlers.authelia",
+        "docs": "http.handlers.authelia implements a plugin for securing routes with authentication",
+        "package": "github.com/HeavenVolkoff/caddy-authelia/plugin",
+        "repo": "https://github.com/HeavenVolkoff/caddy-authelia"
+      }
+    ],
+    "http.handlers.authentication": [
+      {
+        "name": "http.handlers.authentication",
+        "docs": "http.handlers.authentication is a middleware which provides user authentication.\nRejects requests with HTTP 401 if the request is not authenticated.\n\nAfter a successful authentication, the placeholder\n`{http.auth.user.id}` will be set to the username, and also\n`{http.auth.user.*}` placeholders may be set for any authentication\nmodules that provide user metadata.\n\nIts API is still experimental and may be subject to change.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/caddyauth",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.authenticator": [
+      {
+        "name": "http.handlers.authenticator",
+        "docs": "http.handlers.authenticator implements Form-Based, Basic, Local, LDAP,\nOpenID Connect, OAuth 2.0, SAML Authentication.",
+        "package": "github.com/greenpau/caddy-security",
+        "repo": "https://github.com/greenpau/caddy-security"
+      }
+    ],
+    "http.handlers.authp": [
+      {
+        "name": "http.handlers.authp",
+        "docs": "http.handlers.authp implements Form-Based, Basic, Local, LDAP,\nOpenID Connect, OAuth 2.0, SAML Authentication.",
+        "package": "github.com/greenpau/caddy-auth-portal",
+        "repo": "https://github.com/greenpau/caddy-auth-portal"
+      }
+    ],
+    "http.handlers.authz": [
+      {
+        "name": "http.handlers.authz",
+        "package": "github.com/casbin/caddy-authz/v2",
+        "repo": "https://github.com/casbin/caddy-authz"
+      }
+    ],
+    "http.handlers.cgi": [
+      {
+        "name": "http.handlers.cgi",
+        "package": "github.com/aksdb/caddy-cgi/v2",
+        "repo": "https://github.com/aksdb/caddy-cgi"
+      }
+    ],
+    "http.handlers.crowdsec": [
+      {
+        "name": "http.handlers.crowdsec",
+        "docs": "http.handlers.crowdsec matches request IPs to CrowdSec decisions to (dis)allow access",
+        "package": "github.com/hslatman/caddy-crowdsec-bouncer/http",
+        "repo": "https://github.com/hslatman/caddy-crowdsec-bouncer"
+      }
+    ],
+    "http.handlers.ct": [
+      {
+        "name": "http.handlers.ct",
+        "docs": "http.handlers.ct allows to transpile YAML based configuration into a JSON ignition to be used with Flatcar or Fedora CoreOS.",
+        "package": "github.com/cubic3d/caddy-ct",
+        "repo": "https://github.com/cubic3d/caddy-ct"
+      }
+    ],
+    "http.handlers.encode": [
+      {
+        "name": "http.handlers.encode",
+        "docs": "http.handlers.encode is a middleware which can encode responses.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.error": [
+      {
+        "name": "http.handlers.error",
+        "docs": "http.handlers.error implements a simple handler that returns an error.\nThis handler returns an error value, but does not write a response.\nThis is useful when you want the server to act as if an error\noccurred; for example, to invoke your custom error handling logic.\n\nSince this handler does not write a response, the error information\nis for use by the server to know how to handle the error.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.exec": [
+      {
+        "name": "http.handlers.exec",
+        "docs": "http.handlers.exec implements an HTTP handler that runs shell command.",
+        "package": "github.com/abiosoft/caddy-exec",
+        "repo": "https://github.com/abiosoft/caddy-exec"
+      }
+    ],
+    "http.handlers.file_server": [
+      {
+        "name": "http.handlers.file_server",
+        "docs": "http.handlers.file_server implements a static file server responder for Caddy.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/fileserver",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.filter": [
+      {
+        "name": "http.handlers.filter",
+        "docs": "http.handlers.filter implements an HTTP handler that writes the\nvisitor's IP address to a file or stream.",
+        "package": "github.com/sjtug/caddy2-filter",
+        "repo": "https://github.com/sjtug/caddy2-filter"
+      }
+    ],
+    "http.handlers.geofence": [
+      {
+        "name": "http.handlers.geofence",
+        "docs": "http.handlers.geofence implements IP geofencing functionality. https://github.com/circa10a/caddy-geofence",
+        "package": "github.com/circa10a/caddy-geofence",
+        "repo": "https://github.com/circa10a/caddy-geofence"
+      }
+    ],
+    "http.handlers.git": [
+      {
+        "name": "http.handlers.git",
+        "docs": "http.handlers.git implements git repository manager.",
+        "package": "github.com/greenpau/caddy-git",
+        "repo": "https://github.com/greenpau/caddy-git"
+      }
+    ],
+    "http.handlers.gopkg": [
+      {
+        "name": "http.handlers.gopkg",
+        "docs": "http.handlers.gopkg implements vanity go package import paths.\n\nVanity go package import paths give a cleaner appearance to go projects by separating the source code location from\nthe import path. It also gives flexibility to developers by allowing them to change a project's source code hosting\nplatform without requiring the project to be renamed. Finally, it allows projects hosted on various platforms to be\ngrouped under a common import path.",
+        "package": "magnax.ca/caddy/gopkg",
+        "repo": "https://github.com/MagnaXSoftware/gopkg"
+      },
+      {
+        "name": "http.handlers.gopkg",
+        "docs": "http.handlers.gopkg represents the GoPkg Caddy module.",
+        "package": "magnax.ca/caddy/gopkg",
+        "repo": "https://github.com/MagnaXSoftware/gopkg"
+      }
+    ],
+    "http.handlers.headers": [
+      {
+        "name": "http.handlers.headers",
+        "docs": "http.handlers.headers is a middleware which modifies request and response headers.\n\nChanges to headers are applied immediately, except for the response\nheaders when Deferred is true or when Required is set. In those cases,\nthe changes are applied when the headers are written to the response.\nNote that deferred changes do not take effect if an error occurs later\nin the middleware chain.\n\nProperties in this module accept placeholders.\n\nResponse header operations can be conditioned upon response status code\nand/or other header values.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/headers",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.hmac": [
+      {
+        "name": "http.handlers.hmac",
+        "docs": "http.handlers.hmac implements an HTTP handler that\nvalidates request body with hmac.",
+        "package": "github.com/abiosoft/caddy-hmac",
+        "repo": "https://github.com/abiosoft/caddy-hmac"
+      }
+    ],
+    "http.handlers.image_filter": [
+      {
+        "name": "http.handlers.image_filter",
+        "docs": "http.handlers.image_filter is a caddy module that can apply image filters to images from the filesystem at\nruntime. It should be used together with a cache module, so filters don't have to be applied\nrepeatedly because it's an expensive operation.",
+        "package": "github.com/ueffel/caddy-imagefilter",
+        "repo": "https://github.com/ueffel/caddy-imagefilter"
+      }
+    ],
+    "http.handlers.json_parse": [
+      {
+        "name": "http.handlers.json_parse",
+        "docs": "http.handlers.json_parse implements an HTTP handler that parses\njson body as placeholders.",
+        "package": "github.com/abiosoft/caddy-json-parse",
+        "repo": "https://github.com/abiosoft/caddy-json-parse"
+      }
+    ],
+    "http.handlers.map": [
+      {
+        "name": "http.handlers.map",
+        "docs": "http.handlers.map implements a middleware that maps inputs to outputs. Specifically, it\ncompares a source value against the map inputs, and for one that matches, it\napplies the output values to each destination. Destinations become placeholder\nnames.\n\nMapped placeholders are not evaluated until they are used, so even for very\nlarge mappings, this handler is quite efficient.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/map",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.mercure": [
+      {
+        "name": "http.handlers.mercure",
+        "docs": "http.handlers.mercure implements a Mercure hub as a Caddy module. Mercure is a protocol allowing to push data updates to web browsers and other HTTP clients in a convenient, fast, reliable and battery-efficient way.",
+        "package": "github.com/dunglas/mercure/caddy",
+        "repo": "https://github.com/dunglas/mercure"
+      }
+    ],
+    "http.handlers.metrics": [
+      {
+        "name": "http.handlers.metrics",
+        "docs": "http.handlers.metrics is a module that serves a /metrics endpoint so that any gathered\nmetrics can be exposed for scraping. This module is configurable by end-users\nunlike AdminMetrics.",
+        "package": "github.com/caddyserver/caddy/v2/modules/metrics",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.openapi": [
+      {
+        "name": "http.handlers.openapi",
+        "package": "github.com/chukmunnlee/caddy-openapi",
+        "repo": "https://github.com/chukmunnlee/caddy-openapi"
+      }
+    ],
+    "http.handlers.openapi_validator": [
+      {
+        "name": "http.handlers.openapi_validator",
+        "docs": "http.handlers.openapi_validator is used to validate OpenAPI requests and responses against an OpenAPI specification",
+        "package": "github.com/hslatman/caddy-openapi-validator",
+        "repo": "https://github.com/hslatman/caddy-openapi-validator"
+      }
+    ],
+    "http.handlers.pirsch": [
+      {
+        "name": "http.handlers.pirsch",
+        "package": "github.com/muety/caddy-pirsch-plugin",
+        "repo": "https://github.com/muety/caddy-pirsch-plugin"
+      }
+    ],
+    "http.handlers.prometheus": [
+      {
+        "name": "http.handlers.prometheus",
+        "docs": "http.handlers.prometheus -",
+        "package": "github.com/hairyhenderson/caddyprom",
+        "repo": "https://github.com/hairyhenderson/caddyprom"
+      }
+    ],
+    "http.handlers.push": [
+      {
+        "name": "http.handlers.push",
+        "docs": "http.handlers.push is a middleware for manipulating the request body.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/push",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.quantity_limiter": [
+      {
+        "name": "http.handlers.quantity_limiter",
+        "docs": "http.handlers.quantity_limiter limits the number of successful requests for a token and allows the counter to be reset.",
+        "package": "github.com/cubic3d/caddy-quantity-limiter",
+        "repo": "https://github.com/cubic3d/caddy-quantity-limiter"
+      }
+    ],
+    "http.handlers.rate_limit": [
+      {
+        "name": "http.handlers.rate_limit",
+        "docs": "http.handlers.rate_limit implements a handler for rate-limiting.\n\nIf a client exceeds the rate limit, an HTTP error with status `\u003creject_status\u003e` will\nbe returned. This error can be handled using the conventional error handlers.\nSee [handle_errors](https://caddyserver.com/docs/caddyfile/directives/handle_errors)\nfor how to set up error handlers.",
+        "package": "github.com/RussellLuo/caddy-ext/ratelimit",
+        "repo": "https://github.com/RussellLuo/caddy-ext"
+      },
+      {
+        "name": "http.handlers.rate_limit",
+        "docs": "http.handlers.rate_limit implements rate limiting functionality.\n\nIf a rate limit is exceeded, an HTTP error with status 429 will be\nreturned. This error can be handled using the conventional error\nhandling routes in your config. An additional placeholder is made\navailable, called `{http.rate_limit.exceeded.name}`, which you can\nuse for logging or handling; it contains the name of the rate limit\nzone which limit was exceeded.",
+        "package": "github.com/mholt/caddy-ratelimit",
+        "repo": "https://github.com/mholt/caddy-ratelimit"
+      }
+    ],
+    "http.handlers.realip": [
+      {
+        "name": "http.handlers.realip",
+        "package": "github.com/kirsch33/realip",
+        "repo": "https://github.com/kirsch33/realip"
+      }
+    ],
+    "http.handlers.replace_response": [
+      {
+        "name": "http.handlers.replace_response",
+        "docs": "http.handlers.replace_response manipulates response bodies by performing\nsubstring or regex replacements.",
+        "package": "github.com/caddyserver/replace-response",
+        "repo": "https://github.com/caddyserver/replace-response"
+      }
+    ],
+    "http.handlers.request_body": [
+      {
+        "name": "http.handlers.request_body",
+        "docs": "http.handlers.request_body is a middleware for manipulating the request body.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/requestbody",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.request_debug": [
+      {
+        "name": "http.handlers.request_debug",
+        "docs": "http.handlers.request_debug is a middleware which displays the content of the request it\nhandles. It helps troubleshooting web requests by exposing headers\n(e.g. cookies), URL parameters, etc.",
+        "package": "github.com/greenpau/caddy-request-debug",
+        "repo": "https://github.com/greenpau/caddy-request-debug"
+      }
+    ],
+    "http.handlers.request_id": [
+      {
+        "name": "http.handlers.request_id",
+        "docs": "http.handlers.request_id implements an HTTP handler that writes a\nunique request ID to response headers.",
+        "package": "github.com/lolPants/caddy-requestid",
+        "repo": "https://github.com/lolPants/caddy-requestid"
+      }
+    ],
+    "http.handlers.reverse_proxy": [
+      {
+        "name": "http.handlers.reverse_proxy",
+        "docs": "http.handlers.reverse_proxy implements a highly configurable and production-ready reverse proxy.\n\nUpon proxying, this module sets the following placeholders (which can be used\nboth within and after this handler; for example, in response headers):\n\nPlaceholder | Description\n------------|-------------\n`{http.reverse_proxy.upstream.address}` | The full address to the upstream as given in the config\n`{http.reverse_proxy.upstream.hostport}` | The host:port of the upstream\n`{http.reverse_proxy.upstream.host}` | The host of the upstream\n`{http.reverse_proxy.upstream.port}` | The port of the upstream\n`{http.reverse_proxy.upstream.requests}` | The approximate current number of requests to the upstream\n`{http.reverse_proxy.upstream.max_requests}` | The maximum approximate number of requests allowed to the upstream\n`{http.reverse_proxy.upstream.fails}` | The number of recent failed requests to the upstream\n`{http.reverse_proxy.upstream.latency}` | How long it took the proxy upstream to write the response header.\n`{http.reverse_proxy.upstream.duration}` | Time spent proxying to the upstream, including writing response body to client.\n`{http.reverse_proxy.duration}` | Total time spent proxying, including selecting an upstream, retries, and writing response.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.rewrite": [
+      {
+        "name": "http.handlers.rewrite",
+        "docs": "http.handlers.rewrite is a middleware which can rewrite HTTP requests.\n\nThe Method and URI properties are \"setters\": the request URI\nwill be set to the given values. Other properties are \"modifiers\":\nthey modify existing files but do not explicitly specify what the\nresult will be. It is atypical to combine the use of setters and\nmodifiers in a single rewrite.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/rewrite",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.s3proxy": [
+      {
+        "name": "http.handlers.s3proxy",
+        "docs": "http.handlers.s3proxy implements a proxy to return, set, delete or browse objects from S3",
+        "package": "github.com/lindenlab/caddy-s3-proxy",
+        "repo": "https://github.com/lindenlab/caddy-s3-proxy"
+      }
+    ],
+    "http.handlers.static_response": [
+      {
+        "name": "http.handlers.static_response",
+        "docs": "http.handlers.static_response implements a simple responder for static responses.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.subroute": [
+      {
+        "name": "http.handlers.subroute",
+        "docs": "http.handlers.subroute implements a handler that compiles and executes routes.\nThis is useful for a batch of routes that all inherit the same\nmatchers, or for multiple routes that should be treated as a\nsingle route.\n\nYou can also use subroutes to handle errors from its handlers.\nFirst the primary routes will be executed, and if they return an\nerror, the errors routes will be executed; in that case, an error\nis only returned to the entry point at the server if there is an\nadditional error returned from the errors routes.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.teapot": [
+      {
+        "name": "http.handlers.teapot",
+        "docs": "http.handlers.teapot implements a static \"418 I'm a teapot\" response to all requests on the route",
+        "package": "github.com/hairyhenderson/caddy-teapot-module",
+        "repo": "https://github.com/hairyhenderson/caddy-teapot-module"
+      }
+    ],
+    "http.handlers.templates": [
+      {
+        "name": "http.handlers.templates",
+        "docs": "http.handlers.templates is a middleware which executes response bodies as Go templates.\nThe syntax is documented in the Go standard library's\n[text/template package](https://golang.org/pkg/text/template/).\n\n⚠️ Template functions/actions are still experimental, so they are subject to change.\n\n[All Sprig functions](https://masterminds.github.io/sprig/) are supported.\n\nIn addition to the standard functions and the Sprig library, Caddy adds\nextra functions and data that are available to a template:\n\n##### `.Args`\n\nAccess arguments passed to this page/context, for example as the result of a `include`.\n\n```\n{{.Args 0}} // first argument\n```\n\n##### `.Cookie`\n\nGets the value of a cookie by name.\n\n```\n{{.Cookie \"cookiename\"}}\n```\n\n##### `env`\n\nGets an environment variable.\n\n```\n{{env \"VAR_NAME\"}}\n```\n\n##### `placeholder`\n\nGets an [placeholder variable](/docs/conventions#placeholders).\nThe braces (`{}`) have to be omitted.\n\n```\n{{placeholder \"http.request.uri.path\"}}\n{{placeholder \"http.error.status_code\"}}\n```\n\n##### `.Host`\n\nReturns the hostname portion (no port) of the Host header of the HTTP request.\n\n```\n{{.Host}}\n```\n\n##### `httpInclude`\n\nIncludes the contents of another file by making a virtual HTTP request (also known as a sub-request). The URI path must exist on the same virtual server because the request does not use sockets; instead, the request is crafted in memory and the handler is invoked directly for increased efficiency.\n\n```\n{{httpInclude \"/foo/bar?q=val\"}}\n```\n\n##### `include`\n\nIncludes the contents of another file. Optionally can pass key-value pairs as arguments to be accessed by the included file.\n\n```\n{{include \"path/to/file.html\"}}  // no arguments\n{{include \"path/to/file.html\" \"arg1\" 2 \"value 3\"}}  // with arguments\n```\n\n##### `listFiles`\n\nReturns a list of the files in the given directory, which is relative to the template context's file root.\n\n```\n{{listFiles \"/mydir\"}}\n```\n\n##### `markdown`\n\nRenders the given Markdown text as HTML.\n\n```\n{{markdown \"My _markdown_ text\"}}\n```\n\n##### `.RemoteIP`\n\nReturns the client's IP address.\n\n```\n{{.RemoteIP}}\n```\n\n##### `.Req`\n\nAccesses the current HTTP request, which has various fields, including:\n\n   - `.Method` - the method\n   - `.URL` - the URL, which in turn has component fields (Scheme, Host, Path, etc.)\n   - `.Header` - the header fields\n   - `.Host` - the Host or :authority header of the request\n\n```\n{{.Req.Header.Get \"User-Agent\"}}\n```\n\n##### `.RespHeader.Add`\n\nAdds a header field to the HTTP response.\n\n```\n{{.RespHeader.Add \"Field-Name\" \"val\"}}\n```\n\n##### `.RespHeader.Del`\n\nDeletes a header field on the HTTP response.\n\n```\n{{.RespHeader.Del \"Field-Name\"}}\n```\n\n##### `.RespHeader.Set`\n\nSets a header field on the HTTP response, replacing any existing value.\n\n```\n{{.RespHeader.Set \"Field-Name\" \"val\"}}\n```\n\n##### `splitFrontMatter`\n\nSplits front matter out from the body. Front matter is metadata that appears at the very beginning of a file or string. Front matter can be in YAML, TOML, or JSON formats:\n\n**TOML** front matter starts and ends with `+++`:\n\n```\n+++\ntemplate = \"blog\"\ntitle = \"Blog Homepage\"\nsitename = \"A Caddy site\"\n+++\n```\n\n**YAML** is surrounded by `---`:\n\n```\n---\ntemplate: blog\ntitle: Blog Homepage\nsitename: A Caddy site\n---\n```\n\n**JSON** is simply `{` and `}`:\n\n```\n{\n\t\"template\": \"blog\",\n\t\"title\": \"Blog Homepage\",\n\t\"sitename\": \"A Caddy site\"\n}\n```\n\nThe resulting front matter will be made available like so:\n\n- `.Meta` to access the metadata fields, for example: `{{$parsed.Meta.title}}`\n- `.Body` to access the body after the front matter, for example: `{{markdown $parsed.Body}}`\n\n##### `stripHTML`\n\nRemoves HTML from a string.\n\n```\n{{stripHTML \"Shows \u003cb\u003eonly\u003c/b\u003e text content\"}}\n```",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/templates",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.trace": [
+      {
+        "name": "http.handlers.trace",
+        "docs": "http.handlers.trace is a middleware which displays the content of the request it\nhandles. It helps troubleshooting web requests by exposing headers\n(e.g. cookies), URL parameters, etc.",
+        "package": "github.com/greenpau/caddy-trace",
+        "repo": "https://github.com/greenpau/caddy-trace"
+      }
+    ],
+    "http.handlers.vars": [
+      {
+        "name": "http.handlers.vars",
+        "docs": "http.handlers.vars is an HTTP middleware which sets variables to\nhave values that can be used in the HTTP request handler\nchain. The primary way to access variables is with placeholders,\nwhich have the form: `{http.vars.variable_name}`, or with\nthe `vars` and `vars_regexp` request matchers.\n\nThe key is the variable name, and the value is the value of the\nvariable. Both the name and value may use or contain placeholders.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.handlers.vulcain": [
+      {
+        "name": "http.handlers.vulcain",
+        "package": "github.com/dunglas/vulcain/caddy",
+        "repo": "https://github.com/dunglas/vulcain"
+      }
+    ],
+    "http.handlers.webdav": [
+      {
+        "name": "http.handlers.webdav",
+        "docs": "http.handlers.webdav implements an HTTP handler for responding to WebDAV clients.",
+        "package": "github.com/mholt/caddy-webdav",
+        "repo": "https://github.com/mholt/caddy-webdav"
+      }
+    ],
+    "http.handlers.webhook": [
+      {
+        "name": "http.handlers.webhook",
+        "docs": "http.handlers.webhook is the module configuration.",
+        "package": "github.com/WingLim/caddy-webhook",
+        "repo": "https://github.com/WingLim/caddy-webhook"
+      }
+    ],
+    "http.matchers.exec_noop": [
+      {
+        "name": "http.matchers.exec_noop",
+        "docs": "http.matchers.exec_noop is a matcher that blocks all requests.\nIt's primary purpose is to ensure the command is not\nexecuted when no route/matcher is specified.\nLimitation of Caddyfile config. JSON/API config do not need this.",
+        "package": "github.com/abiosoft/caddy-exec",
+        "repo": "https://github.com/abiosoft/caddy-exec"
+      }
+    ],
+    "http.matchers.execnopmatch": [
+      {
+        "name": "http.matchers.execnopmatch",
+        "docs": "http.matchers.execnopmatch is a matcher that blocks all request.\nIt's primary purpose is to ensure the command is not\nexecuted when no route/matcher is specified.\nLimitation of Caddyfile config. JSON/API config do not need this.",
+        "package": "github.com/abiosoft/caddy-exec",
+        "repo": "https://github.com/abiosoft/caddy-exec"
+      }
+    ],
+    "http.matchers.expression": [
+      {
+        "name": "http.matchers.expression",
+        "docs": "http.matchers.expression matches requests by evaluating a\n[CEL](https://github.com/google/cel-spec) expression.\nThis enables complex logic to be expressed using a comfortable,\nfamiliar syntax. Please refer to\n[the standard definitions of CEL functions and operators](https://github.com/google/cel-spec/blob/master/doc/langdef.md#standard-definitions).\n\nThis matcher's JSON interface is actually a string, not a struct.\nThe generated docs are not correct because this type has custom\nmarshaling logic.\n\nCOMPATIBILITY NOTE: This module is still experimental and is not\nsubject to Caddy's compatibility guarantee.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.file": [
+      {
+        "name": "http.matchers.file",
+        "docs": "http.matchers.file is an HTTP request matcher that can match\nrequests based upon file existence.\n\nUpon matching, three new placeholders will be made\navailable:\n\n- `{http.matchers.file.relative}` The root-relative\npath of the file. This is often useful when rewriting\nrequests.\n- `{http.matchers.file.absolute}` The absolute path\nof the matched file.\n- `{http.matchers.file.type}` Set to \"directory\" if\nthe matched file is a directory, \"file\" otherwise.\n- `{http.matchers.file.remainder}` Set to the remainder\nof the path if the path was split by `split_path`.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/fileserver",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.header": [
+      {
+        "name": "http.matchers.header",
+        "docs": "http.matchers.header matches requests by header fields. The key is the field\nname and the array is the list of field values. It performs fast,\nexact string comparisons of the field values. Fast prefix, suffix,\nand substring matches can also be done by suffixing, prefixing, or\nsurrounding the value with the wildcard `*` character, respectively.\nIf a list is null, the header must not exist. If the list is empty,\nthe field must simply exist, regardless of its value.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.header_regexp": [
+      {
+        "name": "http.matchers.header_regexp",
+        "docs": "http.matchers.header_regexp matches requests by a regular expression on header fields.\n\nUpon a match, it adds placeholders to the request: `{http.regexp.name.capture_group}`\nwhere `name` is the regular expression's name, and `capture_group` is either\nthe named or positional capture group from the expression itself. If no name\nis given, then the placeholder omits the name: `{http.regexp.capture_group}`\n(potentially leading to collisions).",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.host": [
+      {
+        "name": "http.matchers.host",
+        "docs": "http.matchers.host matches requests by the Host value (case-insensitive).\n\nWhen used in a top-level HTTP route,\n[qualifying domain names](/docs/automatic-https#hostname-requirements)\nmay trigger [automatic HTTPS](/docs/automatic-https), which automatically\nprovisions and renews certificates for you. Before doing this, you\nshould ensure that DNS records for these domains are properly configured,\nespecially A/AAAA pointed at your server.\n\nAutomatic HTTPS can be\n[customized or disabled](/docs/modules/http#servers/automatic_https).\n\nWildcards (`*`) may be used to represent exactly one label of the\nhostname, in accordance with RFC 1034 (because host matchers are also\nused for automatic HTTPS which influences TLS certificates). Thus,\na host of `*` matches hosts like `localhost` or `internal` but not\n`example.com`. To catch all hosts, omit the host matcher entirely.\n\nThe wildcard can be useful for matching all subdomains, for example:\n`*.example.com` matches `foo.example.com` but not `foo.bar.example.com`.\n\nDuplicate entries will return an error.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.maxmind_geolocation": [
+      {
+        "name": "http.matchers.maxmind_geolocation",
+        "docs": "Allows to filter requests based on source IP country.",
+        "package": "github.com/porech/caddy-maxmind-geolocation",
+        "repo": "https://github.com/porech/caddy-maxmind-geolocation"
+      }
+    ],
+    "http.matchers.method": [
+      {
+        "name": "http.matchers.method",
+        "docs": "http.matchers.method matches requests by the method.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.not": [
+      {
+        "name": "http.matchers.not",
+        "docs": "http.matchers.not matches requests by negating the results of its matcher\nsets. A single \"not\" matcher takes one or more matcher sets. Each\nmatcher set is OR'ed; in other words, if any matcher set returns\ntrue, the final result of the \"not\" matcher is false. Individual\nmatchers within a set work the same (i.e. different matchers in\nthe same set are AND'ed).\n\nNOTE: The generated docs which describe the structure of this\nmodule are wrong because of how this type unmarshals JSON in a\ncustom way. The correct structure is:\n\n```json\n[\n\t{},\n\t{}\n]\n```\n\nwhere each of the array elements is a matcher set, i.e. an\nobject keyed by matcher name.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.path": [
+      {
+        "name": "http.matchers.path",
+        "docs": "http.matchers.path matches requests by the URI's path (case-insensitive). Path\nmatches are exact, but wildcards may be used:\n\n- At the end, for a prefix match (`/prefix/*`)\n- At the beginning, for a suffix match (`*.suffix`)\n- On both sides, for a substring match (`*/contains/*`)\n- In the middle, for a globular match (`/accounts/*/info`)\n\nThis matcher is fast, so it does not support regular expressions or\ncapture groups. For slower but more powerful matching, use the\npath_regexp matcher.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.path_regexp": [
+      {
+        "name": "http.matchers.path_regexp",
+        "docs": "http.matchers.path_regexp matches requests by a regular expression on the URI's path.\n\nUpon a match, it adds placeholders to the request: `{http.regexp.name.capture_group}`\nwhere `name` is the regular expression's name, and `capture_group` is either\nthe named or positional capture group from the expression itself. If no name\nis given, then the placeholder omits the name: `{http.regexp.capture_group}`\n(potentially leading to collisions).",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.protocol": [
+      {
+        "name": "http.matchers.protocol",
+        "docs": "http.matchers.protocol matches requests by protocol. Recognized values are\n\"http\", \"https\", and \"grpc\".",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.query": [
+      {
+        "name": "http.matchers.query",
+        "docs": "http.matchers.query matches requests by the URI's query string. It takes a JSON object\nkeyed by the query keys, with an array of string values to match for that key.\nQuery key matches are exact, but wildcards may be used for value matches. Both\nkeys and values may be placeholders.\nAn example of the structure to match `?key=value\u0026topic=api\u0026query=something` is:\n\n```json\n{\n\t\"key\": [\"value\"],\n\t\"topic\": [\"api\"],\n\t\"query\": [\"*\"]\n}\n```",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.remote_host": [
+      {
+        "name": "http.matchers.remote_host",
+        "docs": "http.matchers.remote_host matches based on the remote IP of the\nconnection. A host name can be specified, whose A and AAAA\nDNS records will be resolved to a corresponding IP for matching.\n\nNote that IPs can sometimes be spoofed, so do not rely\non this as a replacement for actual authentication.",
+        "package": "github.com/muety/caddy-remote-host",
+        "repo": "https://github.com/muety/caddy-remote-host"
+      }
+    ],
+    "http.matchers.remote_ip": [
+      {
+        "name": "http.matchers.remote_ip",
+        "docs": "http.matchers.remote_ip matches requests by client IP (or CIDR range).",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.vars": [
+      {
+        "name": "http.matchers.vars",
+        "docs": "http.matchers.vars is an HTTP request matcher which can match\nrequests based on variables in the context.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.matchers.vars_regexp": [
+      {
+        "name": "http.matchers.vars_regexp",
+        "docs": "http.matchers.vars_regexp matches the value of the context variables by a given regular expression.\n\nUpon a match, it adds placeholders to the request: `{http.regexp.name.capture_group}`\nwhere `name` is the regular expression's name, and `capture_group` is either\nthe named or positional capture group from the expression itself. If no name\nis given, then the placeholder omits the name: `{http.regexp.capture_group}`\n(potentially leading to collisions).",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.precompressed.br": [
+      {
+        "name": "http.precompressed.br",
+        "docs": "http.precompressed.br provides the file extension for files precompressed with brotli encoding.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode/brotli",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.precompressed.gzip": [
+      {
+        "name": "http.precompressed.gzip",
+        "docs": "http.precompressed.gzip provides the file extension for files precompressed with gzip encoding.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode/gzip",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.precompressed.zstd": [
+      {
+        "name": "http.precompressed.zstd",
+        "docs": "http.precompressed.zstd provides the file extension for files precompressed with zstandard encoding.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/encode/zstd",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.cookie": [
+      {
+        "name": "http.reverse_proxy.selection_policies.cookie",
+        "docs": "http.reverse_proxy.selection_policies.cookie is a policy that selects\na host based on a given cookie name.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.first": [
+      {
+        "name": "http.reverse_proxy.selection_policies.first",
+        "docs": "http.reverse_proxy.selection_policies.first is a policy that selects\nthe first available host.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.header": [
+      {
+        "name": "http.reverse_proxy.selection_policies.header",
+        "docs": "http.reverse_proxy.selection_policies.header is a policy that selects\na host based on a given request header.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.ip_hash": [
+      {
+        "name": "http.reverse_proxy.selection_policies.ip_hash",
+        "docs": "http.reverse_proxy.selection_policies.ip_hash is a policy that selects a host\nbased on hashing the remote IP of the request.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.least_conn": [
+      {
+        "name": "http.reverse_proxy.selection_policies.least_conn",
+        "docs": "http.reverse_proxy.selection_policies.least_conn is a policy that selects the\nhost with the least active requests. If multiple\nhosts have the same fewest number, one is chosen\nrandomly. The term \"conn\" or \"connection\" is used\nin this policy name due to its similar meaning in\nother software, but our load balancer actually\ncounts active requests rather than connections,\nsince these days requests are multiplexed onto\nshared connections.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.random": [
+      {
+        "name": "http.reverse_proxy.selection_policies.random",
+        "docs": "http.reverse_proxy.selection_policies.random is a policy that selects\nan available host at random.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.random_choose": [
+      {
+        "name": "http.reverse_proxy.selection_policies.random_choose",
+        "docs": "http.reverse_proxy.selection_policies.random_choose is a policy that selects\ntwo or more available hosts at random, then\nchooses the one with the least load.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.round_robin": [
+      {
+        "name": "http.reverse_proxy.selection_policies.round_robin",
+        "docs": "http.reverse_proxy.selection_policies.round_robin is a policy that selects\na host based on round-robin ordering.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.selection_policies.uri_hash": [
+      {
+        "name": "http.reverse_proxy.selection_policies.uri_hash",
+        "docs": "http.reverse_proxy.selection_policies.uri_hash is a policy that selects a\nhost by hashing the request URI.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.transport.fastcgi": [
+      {
+        "name": "http.reverse_proxy.transport.fastcgi",
+        "docs": "http.reverse_proxy.transport.fastcgi facilitates FastCGI communication.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy/fastcgi",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.transport.http": [
+      {
+        "name": "http.reverse_proxy.transport.http",
+        "docs": "http.reverse_proxy.transport.http is essentially a configuration wrapper for http.Transport.\nIt defines a JSON structure useful when configuring the HTTP transport\nfor Caddy's reverse proxy. It builds its http.Transport at Provision.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "http.reverse_proxy.transport.http_ntlm": [
+      {
+        "name": "http.reverse_proxy.transport.http_ntlm",
+        "docs": "http.reverse_proxy.transport.http_ntlm proxies HTTP with NTLM authentication.\nIt basically wraps HTTPTransport so that it is compatible with\nNTLM's HTTP-hostile requirements. Specifically, it will use\nHTTPTransport's single, default *http.Transport for all requests\n(unless the client's connection is already mapped to a different\ntransport) until a request comes in with an Authorization header\nthat has \"NTLM\" or \"Negotiate\"; when that happens, NTLMTransport\nmaps the client's connection (by its address, req.RemoteAddr)\nto a new transport that is used only by that downstream conn.\nWhen the upstream connection is closed, the mapping is deleted.\nThis preserves NTLM authentication contexts by ensuring that\nclient connections use the same upstream connection. It does\nhurt performance a bit, but that's NTLM for you.\n\nThis transport also forces HTTP/1.1 and Keep-Alives in order\nfor NTLM to succeed.\n\nIt is basically the same thing as\n[nginx's paid ntlm directive](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm)\n(but is free in Caddy!).",
+        "package": "github.com/caddyserver/ntlm-transport",
+        "repo": "https://github.com/caddyserver/ntlm-transport"
+      }
+    ],
+    "layer4": [
+      {
+        "name": "layer4",
+        "docs": "layer4 is a Caddy app that operates closest to layer 4 of the OSI model.",
+        "package": "github.com/mholt/caddy-l4/layer4",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.echo": [
+      {
+        "name": "layer4.handlers.echo",
+        "docs": "layer4.handlers.echo is a simple handler that writes what it reads.",
+        "package": "github.com/mholt/caddy-l4/modules/l4echo",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.proxy": [
+      {
+        "name": "layer4.handlers.proxy",
+        "docs": "layer4.handlers.proxy is a handler that can proxy connections.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.proxy_protocol": [
+      {
+        "name": "layer4.handlers.proxy_protocol",
+        "docs": "layer4.handlers.proxy_protocol is a connection handler that accepts the PROXY protocol.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxyprotocol",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.tee": [
+      {
+        "name": "layer4.handlers.tee",
+        "docs": "layer4.handlers.tee is a layer4 handler that replicates a connection so\nthat a branch of handlers can concurrently handle it. Reads\nhappen in lock-step with all concurrent branches so as to\navoid buffering: if one of the branches (including the main\nhandler chain) stops reading from the connection, it will\nblock all branches.",
+        "package": "github.com/mholt/caddy-l4/modules/l4tee",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.throttle": [
+      {
+        "name": "layer4.handlers.throttle",
+        "docs": "layer4.handlers.throttle throttles connections using leaky bucket rate limiting.",
+        "package": "github.com/mholt/caddy-l4/modules/l4throttle",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.handlers.tls": [
+      {
+        "name": "layer4.handlers.tls",
+        "docs": "layer4.handlers.tls is a connection handler that terminates TLS.",
+        "package": "github.com/mholt/caddy-l4/modules/l4tls",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.crowdsec": [
+      {
+        "name": "layer4.matchers.crowdsec",
+        "docs": "layer4.matchers.crowdsec matches IPs to CrowdSec decisions to (dis)allow access",
+        "package": "github.com/hslatman/caddy-crowdsec-bouncer/layer4",
+        "repo": "https://github.com/hslatman/caddy-crowdsec-bouncer"
+      }
+    ],
+    "layer4.matchers.http": [
+      {
+        "name": "layer4.matchers.http",
+        "docs": "layer4.matchers.http is able to match HTTP connections. The auto-generated\ndocumentation for this type is wrong; instead of an object, it\nis an array of matcher set objects.",
+        "package": "github.com/mholt/caddy-l4/modules/l4http",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.ip": [
+      {
+        "name": "layer4.matchers.ip",
+        "docs": "layer4.matchers.ip matches requests by remote IP (or CIDR range).",
+        "package": "github.com/mholt/caddy-l4/layer4",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.proxy_protocol": [
+      {
+        "name": "layer4.matchers.proxy_protocol",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.ssh": [
+      {
+        "name": "layer4.matchers.ssh",
+        "docs": "layer4.matchers.ssh is able to match SSH connections.",
+        "package": "github.com/mholt/caddy-l4/modules/l4ssh",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.tls": [
+      {
+        "name": "layer4.matchers.tls",
+        "docs": "layer4.matchers.tls is able to match TLS connections. Its structure\nis different from the auto-generated documentation. This\nvalue should be a map of matcher names to their values.",
+        "package": "github.com/mholt/caddy-l4/modules/l4tls",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.matchers.xmpp": [
+      {
+        "name": "layer4.matchers.xmpp",
+        "docs": "layer4.matchers.xmpp is able to match XMPP connections.",
+        "package": "github.com/mholt/caddy-l4/modules/l4xmpp",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.first": [
+      {
+        "name": "layer4.proxy.selection_policies.first",
+        "docs": "layer4.proxy.selection_policies.first is a policy that selects\nthe first available host.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.ip_hash": [
+      {
+        "name": "layer4.proxy.selection_policies.ip_hash",
+        "docs": "layer4.proxy.selection_policies.ip_hash is a policy that selects a host\nbased on hashing the remote IP of the connection.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.least_conn": [
+      {
+        "name": "layer4.proxy.selection_policies.least_conn",
+        "docs": "layer4.proxy.selection_policies.least_conn is a policy that selects the upstream\nwith the least active connections. If multiple upstreams\nhave the same fewest number, one is chosen randomly.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.random": [
+      {
+        "name": "layer4.proxy.selection_policies.random",
+        "docs": "layer4.proxy.selection_policies.random is a policy that selects\nan available host at random.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.random_choose": [
+      {
+        "name": "layer4.proxy.selection_policies.random_choose",
+        "docs": "layer4.proxy.selection_policies.random_choose is a policy that selects\ntwo or more available hosts at random, then\nchooses the one with the least load.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "layer4.proxy.selection_policies.round_robin": [
+      {
+        "name": "layer4.proxy.selection_policies.round_robin",
+        "docs": "layer4.proxy.selection_policies.round_robin is a policy that selects\na host based on round-robin ordering.",
+        "package": "github.com/mholt/caddy-l4/modules/l4proxy",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "pki": [
+      {
+        "name": "pki",
+        "docs": "pki provides Public Key Infrastructure facilities for Caddy.\n\nThis app can define certificate authorities (CAs) which are capable\nof signing certificates. Other modules can be configured to use\nthe CAs defined by this app for issuing certificates or getting\nkey information needed for establishing trust.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddypki",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "security": [
+      {
+        "name": "security",
+        "docs": "security implements security manager.",
+        "package": "github.com/greenpau/caddy-security",
+        "repo": "https://github.com/greenpau/caddy-security"
+      }
+    ],
+    "supervisor": [
+      {
+        "name": "supervisor",
+        "package": "github.com/baldinof/caddy-supervisor",
+        "repo": "https://github.com/baldinof/caddy-supervisor"
+      }
+    ],
+    "tls": [
+      {
+        "name": "tls",
+        "docs": "tls provides TLS facilities including certificate\nloading and management, client auth, and more.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.certificates.automate": [
+      {
+        "name": "tls.certificates.automate",
+        "docs": "tls.certificates.automate will automatically manage certificates for the names in the\nlist, including obtaining and renewing certificates. Automated certificates\nare managed according to their matching automation policy, configured\nelsewhere in this app.\n\nTechnically, this is a no-op certificate loader module that is treated as\na special case: it uses this app's automation features to load certificates\nfor the list of hostnames, rather than loading certificates manually.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.certificates.load_files": [
+      {
+        "name": "tls.certificates.load_files",
+        "docs": "tls.certificates.load_files loads certificates and their associated keys from disk.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.certificates.load_folders": [
+      {
+        "name": "tls.certificates.load_folders",
+        "docs": "tls.certificates.load_folders loads certificates and their associated keys from disk\nby recursively walking the specified directories, looking for PEM\nfiles which contain both a certificate and a key.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.certificates.load_pem": [
+      {
+        "name": "tls.certificates.load_pem",
+        "docs": "tls.certificates.load_pem loads certificates and their associated keys by\ndecoding their PEM blocks directly. This has the advantage\nof not needing to store them on disk at all.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.certificates.load_storage": [
+      {
+        "name": "tls.certificates.load_storage",
+        "docs": "tls.certificates.load_storage loads certificates and their associated keys\nfrom the globally configured storage module.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.handshake_match.alpn": [
+      {
+        "name": "tls.handshake_match.alpn",
+        "package": "github.com/mholt/caddy-l4/modules/l4tls",
+        "repo": "https://github.com/mholt/caddy-l4"
+      }
+    ],
+    "tls.handshake_match.remote_ip": [
+      {
+        "name": "tls.handshake_match.remote_ip",
+        "docs": "tls.handshake_match.remote_ip matches based on the remote IP of the\nconnection. Specific IPs or CIDR ranges can be specified.\n\nNote that IPs can sometimes be spoofed, so do not rely\non this as a replacement for actual authentication.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.handshake_match.sni": [
+      {
+        "name": "tls.handshake_match.sni",
+        "docs": "tls.handshake_match.sni matches based on SNI. Names in\nthis list may use left-most-label wildcards,\nsimilar to wildcard certificates.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.issuance.acme": [
+      {
+        "name": "tls.issuance.acme",
+        "docs": "tls.issuance.acme manages certificates using the ACME protocol (RFC 8555).",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.issuance.internal": [
+      {
+        "name": "tls.issuance.internal",
+        "docs": "tls.issuance.internal is a certificate issuer that generates\ncertificates internally using a locally-configured\nCA which can be customized using the `pki` app.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.issuance.zerossl": [
+      {
+        "name": "tls.issuance.zerossl",
+        "docs": "tls.issuance.zerossl makes an ACME manager\nfor managing certificates using ACME.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.stek.distributed": [
+      {
+        "name": "tls.stek.distributed",
+        "docs": "tls.stek.distributed implements a distributed STEK provider. This\nmodule will obtain STEKs from a storage module instead\nof generating STEKs internally. This allows STEKs to be\ncoordinated, improving TLS session resumption in a cluster.",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls/distributedstek",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ],
+    "tls.stek.standard": [
+      {
+        "name": "tls.stek.standard",
+        "package": "github.com/caddyserver/caddy/v2/modules/caddytls/standardstek",
+        "repo": "https://github.com/caddyserver/caddy"
+      }
+    ]
+  }
+}
