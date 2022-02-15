@@ -17,3 +17,6 @@ rewrite /docs/*         /docs/index.html
 rewrite /api/modules    /api/modules/index.json
 rewrite /api/modules/*  {path}.json
 rewrite /api/docs/config/ /api/docs/config.json
+
+# redirect to /docs/
+redir   /               /docs/
