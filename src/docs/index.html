@@ -21,10 +21,13 @@
         <div class="paper" id="paper2"></div>
         <div class="paper paper3">
             <article>{{markdown $markdownFile.Body}}</article>
+
+            {{include "/includes/donate.html"}}
         </div>
     </div>
     <div class="sidebar"></div>
 </main>
 {{include "/includes/footer.html"}}
+
 </body>
 </html>
