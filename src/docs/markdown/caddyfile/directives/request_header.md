@@ -1,11 +1,10 @@
 ---
-title: request_header (Caddyfile directive)
+title: request_header (Caddyfile指令)
 ---
 
 # request_header
 
-Manipulates HTTP header fields on the request. It can set, add, and delete header values, or perform replacements using regular expressions.
-
+处理请求中的HTTP标头字段。它可以设置、添加和删除标头值，或使用正则表达式执行替换。
 
 ## Syntax
 
@@ -13,15 +12,15 @@ Manipulates HTTP header fields on the request. It can set, add, and delete heade
 request_header [<matcher>] [[+|-]<field> [<value>|<find>] [<replace>]]
 ```
 
-- **&lt;field&gt;** is the name of the header field. By default, will overwrite any existing field of the same name. Prefix with `+` to add the field instead of replace, or prefix with `-` to remove the field.
-- **&lt;value&gt;** is the header field value, if adding or setting a field.
-- **&lt;find&gt;** is the substring or regular expression to search for.
-- **&lt;replace&gt;** is the replacement value; required if performing a search-and-replace.
+- **&lt;field&gt;** 是标头字段的名称。默认情况下，将覆盖任何现有的同名字段。带前缀`+`的字段将会被添加而不是被替换；带前缀`-`的字段则会被删除。
+- **&lt;value&gt;** 是标头字段值，被添加或设置。
+- **&lt;find&gt;** 是要搜索的子字符串或正则表达式。
+- **&lt;replace&gt;** 是替换值；如果执行搜索和替换，则需要。
 
 
-## Examples
+## 示例
 
-Remove the Referer header from the request:
+从请求中删除Referer标头：
 
 ```caddy-d
 request_header -Referer
