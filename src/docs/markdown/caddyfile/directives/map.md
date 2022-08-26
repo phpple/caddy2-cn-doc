@@ -26,12 +26,14 @@ map [<matcher>] <source> <destinations...> {
 - **&lt;input&gt;** is the input value to match. If prefixed with `~`, it is treated as a regular expression.
 
 - **&lt;outputs...&gt;** is one or more output values to store in the associated placeholder. The first output is written to the first destination, the second output to the second destination, etc.
-  
+
   As a special case, the Caddyfile parser treats outputs that are a literal hyphen (`-`) as null/nil values. This is useful if you want to fall back to a default value for that particular output in the case of the given input, but want to use non-default values for other outputs.
 
+  The outputs will be type converted if possible; `true` and `false` will be converted to boolean types, and numeric values will be converted to integer or float accordingly. To avoid this conversion, you may wrap the output with [quotes](/docs/caddyfile/concepts#tokens-and-quotes) and they will stay strings.
+
   The number of outputs for each mapping must not exceed the number of destinations; however, for convenience, there may be fewer outputs than destinations, and any missing outputs will be filled in implicitly.
-  
-  If a regular expression was used as the input, then the capture groups can be referenced with `${capture_group}` where `capture_group` is either the name or number of the capture group in the expression. Capture group `0` is the full regexp match, `1` is the first capture group, `2` is the second capture group, and so on.
+
+  If a regular expression was used as the input, then the capture groups can be referenced with `${group}` where `group` is either the name or number of the capture group in the expression. Capture group `0` is the full regexp match, `1` is the first capture group, `2` is the second capture group, and so on.
 
 - **&lt;default&gt;** specifies the output values to store if no inputs are matched.
 

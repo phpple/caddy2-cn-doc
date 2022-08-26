@@ -24,7 +24,7 @@ metrics [<matcher>] {
 }
 ```
 
-- **disable_openmetrics** disables OpenMetrics negotiation. Usually not 
+- **disable_openmetrics** disables OpenMetrics negotiation. Usually not
   necessary except when needing to work around parsing bugs.
 
 ## Examples

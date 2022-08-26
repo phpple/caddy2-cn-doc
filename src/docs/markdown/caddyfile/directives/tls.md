@@ -31,6 +31,7 @@ tls [internal|<email>] | [<cert_file> <key_file>] {
 	ca_root   <pem_file>
 	key_type  ed25519|p256|p384|rsa2048|rsa4096
 	dns       <provider_name> [<params...>]
+	dns_challenge_override_domain <domain>
 	resolvers <dns_servers...>
 	eab       <key_id> <mac_key>
 	on_demand
@@ -41,11 +42,12 @@ tls [internal|<email>] | [<cert_file> <key_file>] {
 		trusted_leaf_cert      <base64_der>
 		trusted_leaf_cert_file <filename>
 	}
-	issuer <issuer_name> [<params...>]
+	issuer          <issuer_name>  [<params...>]
+	get_certificate <manager_name> [<params...>]
 }
 ```
 
-- **internal** means to use Caddy's internal, locally-trusted CA to produce certificates for this site.
+- **internal** means to use Caddy's internal, locally-trusted CA to produce certificates for this site. To further configure the [`internal`](#internal) issuer, use the [`issuer`](#issuer) subdirective.
 - **&lt;email&gt;** is the email address to use for the ACME account managing the site's certificates.
 - **&lt;cert_file&gt;** and **&lt;key_file&gt;** are the paths to the certificate and private key PEM files. Specifying just one is invalid.
 - **protocols** <span id="protocols"/> specifies the minimum and maximum protocol versions. Default min: `tls1.2`. Default max: `tls1.3`
@@ -79,30 +81,32 @@ tls [internal|<email>] | [<cert_file> <key_file>] {
 - **ca** <span id="ca"/> changes the ACME CA endpoint. This is most often used to set [Let's Encrypt's staging endpoint](https://letsencrypt.org/docs/staging-environment/) when testing, or an internal ACME server. (To change this value for the whole Caddyfile, use the `acme_ca` [global option](/docs/caddyfile/options) instead.)
 - **ca_root** <span id="ca_root"/> specifies a PEM file that contains a trusted root certificate for the ACME CA endpoint, if not in the system trust store.
 - **key_type** <span id="key_type"/> is the type of key to use when generating CSRs. Only set this if you have a specific requirement.
-- **dns** <span id="dns"/> enables the [DNS challenge](/docs/automatic-https#dns-challenge) using the specified provider plugin, which must be plugged in from one of the [caddy-dns](https://github.com/caddy-dns) repositories. Each provider plugin may have their own syntax following their name; refer to their docs for details. Maintaining support for each DNS provider is a community effort. [Learn how to enable the DNS challenge for your provider at our wiki.](https://caddy.community/t/how-to-use-dns-provider-modules-in-caddy-2/8148)
+- **dns** <span id="dns"/> enables the [DNS challenge](/docs/automatic-https#dns-challenge) using the specified provider plugin, which must be plugged in from one of the [`caddy-dns`](https://github.com/caddy-dns) repositories. Each provider plugin may have their own syntax following their name; refer to their docs for details. Maintaining support for each DNS provider is a community effort. [Learn how to enable the DNS challenge for your provider at our wiki.](https://caddy.community/t/how-to-use-dns-provider-modules-in-caddy-2/8148)
+- **dns_challenge_override_domain** <span id="dns_challenge_override_domain"/> overrides the domain to use for the DNS challenge. This is to delegate the challenge to a different domain, e.g. one whose DNS provider has a [`caddy-dns`](https://github.com/caddy-dns) plugin.
 - **resolvers** <span id="resolvers"/> customizes the DNS resolvers used when performing the DNS challenge; these take precedence over system resolvers or any default ones. If set here, the resolvers will propagate to all configured certificate issuers.
 - **eab** <span id="eab"/> configures ACME external account binding (EAB) for this site, using the key ID and MAC key provided by your CA.
 - **on_demand** <span id="on_demand"/> enables [on-demand TLS](/docs/automatic-https#on-demand-tls) for the hostnames given in the site block's address(es). **Security warning:** Doing so in production is insecure unless you also configure the [`on_demand_tls` global option](https://caddyserver.com/docs/caddyfile/options#on-demand-tls) to mitigate abuse.
 - **client_auth** <span id="client_auth"/> enables and configures TLS client authentication:
 	- **mode** <span id="mode"/> is the mode for authenticating the client. Allowed values are:
 
-		| Mode               | Description                                                                              |
-		|--------------------|------------------------------------------------------------------------------------------|
-		| request            | Ask clients for a certificate, but allow even if there isn't one; do not verify it       |
-		| require            | Require clients to present a certificate, but do not verify it                           |
-		| verify_if_given    | Ask clients for a certificate; allow even if there isn't one, but verify it if there is  |
-		| require_and_verify | Require clients to present a valid certificate that is verified                          |
+	  | Mode               | Description                                                                              |
+	  		|--------------------|------------------------------------------------------------------------------------------|
+	  | request            | Ask clients for a certificate, but allow even if there isn't one; do not verify it       |
+	  | require            | Require clients to present a certificate, but do not verify it                           |
+	  | verify_if_given    | Ask clients for a certificate; allow even if there isn't one, but verify it if there is  |
+	  | require_and_verify | Require clients to present a valid certificate that is verified                          |
 
-	Default: `require_and_verify` if any `trusted_ca_cert` or `trusted_leaf_cert` are provided; otherwise, `require`.
-	
+  Default: `require_and_verify` if any `trusted_ca_cert` or `trusted_leaf_cert` are provided; otherwise, `require`.
+
 	- **trusted_ca_cert** <span id="trusted_ca_cert"/> is a base64 DER-encoded CA certificate against which to validate client certificates.
 	- **trusted_ca_cert_file** <span id="trusted_ca_cert_file"/> is a path to a PEM CA certificate file against which to validate client certificates.
 	- **trusted_leaf_cert** <span id="trusted_leaf_cert"/> is a base64 DER-encoded client leaf certificate to accept.
 	- **trusted_leaf_cert_file** <span id="trusted_leaf_cert_file"/> is a path to a PEM CA certificate file against which to validate client certificates.
 
-	Multiple `trusted_*` directives may be used to specify multiple CA or leaf certificates. Client certificates which are not listed as one of the leaf certificates or signed by any of the specified CAs will be rejected according to the **mode**.
+  Multiple `trusted_*` directives may be used to specify multiple CA or leaf certificates. Client certificates which are not listed as one of the leaf certificates or signed by any of the specified CAs will be rejected according to the **mode**.
 
 - **issuer** <span id="issuer"/> configures a custom certificate issuer, or a source from which to obtain certificates. Which issuer is used and the options that follow in this segment depend on the issuer modules that are available (see below for the standard issuers; plugins may add others). Some of the other subdirectives such as `ca` and `dns` are actually shortcuts for configuring the `acme` issuer (and this subdirective was added later), so specifying this directive and some of the others is confusing and thus prohibited. This subdirective can be specified multiple times to configure multiple, redundant issuers; if one fails to issue a cert, the next one will be tried.
+- **get_certificate** <span id="get_certificate"/> enables getting certificates from a _manager module_ at handshake-time. [See below for standard certificate manager modules.](#certificate-managers)
 
 ### Issuers
 
@@ -126,6 +130,7 @@ Obtains certificates using the ACME protocol.
 	trusted_roots <pem_files...>
 	dns <provider_name> [<options>]
 	propagation_timeout <duration>
+	propagation_delay <duration>
 	resolvers <dns_servers...>
 	preferred_chains [smallest] {
 		root_common_name <common_names...>
@@ -145,7 +150,8 @@ Obtains certificates using the ACME protocol.
 - **eab** <span id="eab"/> specifies an External Account Binding which may be required with some ACME CAs.
 - **trusted_roots** <span id="trusted_roots"/> is one or more root certificates (as PEM filenames) to trust when connecting to the ACME CA server.
 - **dns** <span id="dns"/> configures the DNS challenge.
-- **propagation_timeout** <span id="propagation_timeout"/> is a [duration value](/docs/conventions#durations) that sets how long to wait for DNS TXT records to propagate when using the DNS challenge. Default 2 minutes.
+- **propagation_timeout** <span id="propagation_timeout"/> is a [duration value](/docs/conventions#durations) that sets the maximum time to wait for the DNS TXT records to appear when using the DNS challenge. Set to `-1` to disable propagation checks. Default 2 minutes.
+- **propagation_delay** <span id="propagation_delay"/> is a [duration value](/docs/conventions#durations) that sets how long to wait before starting DNS TXT records propagation checks when using the DNS challenge. Default 0 (no wait).
 - **resolvers** <span id="resolvers"/> customizes the DNS resolvers used when performing the DNS challenge; these take precedence over system resolvers or any default ones.
 - **preferred_chains** <span id="preferred_chains"/> specifies which certificate chains Caddy should prefer; useful if your CA provides multiple chains. Use one of the following options:
 	- **smallest** <span id="smallest"/> will tell Caddy to prefer chains with the fewest amount of bytes.
@@ -177,11 +183,44 @@ Obtains certificates from an internal certificate authority.
 
 ```caddy
 ... internal {
-	ca <name>
+	ca       <name>
+	lifetime <duration>
+	sign_with_root
 }
 ```
 
-- **ca** is the name of the internal CA to use. Default: `local`
+- **ca** <span id="ca"/> is the name of the internal CA to use. Default: `local`. See the [PKI app global options](/docs/caddyfile/options#pki-options) to configure alternate CAs.
+- **lifetime** <span id="lifetime"/> is a [duration value](/docs/conventions#durations) that sets the validity period for interally issued leaf certificates. Default: 12h. It is NOT recommended to not change this, unless absolutely necessary.
+- **sign_with_root** <span id="sign_with_root"/> forces the root to be the issuer instead of the intermediate. This is NOT recommended and should only be used when devices/clients do not properly validate certificate chains (very uncommon).
+
+
+
+### Certificate Managers
+
+Certificate manager modules are distinct from issuer modules in that use of manager modules implies that an external tool or service is keeping the certificate renewed, whereas an issuer module implies that Caddy itself is managing the certificate. (Issuer modules take a Certificate Signing Request (CSR) as input, but certificate manager modules take a TLS ClientHello as input.)
+
+These manager modules come standard with the `tls` directive:
+
+#### tailscale
+
+Get certificates from a locally-running [Tailscale](https://tailscale.com) instance. [HTTPS must be enabled in your Tailscale account](https://tailscale.com/kb/1153/enabling-https/) (or your open source [Headscale server](https://github.com/juanfont/headscale)); and the Caddy process must either be running as root, or you must configure `tailscaled` to give your Caddy user [permission to fetch certificates](https://github.com/caddyserver/caddy/pull/4541#issuecomment-1021568348).
+
+_**NOTE: This is usually unnecessary!** Caddy automatically uses Tailscale for all `*.ts.net` domains without any extra configuration._
+
+```caddy-d
+get_certificate tailscale  # often unnecessary!
+```
+
+
+#### http
+
+Get certificates by making an HTTP(S) request. The response must have a 200 status code and the body must contain a PEM chain including the full certificate (with intermediates) as well as the private key.
+
+```caddy-d
+get_certificate http <url>
+```
+
+- **url** <span id="url"/> is the fully-qualified URL to which to make the request. It is strongly advised that this be a local endpoint for performance reasons. The URL will be augmented with the following query string parameters: `server_name` = SNI value, `signature_schemes` = comma-separated list of hex IDs of signature algorithms, and `cipher_suites` = comma-separated list of hex IDS of cipher suites.
 
 
 
@@ -207,6 +246,16 @@ tls internal {
 }
 ```
 
+Use custom options for the internal CA (cannot use the `tls internal` shortcut):
+
+```caddy-d
+tls {
+	issuer internal {
+		ca foo
+	}
+}
+```
+
 Specify an email address for your ACME account (but if only one email is used for all sites, we recommend the `email` [global option](/docs/caddyfile/options) instead):
 
 ```caddy-d
@@ -218,6 +267,14 @@ Enable the DNS challenge for a domain managed on Cloudflare with account credent
 ```caddy-d
 tls {
 	dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+}
+```
+
+Get the certificate chain via HTTP, instead of having Caddy manage it:
+
+```caddy-d
+tls {
+	get_certificate http http://localhost:9007/certs
 }
 ```
 

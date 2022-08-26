@@ -4,7 +4,7 @@ title: error (Caddyfile directive)
 
 # error
 
-Triggers an error in the HTTP handler chain, with an optional message and recommended HTTP status code. 
+Triggers an error in the HTTP handler chain, with an optional message and recommended HTTP status code.
 
 This handler does not write a response. Instead, it's meant to be paired with the [`handle_errors`](handle_errors) directive to invoke your custom error handling logic.
 
@@ -37,7 +37,7 @@ example.com {
 
     # Handle the error by serving an HTML page 
     handle_errors {
-        rewrite * /{http.error.status_code}.html
+        rewrite * /{err.status_code}.html
 		file_server
     }
 
