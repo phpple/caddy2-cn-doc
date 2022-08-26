@@ -7,33 +7,33 @@ title: 安装
 本页介绍了在你的系统上安装Caddy的各种方法。
 
 __官方的：__
-- [静态二进制文件](https://caddyserver.com/docs/install#static-binaries)
-- [Debian、Ubuntu、Raspbian](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)
-- [Fedora、Redhat、CentOS](https://caddyserver.com/docs/install#fedora-redhat-centos)
-- [Arch Linux, Manjaro, Parabola](https://caddyserver.com/docs/install#arch-linux-manjaro-parabola)
-- [Docker](https://caddyserver.com/docs/install#docker)
-- [DigitalOcean](https://caddyserver.com/docs/install#digitalocean)
+- [静态二进制文件](#static-binaries)
+- [Debian、Ubuntu、Raspbian](#debian-ubuntu-raspbian)
+- [Fedora、Redhat、CentOS](#fedora-redhat-centos)
+- [Arch Linux, Manjaro, Parabola](#arch-linux-manjaro-parabola)
+- [Docker](#docker)
+- [DigitalOcean](#digitalocean)
 
 > 我们的[官方软件包](https://github.com/caddyserver/dist)仅附带标准模块。如果你需要第三方插件，请使用[`xcaddy`从源代码构建](https://caddyserver.com/docs/build#xcaddy)，或者使用我们的[下载页面](https://caddyserver.com/download)。
 
 
 __社区维护：__
-- [Homebrew](https://caddyserver.com/docs/install#homebrew)
-- [Webi](https://caddyserver.com/docs/install#webi)
-- [Chocolatey](https://caddyserver.com/docs/install#chocolatey)
-- [Ansible](https://caddyserver.com/docs/install#ansible)
-- [Scoop](https://caddyserver.com/docs/install#scoop)
-- [Termux](https://caddyserver.com/docs/install#termux)
+- [Homebrew](#homebrew)
+- [Webi](#webi)
+- [Chocolatey](#chocolatey)
+- [Ansible](#ansible)
+- [Scoop](#scoop)
+- [Termux](#termux)
 
 
-## 静态二进制文件
+<h2 id="static-binaries">静态二进制文件</h2>
 
 只需要简单地下载Caddy二进制文件，并不会[将其安装为服务](https://caddyserver.com/docs/running#manual-installation)，这种方式在开发或升级现有安装时非常有用。
 
 - [在GitHub上查看发布](https://github.com/caddyserver/caddy/releases)（展开“Assets”）
 - [使用官方下载页面](https://caddyserver.com/download)
 
-## Debian、Ubuntu、Raspbian
+<h2 id="debian-ubuntu-raspbian">Debian、Ubuntu、Raspbian</h2>
 
 安装此软件包会自动启动将Caddy作为systemd服务（名称为`caddy`）运行，另外，还有一个名为`caddy-api`可供使用，它默认没有被启用。
 
@@ -61,7 +61,7 @@ sudo apt install caddy
 
 如果你希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
 
-## Fedora、红帽、CentOS
+<h2 id="fedora-redhat-centos">Fedora、Redhat、CentOS</h2>
 
 这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
 
@@ -84,7 +84,7 @@ yum install caddy
 [查看COPR](https://copr.fedorainfracloud.org/coprs/g/caddy/caddy/)
 
 
-## Arch Linux, Manjaro, Parabola
+<h2 id="arch-linux-manjaro-parabola">Arch Linux, Manjaro, Parabola</h2>
 
 这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
 
