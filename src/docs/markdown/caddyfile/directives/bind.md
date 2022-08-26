@@ -1,40 +1,40 @@
 ---
-title: bind (Caddyfile directive)
+title: bind(Caddyfile指令)
 ---
 
 # bind
 
-Overrides the interface to which the server's socket should bind. Normally, the listener binds to the empty (wildcard) interface. However, you may force the listener to bind to another hostname or IP instead. (This directive accepts only a host, not a port.)
+指定服务器的套接字绑定的接口。通常情况下，监听器会绑定到空（通配符）接口。然而，你可以强制监听器绑定到另一个主机名或IP。(这个指令只接受一个主机，而不能是端口）。
 
-Note that binding sites inconsistently may result in unintended consequences. For example, if two sites on the same port resolve to `127.0.0.1` and only one of those sites is configured with `bind 127.0.0.1`, then only one site will be accessible since the other will bind to the port without a specific host; the OS will choose the more specific matching socket. (Virtual hosts are not shared across different listeners.)
+请注意，不一致地绑定站点可能会导致意想不到的后果。例如，如果同一端口的两个站点解析为127.0.0.1，而其中只有一个站点配置了`bind 127.0.0.1'，那么只有一个站点可以访问，因为另一个站点将绑定到端口而没有具体的主机；操作系统将选择更具体的匹配套接字。(虚拟主机不会在不同的监听者之间共享)。
 
-`bind` accepts [network addresses](/docs/conventions#network-addresses), but may not include a port.
+`bind`接受[网络地址](/docs/conventions#network-addresses)，但可能不包括端口。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 bind <hosts...>
 ```
 
-- **&lt;hosts...&gt;** is the list of host interfaces to bind which to bind the listener.
+- **&lt;hosts...&gt;**是要绑定监听器的主机接口列表。
 
 
-## Examples
+## 示例
 
-To make a socket accessible only on the current machine, bind to the loopback interface (localhost):
+要使一个套接字只能在当前机器上访问，请绑定回环地址（localhost）：
 
 ```caddy-d
 bind 127.0.0.1
 ```
 
-To include IPv6:
+要包括IPv6：
 
 ```caddy-d
-bind 127.0.0.1 [::1]
+bind 127.0.0.1 [::1] 。
 ```
 
-To bind to a Unix domain socket at `/run/caddy`:
+要在`/run/caddy`处绑定Unix域套接字：
 
 ```caddy-d
 bind unix//run/caddy

@@ -1,25 +1,25 @@
 ---
-title: acme_server (Caddyfile directive)
+title: acme_server (Caddyfile指令)
 ---
 
 # acme_server
 
-An embedded [ACME protocol](https://tools.ietf.org/html/rfc8555) server handler. This allows a Caddy instance to issue certificates for any other ACME-compatible software (including other Caddy instances).
+一个嵌入式[ACME协议](https://tools.ietf.org/html/rfc8555)服务器处理程序。这允许一个Caddy实例为任何其他兼容ACME的软件（包括其他Caddy实例）签发证书。
 
-When enabled, requests matching the path `/acme/*` will be handled by the ACME server.
-
-
-## Client configuration
-
-Using ACME server defaults, ACME clients should simply be configured to use `https://localhost/acme/local/directory` as their ACME endpoint. (`local` is the ID of Caddy's default CA.)
+启用后，匹配路径`/acme/*`的请求将由ACME服务器处理。
 
 
-## Syntax
+## 客户端配置
+
+使用ACME服务器的默认值，ACME客户端应该简单地配置为使用`https://localhost/acme/local/directory`作为他们的ACME端点。(`local`是Caddy的默认CA的ID)。
+
+
+## 语法
 
 ```caddy-d
 acme_server [<matcher>] {
-	ca <id>
+ca <id
 }
 ```
 
-- **ca** specifies the ID of the certificate authority with which to sign certificates. The default is `local`, which is Caddy's default CA, intended for locally-used, self-signed certificates, which is most common in dev environments. For broader use, it is recommended to specify a different CA to avoid confusion. If the CA with the given ID does not already exist, it will be created. See the [PKI app global options](/docs/caddyfile/options#pki-options) to configure alternate CAs.
+- **ca**指定用于签署证书的认证机构的ID。默认是`local`，这是Caddy的默认CA，用于本地使用的自签证书，这在开发环境中最常见。对于更广泛地使用，建议指定一个不同的CA以避免混淆。如果指定ID的CA不存在，它将被创建。参见[PKI应用程序全局选项](/docs/caddyfile/options#pki-options)以配置替代的CA。
