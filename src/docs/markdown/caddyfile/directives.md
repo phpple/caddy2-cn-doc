@@ -42,6 +42,7 @@ title: Caddyfile指令
 **[encode](/docs/caddyfile/directives/encode)** | 编码（通常是压缩）响应
 **[error](/docs/caddyfile/directives/error)** | 触发错误
 **[file_server](/docs/caddyfile/directives/file_server)** | 从磁盘提供文件
+**[forward_auth](/docs/caddyfile/directives/forward_auth)** | 将身份验证委托给外部服务
 **[handle](/docs/caddyfile/directives/handle)** | 一组互斥的指令
 **[handle_errors](/docs/caddyfile/directives/handle_errors)** | 定义路由的错误处理器
 **[handle_path](/docs/caddyfile/directives/handle_path)** | 像处理器，但去掉路径前缀
@@ -49,6 +50,7 @@ title: Caddyfile指令
 **[import](/docs/caddyfile/directives/import)** | 包括片段或文件
 **[log](/docs/caddyfile/directives/log)** | 启用访问/请求日志记录
 **[map](/docs/caddyfile/directives/map)** | 将输入值映射到一个或多个输出
+**[method](/docs/caddyfile/directives/method)** | 在内部更改HTTP方法
 **[metrics](/docs/caddyfile/directives/metrics)** | 配置Prometheus指标展示端点
 **[php_fastcgi](/docs/caddyfile/directives/php_fastcgi)** | 通过FastCGI服务PHP站点
 **[push](/docs/caddyfile/directives/push)** | 使用HTTP/2服务器推送将内容推送到客户端
@@ -62,8 +64,10 @@ title: Caddyfile指令
 **[route](/docs/caddyfile/directives/route)** | 将一组指令从字面上视为单个单元
 **[templates](/docs/caddyfile/directives/templates)** | 对响应执行模板
 **[tls](/docs/caddyfile/directives/tls)** | 自定义TLS设置
+**[tracing](/docs/caddyfile/directives/tracing)** | 集成OpenTelemetry的tracing
 **[try_files](/docs/caddyfile/directives/try_files)** | 取决于文件的存在的重写
 **[uri](/docs/caddyfile/directives/uri)** | 操作URL
+**[vars](/docs/caddyfile/directives/vars)** | 设置任意变量
 
 </div>
 
