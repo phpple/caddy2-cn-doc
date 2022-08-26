@@ -8,7 +8,7 @@ title: encode (Caddyfile指令)
 
 ## 语法
 
-``caddy-d
+```caddy-d
 encode [<matcher>] <formats...> {
 # 编码格式
 gzip [<级别>]
@@ -66,12 +66,12 @@ status <code...>
 
 启用Gzip压缩。
 
-``caddy-d
+```caddy-d
 encode gzip
 ```
 
 启用Zstandard和Gzip压缩(Zstandard隐含地优先，因为它是第一个)。
 
-``caddy-d
+```caddy-d
 encode zstd gzip
 ```

@@ -1,16 +1,16 @@
 ---
-title: file_server (Caddyfile directive)
+title: file_server(Caddyfile指令)
 ---
 
 # file_server
 
-A static file server that supports real and virtual file systems. It forms file paths by appending the request's URI path to the [site's root path](/docs/caddyfile/directives/root).
+一个静态文件服务器，支持真实和虚拟文件系统。它通过将请求的URI路径附加到[站点的根路径](/docs/caddyfile/directives/root)来形成文件路径。
 
-By default, it enforces canonical URIs; meaning HTTP redirects will be issued for requests to directories that do not end with a trailing slash (to add it) or requests to files that have a trailing slash (to remove it). Redirects are not issued, however, if an internal rewrite modifies the last element of the path (the filename).
+默认情况下，它执行规范的URI；这意味着HTTP重定向将被用于对不以尾部斜线结尾的目录的请求（添加它）或对有尾部斜线的文件的请求（删除它）。然而，如果内部重写修改了路径的最后一个元素（文件名），则不会发出重定向。
 
-Most often, the `file_server` directive is paired with the [`root`](/docs/caddyfile/directives/root) directive to set file root for the whole site. A site root does not carry sandbox guarantees: the file server does prevent directory traversal, but symbolic links within the root can still allow accesses outside of the root.
+最常见的是，`file_server`指令与[`root`](/docs/caddyfile/directives/root)指令配对，为整个网站设置文件根。一个站点的根并不带有沙盒保证：文件服务器确实可以防止目录遍历，但是根中的符号链接仍然可以允许根之外的访问。
 
-## Syntax
+## 语法
 
 ```caddy-d
 file_server [<matcher>] [browse] {
@@ -26,58 +26,58 @@ file_server [<matcher>] [browse] {
 }
 ```
 
-- **browse** enables file listings for requests to directories that do not have an index file.
-- **fs** specifies an alternate (perhaps virtual) file system to use. Any Caddy module in the `caddy.fs` namespace can be used here as long as it supports [`Stat()` calls](https://pkg.go.dev/io/fs#StatFS). Any root path/prefix will still apply to alternate file system modules. By default, the local disk is used.
-- **root** sets the path to the site root. It's similar to the [`root`](/docs/caddyfile/directives/root) directive except it applies to this file server instance only and overrides any other site root that may have been defined. Default: `{http.vars.root}` or the current working directory. Note: This subdirective only changes the root for this directive. For other directives (like [`try_files`](/docs/caddyfile/directives/try_files) or [`templates`](/docs/caddyfile/directives/templates)) to know the same site root, use the [`root`](/docs/caddyfile/directives/root) directive, not this subdirective.
-- **hide** is a list of files or folders to hide; if requested, the file server will pretend they do not exist. Accepts placeholders and glob patterns. Note that these are _file system_ paths, NOT request paths. In other words, relative paths use the current working directory as a base, NOT the site root; and all paths are transformed to their absolute form before comparisons (if possible). Specifying a file name or pattern without a path separator will hide all files with a matching name regardless of its location; otherwise, a path prefix match will be attempted, and then a globular match. Since this is a Caddyfile config, the active configuration file(s) will be added by default.
-- **index** is a list of filenames to look for as index files. Default: `index.html index.txt`
-- **<template_file>** is an optional custom template file to use for directory listings. Defaults to the template that can be found [here in the source code ![external link](/resources/images/external-link.svg)](https://github.com/caddyserver/caddy/blob/master/modules/caddyhttp/fileserver/browse.html). Browse templates can use actions from [the standard templates module](/docs/modules/http.handlers.templates#docs) as well.
-- **precompressed** is the list of encoding formats to search for precompressed sidecar files. Arguments are an ordered list of encoding formats to search for precompressed [sidecar files](https://en.wikipedia.org/wiki/Sidecar_file). Supported formats are `gzip` (`.gz`), `zstd` (`.zst`) and `br` (`.br`).
+- **browse** 对没有索引文件的目录的请求，启用文件列表。
+- **fs**指定了一个备用的（也许是虚拟的）文件系统来使用。`caddy.fs`命名空间中的任何Caddy模块都可以在这里使用，只要它支持[`Stat()`调用](https://pkg.go.dev/io/fs#StatFS)。任何根`path/prefix`仍将适用于替代的文件系统模块。默认情况下，使用本地磁盘。
+- **root**设置网站根目录。它类似于[`root`](/docs/caddyfile/directives/root)指令，只是它只适用于这个文件服务器实例，并优先于任何可能已经定义的其他站点根目录。默认：`{http.vars.root}`或当前工作目录。注意：这个子指令只改变这个指令的根。其他指令（如[`try_files`](/docs/caddyfile/directives/try_files)或[`templates`](/docs/caddyfile/directives/templates)）要指定根目录，请使用[`root`](/docs/caddyfile/directives/root)指令而不是这个子指令。
+- **hide**是一个要隐藏的文件或文件夹的列表；如果要求，文件服务器将假装它们不存在。该指令接受占位符和glob模式。注意，这些是 _文件系统_ 路径，不是请求路径。换句话说，相对路径使用当前工作目录作为基础，而不是网站根目录；所有的路径在比较之前都会被转换为绝对形式（如果可能的话）。指定一个没有路径分隔符的文件名或模式，将隐藏所有具有匹配名称的文件，无论其位置如何；否则，将试图进行路径前缀匹配，然后再进行全局匹配。由于这是一个Caddyfile配置，默认情况下，活动的配置文件将被添加。
+- **index**是一个寻找索引文件的文件名列表。默认：`index.html index.txt`。
+- **<template_file>**是一个可选的自定义模板文件，用于目录列表。默认为可以找到的模板[在源代码这里！[外部链接](/resources/images/external-link.svg)](https://github.com/caddyserver/caddy/blob/master/modules/caddyhttp/fileserver/browse.html)。浏览模板也可以使用[标准模板模块](/docs/modules/http.handlers.templates#docs)中的动作。
+- **precompressed**是用于搜索预压缩挎包文件的编码格式列表。参数是一个有序的编码格式列表，用于搜索预压缩的[sidecar文件]（https://en.wikipedia.org/wiki/Sidecar_file）。支持的格式有`gzip`（`.gz`），`zstd`（`.zst`）和`br`（`.br`）。
 
-  All file lookups will look for the existence of the uncompressed file first. Once found Caddy will look for sidecar files with the file extension of each enabled format. If a precompressed sidecar file is found, Caddy will respond with the precompressed file, with the `Content-Encoding` response header set appropriately. Otherwise, Caddy will respond with the uncompressed file as normal. If the [`encode` directive](/docs/caddyfile/directives/encode) is enabled, then it may compress the response on-the-fly if not precompressed.
-- **status** is an optional status code override to be used when writing the response. Particularly useful when responding to a request with a custom error page. Can be a 3-digit status code, For example: `404`. Placeholders are supported. By default, the written status code will typically be `200`, or `206` for partial content.
-- **disable_canonical_uris** disables the default behaviour of redirecting to add a trailing slash if the request path is a directory, or remove the trailing slash if the request path is a file. Note that by default, canonicalization will not happen if the last element of the request's path (the filename) underwent an internal rewrite, to avoid clobbering an explicit rewrite with implicit behaviour.
-- **pass_thru** enables pass-thru mode, which continues to the next HTTP handler in the route if the requested file is not found, instead of returning a `404`. Practically, this is likely only be useful inside of a [`route`](/docs/caddyfile/directives/route) block, because the `file_server` directive is effectively [ordered last](/docs/caddyfile/directives#directive-order) otherwise.
+  所有的文件查找将首先寻找未压缩文件的存在。一旦找到，Caddy将寻找具有每种启用格式的文件扩展名的sidecar文件。如果找到一个预压缩的sidecar文件，Caddy会用预压缩的文件来回应，并适当地设置`Content-Encoding`响应头。否则，Caddy将以正常的未压缩文件进行响应。如果[`encode`指令](/docs/caddyfile/directives/encode)被启用，那么如果没有预压缩，它可能会对响应进行即时压缩。
+- **status**是一个可选的状态代码覆盖，在编写响应时使用。在用自定义错误页面响应请求时特别有用。可以是一个3位数的状态代码，例如：`404`。支持占位符。默认情况下，写入的状态代码通常是`200`，或`206`，用于部分内容。
+- **disable_canonical_uris** 如果请求路径是一个目录，则禁用重定向的默认行为，即添加尾部斜线，如果请求路径是一个文件，则删除尾部斜线。请注意，默认情况下，如果请求路径的最后一个元素（文件名）经历了内部重写，那么规范化将不会发生，以避免用隐性行为破坏显式重写。
+- **pass_thru** 启用pass-thru模式，如果没有找到请求的文件，则继续到路由中的下一个HTTP处理程序，而不是返回`404`。实际上，这可能只在[`route`](/docs/caddyfile/directives/route)块中有用，因为`file_server`指令实际上是[最后排序](/docs/caddyfile/directives#directive-order)，否则的话。
 
-## Examples
+## 示例
 
-A static file server out of the current directory:
+当前目录外的静态文件服务器。
 
 ```caddy-d
 file_server
 ```
 
-With file listings enabled:
+启用了文件列表:
 
 ```caddy-d
-file_server browse
+文件_服务器浏览
 ```
 
-Only serve static files out of the `/static` folder:
+只服务于`/static`文件夹中的静态文件:
 
 ```caddy-d
 file_server /static/*
 ```
 
-The `file_server` directive is usually paired with the [`root` directive](/docs/caddyfile/directives/root) to set the root path from which to serve files:
+`file_server`指令通常与[`root`指令](/docs/caddyfile/directives/root)配对，以设置提供文件的根路径。
 
 ```caddy-d
 root * /home/user/public_html
-file_server
+文件服务器
 ```
 
-Hide all `.git` folders and their contents:
+隐藏所有`.git`文件夹及其内容。
 
 ```caddy-d
 file_server {
-	hide .git
+	隐藏.git
 }
 ```
 
-If supported by the client (`Accept-Encoding` header) checks the existence of precompressed files along side the requested file. So if `/path/to/file` is requested, it checks for `/path/to/file.zst`, `/path/to/file.br` and `/path/to/file.gz` in that order and serves the first available file with corresponding Content-Encoding:
+如果客户端支持（`Accept-Encoding'头），则检查请求的文件是否存在预压缩的文件。因此，如果`/path/to/file`被请求，它将依次检查`/path/to/file.zst`、`/path/to/file.br`和`/path/to/file.gz`，并提供第一个具有相应内容编码的可用文件。
 
 ```caddy-d
 file_server {
-	precompressed zstd br gzip
+	预压缩 zstd br gzip
 }
 ```
