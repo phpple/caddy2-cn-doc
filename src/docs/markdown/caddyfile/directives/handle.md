@@ -1,14 +1,14 @@
 ---
-title: handle (Caddyfile directive)
+title: handle(Caddyfile指令)
 ---
 
 # handle
 
-Evaluates a group of directives mutually exclusively from other `handle` blocks at the same level of nesting.
+评估一组指令，这些指令与同级嵌套的其他`handle`块相互排斥。
 
-The `handle` directive is kind of similar to the `location` directive from nginx config: the first matching `handle` block will be evaluated. Handle blocks can be nested if needed. Only HTTP handler directives can be used inside handle blocks.
+`handle`指令有点类似于nginx配置中的`location`指令：第一个匹配的`handle`块将被评估。如果需要，处理程序块可以嵌套。只有HTTP处理指令可以在处理块中使用。
 
-## Syntax
+## 语法
 
 ```caddy-d
 handle [<matcher>] {
@@ -16,42 +16,44 @@ handle [<matcher>] {
 }
 ```
 
-- **<directives...>** is a list of HTTP handler directives or directive blocks, one per line, just like would be used outside of a handle block.
+- **<directives...>** 是一个HTTP处理指令或指令块的列表，每行一个，就像在handle块之外使用一样。
 
+## 使用场景
 
-## Utility
+- 如果你喜欢用像nginx位置块那样的基于继承的方式来设计HTTP处理程序逻辑，你可能更喜欢使用`handle`块，而不是为你的指令定义相互排斥的匹配器。
+- 如果继承性是你的HTTP处理程序配置所需要的特征，那么`handle`指令可能很适合你。
 
-If you prefer crafting HTTP handler logic in a more inheritence-based way like nginx location blocks, you may prefer the use of `handle` blocks rather than defining mutually-exclusive matchers for your directives. If inheritence is a desired characteristic of your HTTP handler configurations, then the `handle` directive may suit you well.
+## 类似的指令
 
-## Similar directives
+还有其他一些指令可以包装HTTP处理程序指令，但每个指令都有其用途，这取决于你想要表达的行为。
 
-There are other directives that can wrap HTTP handler directives, but each has its use depending on the behavior you want to convey:
+- [`handle_path`](handle_path)的作用与`handle`相同, 但它在运行其处理程序之前从请求中剥离了一个前缀。
+- [`handle_errors`](handle_errors)和`handle`一样，但只有当Caddy在处理请求时遇到错误才会调用。
+- [`route`](route)像`handle`一样包装其他指令，但有两个区别：
+  - 1）路由块之间不相互排斥，
+  - 2）路由中的指令不[重新排序](/docs/caddyfile/directives#directive-order)，在需要时给你更多控制。
 
-- [`handle_path`](handle_path) does the same as `handle`, but it strips a prefix from the request before running its handlers.
-- [`handle_errors`](handle_errors) is like `handle`, but is only invoked when Caddy encounters an error during request handling.
-- [`route`](route) wraps other directives like `handle` does, but with two distinctions: 1) route blocks are not mutually exclusive to each other, and 2) directives within a route are not [re-ordered](/docs/caddyfile/directives#directive-order), giving you more control if needed.
+## 示例
 
-## Examples
-
-Handle requests in `/foo/` by the static file server, and send all other requests to the reverse proxy:
+由静态文件服务器处理`/foo/`中的请求，并将所有其他请求发送到反向代理。
 
 ```caddy-d
 handle /foo/* {
-	file_server
+    file_server
 }
 handle {
-	reverse_proxy 127.0.0.1:8080
+    reverse_proxy 127.0.0.1:8080
 }
 ```
 
-You can mix `handle` and [`handle_path`](handle_path) directives in the same site, and they will still be mutually exclusive from each other:
+你可以在同一个网站中混合使用`handle`和[`handle_path`](handle_path)指令，它们仍然是相互排斥的。
 
 ```caddy-d
 handle_path /foo/* {
-	# The path has the "/foo" prefix stripped
+    # 路径有"/foo"前缀的将被去除
 }
 
 handle /bar/* {
-	# The path still retains "/bar"
+    # 路径仍然保留了"/bar"
 }
 ```

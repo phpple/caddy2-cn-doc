@@ -36,9 +36,9 @@ forward_auth [<matcher>] [<upstreams...>] {
 
 - **&lt;upstreams...&gt;** 是一个上游（后端）的列表，向其发送认证请求。
 
-- **uri**是URI（路径和查询），在发送到上游的请求中设置。这通常是认证网关的验证端点。
+- **uri** 是URI（路径和查询），在发送到上游的请求中设置。这通常是认证网关的验证端点。
 
-- **copy_headers**是一个HTTP头字段的列表，当请求有成功状态代码时，要从响应中复制给原始请求。
+- **copy_headers** 是一个HTTP头字段的列表，当请求有成功状态代码时，要从响应中复制给原始请求。
 
   该字段可以通过使用`>`后面的新名称来重命名，例如`Before>After`。
 
@@ -122,6 +122,3 @@ forward_auth unix//run/tailscale.nginx-auth.sock {
 	}
 }
 ```
-
-
-通过www.DeepL.com/Translator（免费版）翻译
