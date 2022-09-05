@@ -1,47 +1,47 @@
 ---
-title: handle_errors (Caddyfile directive)
+title: handle_errors(Caddyfile指令)
 ---
 
 # handle_errors
 
-Sets up error handlers.
+设置错误处理程序。
 
-When the normal HTTP request handlers return an error, normal processing stops and the error handlers are invoked. Error handlers form a route which is just like normal routes, and they can do anything that normal routes can do. This enables great control and flexibility when handling errors during HTTP requests. For example, you can serve static error pages, templated error pages, or reverse proxy to another backend to handle errors.
+当正常的HTTP请求处理程序返回一个错误时，正常的处理会停止，错误处理程序会被调用。错误处理程序形成一个路由，就像正常的路由一样，它们可以做任何正常路由可以做的事情。这使得在处理HTTP请求期间的错误时有很大的控制力和灵活性。例如，你可以提供静态错误页面、模板化的错误页面，或者反向代理到另一个后端来处理错误。
 
-A request's context is carried into error routes, so any values set on the request context such as [site root](root) or [vars](vars) will be preserved in error handlers, too. Additionally, [new placeholders](#placeholders) are available when handling errors.
+请求的上下文将被带入错误路由，所以任何在请求上下文上设置的值，如[site root](root)或[vars](vars)，也将被保留在错误处理程序中。此外，在处理错误时，[新占位符](#placeholders)是可用的。
 
-Note that certain directives, for example [`reverse_proxy`](reverse_proxy) which may write a response with an HTTP status which is classified as an error, will _not_ trigger the error routes.
+请注意，某些指令，例如[`reverse_proxy`](reverse_proxy)可能会写一个HTTP状态为错误的响应，将 _不会_ 触发错误路由。
 
-You may use the [`error`](error) directive to explicitly trigger an error based on your own routing decisions.
+你可以使用[`error`](error)指令，根据自己的路由决策明确地触发一个错误。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 handle_errors {
-	<directives...>
+    <directives...>
 }
 ```
 
-- **<directives...>** is a list of HTTP handler [directives](/docs/caddyfile/directives) and [matchers](/docs/caddyfile/matchers), one per line.
+- **<directives...>** 是一个HTTP处理程序[指令](/docs/caddyfile/directives)和[匹配器](/docs/caddyfile/matchers)的列表，每行一个。
 
 
-## Placeholders
+<h3 id="placeholder">占位符</h3>
 
-The following placeholders are available while handling errors. They are [Caddyfile shorthands](/docs/caddyfile/concepts#placeholders) for the full placeholders which can be found in [the JSON docs for an HTTP server's error routes](/docs/json/apps/http/servers/errors/#routes).
+以下占位符在处理错误时可用。它们是[Caddyfile速记](/docs/caddyfile/concepts#placeholders)的完整占位符，可以在[HTTP服务器错误路由的JSON文档](/docs/json/apps/http/servers/errors/#routes)中找到。
 
-| Placeholder | Description |
+| 占位符 | 描述 |
 |---|---|
-| `{err.status_code}` | The recommended HTTP status code |
-| `{err.status_text}` | The status text associated with the recommended status code |
-| `{err.message}` | The error message |
-| `{err.trace}` | The origin of the error |
-| `{err.id}` | An identifier for this occurrence of the error |
+| `{err.status_code}` | 推荐的HTTP状态代码 |
+| `{err.status_text}` | 与推荐状态代码相关的状态文本 |
+| `{err.message}` | 错误信息 |
+| `{err.trace}` | 错误的来源 |
+| `{err.id}` | 该错误发生的标识符 |
 
 
-## Examples
+## 示例
 
-Custom error pages based on the status code (i.e. a page called `404.html` for 404 errors). Note that [`file_server`](file_server) preserves the error's HTTP status code when run in `handle_errors` (assumes you set a [site root](/docs/caddyfile/directives/root) in your site beforehand):
+基于状态代码的自定义错误页面（例如，404错误的页面称为`404.html`）。注意，当在`handle_errors`中运行时，[`file_server`](file_server)保留了错误的HTTP状态码（假设你事先在网站中设置了一个[site root](/docs/caddyfile/directives/root)）。
 
 ```caddy-d
 handle_errors {
@@ -50,7 +50,7 @@ handle_errors {
 }
 ```
 
-A single error page that uses [`templates`](/docs/caddyfile/directives/templates) to write a custom error message:
+一个单一的错误页面，使用[`templates`](/docs/caddyfile/directives/templates)来定制一个自定义的错误信息。
 
 ```caddy-d
 handle_errors {
@@ -60,8 +60,9 @@ handle_errors {
 }
 ```
 
-Reverse proxy to a professional server that is highly qualified for handling HTTP errors and improving your day 😸:
+反向代理到一个专业的服务器，该服务器在处理HTTP错误和改善你的心情方面有很高的水平😸：
 
+``caddy-d
 ```caddy-d
 handle_errors {
 	rewrite * /{err.status_code}
@@ -71,15 +72,15 @@ handle_errors {
 }
 ```
 
-Simply use [`respond`](/docs/caddyfile/directives/respond) to return the error code and name
+只需使用[`respond`](/docs/caddyfile/directives/respond)即可返回错误代码和名称
 
 ```caddy-d
 handle_errors {
-	respond "{err.status_code} {err.status_text}"
+    respond "{err.status_code} {err.status_text}"
 }
 ```
 
-To handle specific error codes differently, use an [`expression`](/docs/caddyfile/matchers#expression) matcher, using [`handle`](/docs/caddyfile/directives/handle) for mutual exclusivity:
+要以不同的方式处理特定的错误代码，使用[`expression`](/docs/caddyfile/matchers#expression)匹配器，以及[`handle`](/docs/caddyfile/directives/handle)进行互斥。
 
 ```caddy-d
 handle_errors {
