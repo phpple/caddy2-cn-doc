@@ -9,7 +9,7 @@ title: method (Caddyfile指令)
 
 ## 语法
 
-``caddy-d
+```caddy-d
 method [<matcher>] <method>.
 ```
 
@@ -20,6 +20,6 @@ method [<matcher>] <method>.
 
 将`/api`下的所有请求的方法改为`POST`。
 
-``caddy-d
+```caddy-d
 method /api* POST
 ```
