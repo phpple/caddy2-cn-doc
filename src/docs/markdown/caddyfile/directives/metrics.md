@@ -1,22 +1,19 @@
 ---
-title: metrics (Caddyfile directive)
+title: metrics (Caddyfile指令)
 ---
 
 # metrics
 
-Configures a Prometheus metrics exposition endpoint so the gathered metrics can
-be exposed for scraping.
+配置一个Prometheus度量标准展示端点，这样采集的指标可以被暴露出来以供抓取。
 
-Note that a `/metrics` endpoint is also attached to the [admin API](/docs/api),
-which is not configurable, and is not available when the admin API is disabled.
+注意，[admin API](/docs/api)上也有一个`/metrics`端点。 但它不能进行配置，而且当管理API被禁用时也不能使用。
 
-This endpoint will return metrics in the [Prometheus exposition format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)
-or, if negotiated, in the [OpenMetrics exposition format](https://pkg.go.dev/github.com/prometheus/client_golang@v1.9.0/prometheus/promhttp#HandlerOpts)
-(`application/openmetrics-text`).
+这个端点将以[Prometheus数据传输格式](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)返回指标。如果经过协商，也可以使用[OpenMetrics数据传输格式](https://pkg.go.dev/github.com/prometheus/client_golang@v1.9.0/prometheus/promhttp#HandlerOpts)
+(`application/openmetrics-text`)。
 
-See also [Monitoring Caddy with Prometheus metrics](/docs/metrics).
+另见[用Prometheus度量标准监控Caddy](/docs/metrics)。
 
-## Syntax
+## 语法
 
 ```caddy-d
 metrics [<matcher>] {
@@ -24,24 +21,23 @@ metrics [<matcher>] {
 }
 ```
 
-- **disable_openmetrics** disables OpenMetrics negotiation. Usually not
-  necessary except when needing to work around parsing bugs.
+- **disable_openmetrics** 禁用OpenMetrics格式。这个指令通常没有必要，除非需要解决解析错误。
 
-## Examples
+## 示例
 
-Expose metrics at the default `/metrics` path:
+在默认的`/metrics`路径下显示指标。
 
 ```caddy-d
-metrics /metrics
+  metrics /metrics
 ```
 
-Expose metrics at another path:
+在另一个路径上显示指标。
 
 ```caddy-d
 metrics /foo/bar/baz
 ```
 
-Serve metrics at a separate subdomain:
+在一个单独的子域中提供指标。
 
 ```caddy
 metrics.example.com {
@@ -49,7 +45,7 @@ metrics.example.com {
 }
 ```
 
-Disable OpenMetrics negotiation:
+停用OpenMetrics格式。
 
 ```caddy-d
 metrics /metrics {

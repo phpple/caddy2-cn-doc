@@ -1,25 +1,25 @@
 ---
-title: method (Caddyfile directive)
+title: method (Caddyfile指令)
 ---
 
 # method
 
-Changes the HTTP method on the request.
+改变请求中的HTTP方法。
 
 
-## Syntax
+## 语法
 
-```caddy-d
-method [<matcher>] <method>
+``caddy-d
+method [<matcher>] <method>.
 ```
 
-- **&lt;method&gt;** is the HTTP method to change the request to.
+- **&lt;method&gt;** 是要改变请求的HTTP方法。
 
 
-## Examples
+## 示例
 
-Change the method for all requests under `/api` to `POST`:
+将`/api`下的所有请求的方法改为`POST`。
 
-```caddy-d
+``caddy-d
 method /api* POST
 ```
