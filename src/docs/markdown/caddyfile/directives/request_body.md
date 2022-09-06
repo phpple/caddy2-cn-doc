@@ -4,10 +4,10 @@ title: request_body (Caddyfile directive)
 
 # request_body
 
-Manipulates or sets restrictions on the bodies of incoming requests.
+操作或设置对传入请求正文的限制。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 request_body [<matcher>] {
@@ -15,12 +15,12 @@ request_body [<matcher>] {
 }
 ```
 
-- **max_size** is the maximum size in bytes allowed for the request body. It accepts all size values supported by [go-humanize](https://pkg.go.dev/github.com/dustin/go-humanize#pkg-constants). Reads of more bytes will return an error with HTTP status 413.
+- **max_size** 是请求正文允许的最大字节数。它接受[go人性化](https://pkg.go.dev/github.com/dustin/go-humanize#pkg-constants)支持的所有大小值。读取到超过限定的字节数将返回HTTP状态413的错误。
 
 
-## Examples
+## 示例
 
-Limit request body sizes to 10 megabytes:
+将请求正文的大小限制在10兆字节。
 
 ```caddy-d
 request_body {
