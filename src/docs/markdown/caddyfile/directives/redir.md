@@ -1,51 +1,50 @@
 ---
-title: redir (Caddyfile directive)
+title: redir (Caddyfile指令)
 ---
 
 # redir
 
-Issues an HTTP redirect to the client.
+向客户发出一个HTTP重定向。
 
-This directive implies that a matched request is to be rejected. It is ordered very early in the handler chain (before [`rewrite`](/docs/caddyfile/directives/rewrite)).
+这条指令意味着一个匹配的请求将被拒绝。它在处理程序链中被安排在很早的位置（在[`rewrite`](/docs/caddyfile/directives/rewrite)之前）。
 
-
-## Syntax
+## 语法
 
 ```caddy-d
 redir [<matcher>] <to> [<code>]
 ```
 
-- **&lt;to&gt;** is the target location. Becomes the response's Location header.
-- **&lt;code&gt;** is the HTTP status code to use for the redirect. Can be:
-	- A positive integer in the 3xx range, or 401
-	- `temporary` for a temporary redirect (302; default)
-	- `permanent` for a permanent redirect (301)
-	- `html` to use an HTML document to perform the redirect (useful for redirecting browsers but not API clients)
-	- A placeholder with a status code value
+- **&lt;to&gt;** 是目标位置。成为响应的Location的header头。
+- **&lt;code&gt;** 是重定向要使用的HTTP状态码。可以是。
+	- 3xx范围内的一个正整数，或401
+	- `temporary` 用于临时重定向（默认为302）
+	- `permanent` 用于永久重定向（301）
+	- `html` 使用一个HTML文档来执行重定向（对重定向浏览器很有用，但对重定向API客户端没有用）
+	- 一个带有状态代码值的占位符
 
 
 
-## Examples
+## 示例
 
-Redirect all requests to `https://example.com`:
+将所有请求重定向到`https://example.com`。
 
 ```caddy-d
 redir https://example.com
 ```
 
-Same, but preserve the existing URI:
+和上面一样，但保留URI不变：
 
 ```caddy-d
 redir https://example.com{uri}
 ```
 
-Same, but permanent:
+相同，但是是永久重定向：
 
 ```caddy-d
 redir https://example.com{uri} permanent
 ```
 
-Redirect your old `/about-us` page to your new `/about` page:
+将旧的`/about-us`页面重定向到新的`/about`页面。
 
 ```caddy-d
 redir /about-us /about
