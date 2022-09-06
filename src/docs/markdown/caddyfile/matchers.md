@@ -2,31 +2,6 @@
 title: 请求匹配器
 ---
 
-<script>
-$(function() {
-	// We'll add links on the matchers in the code blocks
-	// to their associated anchor tags.
-	let headers = $('article h3').map((i, el) => el.id.replace(/-/g, "_")).toArray();
-	$('pre.chroma .k')
-		.filter((k, item) => headers.includes(item.innerText))
-		.map(function(k, item) {
-			let text = item.innerText.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-			let url = '#' + item.innerText.replace(/_/g, "-");
-			$(item).html('<a href="' + url + '" style="color: inherit;" title="' + text + '">' + text + '</a>');
-		});
-
-	// Link matcher tokens based on their contents to the syntax section
-	$('pre.chroma .nd')
-		.map(function(k, item) {
-			let text = item.innerText.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-			let anchor = "named-matchers"
-			if (text == "*") anchor = "wildcard-matchers"
-			if (text.startsWith('/')) anchor = "path-matchers"
-			$(item).html('<a href="#' + anchor + '" style="color: inherit;" title="Matcher token">' + text + '</a>');
-		});
-});
-</script>
-
 # 请求匹配器
 
 **请求匹配器** 可用于按特定标准过滤（或分类）请求。
@@ -53,18 +28,18 @@ $(function() {
     - [remote_ip](#remote-ip)
 
 
-## 语法
+<h2 id="syntax">语法</h2>
 
 在Caddyfile中，紧跟在指令后面的**匹配器标记**可以限制该指令的范围。匹配器标记可以是以下形式之一：
 
-1. **`*`**匹配所有请求（通配符；默认）。
-2. **`/path`**以正斜杠开头以匹配请求路径。
-3. **`@name`**指定一个命名匹配器。
+1. **`*`** 匹配所有请求（通配符；默认）。
+2. **`/path`** 以正斜杠开头以匹配请求路径。
+3. **`@name`** 指定一个命名匹配器。
 
 匹配器标记[通常是可选](/docs/caddyfile/directives#matchers)的。如果省略匹配器标记，则它与通配符匹配器（`*`）相同。
 
 
-#### 例子
+<h3 id="examples">例子</h3>
 
 该指令适用于[所有](#wildcard-matchers)HTTP 请求：
 
@@ -95,7 +70,7 @@ reverse_proxy @postfoo localhost:9000
 ```
 
 
-### 通配符匹配器
+<h3 id="wildcard-matchers">通配符匹配器</h3>
 
 通配符（或“catch-all”）匹配器`*`匹配所有请求，并且仅在需要匹配器标记时才需要。例如，如果你要给出指令的第一个参数也恰好是路径，那么它看起来就像一个路径匹配器！因此，你可以使用通配符匹配器来消除歧义，例如：
 
@@ -105,7 +80,7 @@ root * /home/www/mysite
 
 否则，这个匹配器不经常使用。尽可能省略它很方便；只是一个偏好问题。
 
-### 路径匹配器
+<h3 id="path-matchers">路径匹配器</h3>
 
 因为按路径匹配非常普遍，所以可以内联单个路径匹配器，如下所示：
 
@@ -117,7 +92,7 @@ redir /old.html /new.html
 
 **[路径匹配](/docs/caddyfile/matchers#path) 默认为精确匹配；**你必须附加`*`以进行快速前缀匹配。请注意，`/foo*`将匹配`/foo`、`/foo/`和`/foobar`；你可能实际是想要`/foo/*`。
 
-### 命名匹配器
+<h3 id="named-matchers">命名匹配器</h3>
 
 所有不是路径或通配符匹配器的匹配器都必须命名为匹配器。这是一个在任何特定指令之外定义的匹配器，并且可以重用。
 
@@ -164,7 +139,7 @@ reverse_proxy @post localhost:6001
 
 
 
-## 标准匹配器
+<h2 id="standard-matchers">标准匹配器</h2>
 
 完整的匹配器文档可以[在每个匹配器模块的文档中](/docs/json/apps/http/servers/routes/match/)找到。
 
