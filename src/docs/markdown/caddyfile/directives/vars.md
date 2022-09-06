@@ -1,14 +1,14 @@
 ---
-title: vars (Caddyfile directive)
+title: vars (Caddyfile指令)
 ---
 
 # vars
 
-Sets one or more variables to a particular value, to be used later in the request handling chain.
+将一个或多个变量设置为一个特定的值，以便在以后的请求处理链中使用。
 
-The primary way to access variables is with placeholders, which have the form `{vars.variable_name}`, or with the [`vars`](/docs/caddyfile/matchers#vars) and [`vars_regexp`](/docs/caddyfile/matchers#vars_regexp) request matchers.
+访问变量的主要方式是使用占位符，其形式为`{vars.variable_name}`，或者使用[`vars`](/docs/caddyfile/matchers#vars)和[`vars_regexp`](/docs/caddyfile/matchers#vars_regexp) 请求匹配器。
 
-## Syntax
+## 语法
 
 ```caddy-d
 vars [<matcher>] [<name> <value>] {
@@ -17,15 +17,15 @@ vars [<matcher>] [<name> <value>] {
 }
 ```
 
-- **&lt;name&gt;** is the variable name to set.
+- **&lt;name&gt;**是要设置的变量名称。
 
-- **&lt;value&gt;** is the value of the variable.
+- **&lt;value&gt;**是该变量的值。
 
-  The value will be type converted if possible; `true` and `false` will be converted to boolean types, and numeric values will be converted to integer or float accordingly. To avoid this conversion, you may wrap the output with [quotes](/docs/caddyfile/concepts#tokens-and-quotes) and they will stay strings.
+  如果可能的话，该值将进行类型转换；`true`和`false`将被转换为布尔类型，数字值将被相应地转换为整数或浮点数。为了避免这种转换，你可以用[引号](/docs/caddyfile/concepts#tokens-and-quotes)来包裹输出，它们将保持为字符串。
 
-## Examples
+## 示例
 
-To set a single variable, the value being conditional based on the request path, then responding with the value:
+设置一个单一的变量，该值是基于请求路径的条件，然后用该值进行响应：
 
 ```caddy-d
 vars /foo* isFoo "yep"
@@ -34,7 +34,7 @@ vars isFoo "nope"
 respond {vars.isFoo}
 ```
 
-To set multiple variables, each converted to the appropriate scalar type:
+要设置多个变量，每个变量都转换为适当的标量类型：
 
 ```caddy-d
 vars {
