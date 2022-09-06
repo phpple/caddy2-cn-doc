@@ -1,17 +1,17 @@
 ---
-title: route (Caddyfile directive)
+title: route (Caddyfile指令)
 ---
 
 # route
 
-Evaluates a group of directives literally and as a single unit.
+将一组指令按字面意思作为一个单元进行评估。
 
-Directives contained in a route block will not be reordered internally. Only HTTP handler directives (directives which add handlers or middleware to the chain) can be used in a route block.
+路由块中包含的指令不会在内部被重新排序。只有HTTP处理指令（将处理程序或中间件添加到链中的指令）可以在路由块中使用。
 
-This directive is a special case in that its subdirectives are also regular directives.
+这个指令是一个特例，它的子指令也是常规指令。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 route [<matcher>] {
@@ -19,23 +19,23 @@ route [<matcher>] {
 }
 ```
 
-- **<directives...>** is a list of directives or directive blocks, one per line, just like outside of a route block; except these directives will not be reordered. Only HTTP handler directives can be used.
+- **<directives...>** 是一个指令或指令块的列表，每行一个，就像在路由块外面一样；只是这些指令不会被重新排序。只有HTTP处理指令可以被使用。
 
 
 
-## Utility
+## 实用性
 
-The `route` directive is helpful in certain advanced use cases or edge cases to take absolute control over parts of the HTTP handler chain.
+`路由`指令在某些高级用例或边缘用例中很有帮助，可以对HTTP处理程序链的部分进行绝对控制。
 
-Because the order of HTTP middleware evaluation is significant, the Caddyfile will normally reorder directives after parsing to make the Caddyfile easier to use; you don't have to worry about what order you type things.
+因为HTTP中间件的评估顺序很重要，Caddyfile通常会在解析后重新排列指令，以使Caddyfile更容易使用；你不必担心你输入东西的顺序。
 
-While the built-in order is compatible with most sites, sometimes you need to take manual control over the order, either for the whole site or just a part of it. That's what the `route` directive is for.
+虽然内置的顺序与大多数网站兼容，但有时你需要对顺序进行手动控制，可以是整个网站，也可以只是其中的一部分。这就是 "路由 "指令的用处。
 
-To illustrate, consider the case of two terminating handlers: `redir` and `file_server`. Both write the response to the client and do not call the next handler in the chain, so only one of these will be executed for a certain request. Which comes first? Normally, `redir` is executed before `file_server` because usually you would want to issue a redirect only in specific cases and serve files in the general case.
+为了说明这一点，考虑两个终止处理程序的情况。`redir`和`file_server`。这两个处理程序都向客户端写入响应，并且不调用链中的下一个处理程序，所以对于某个请求，只有其中一个会被执行。哪个先执行？通常情况下，`redir`在`file_server`之前执行，因为通常你只想在特定情况下发出重定向，在一般情况下提供文件。
 
-However, there may be occasions where the second directive (`redir`) has a more specific matcher than the second (`file_server`). In other words, you want to redirect in the general case, and serve only a specific file.
+然而，在有些情况下，第二个指令（`redir`）比第二个指令（`file_server`）有更具体的匹配器。换句话说，你想在一般情况下重定向，而只服务于一个特定的文件。
 
-So you might try a Caddyfile like this (but this will not work as expected!):
+所以你可以尝试这样的Caddyfile（但这不会像预期的那样工作！）。
 
 ```caddy
 example.com
@@ -44,9 +44,9 @@ file_server /specific.html
 redir https://anothersite.com{uri}
 ```
 
-The problem is that, internally, `redir` comes before `file_server`, but in this case the matcher for `redir` is a superset of the matcher for `file_server` (`*` is a superset of `/specific.html`).
+问题是，在内部，`redir`排在`file_server`之前，但在这种情况下，`redir`的匹配器是`file_server`的匹配器的超集（`*`是`/specific.html`的超集）。
 
-Fortunately, the solution is easy: just wrap those two directives in a `route` block:
+幸运的是，解决方案很简单：只要把这两个指令包在一个`路由`块中。
 
 ```caddy
 example.com
@@ -58,25 +58,24 @@ route {
 ```
 
 <aside class="tip">
-
-Another way to do this is to make the two matchers mutually exclusive, but this can quickly become complex if there are more than one or two conditions. With the `route` directive, the mutual exclusivity of the two handlers is implicit because they are both terminal handlers.
-
+另一种方法是使两个匹配器相互排斥，但如果有一个或两个以上的条件，这很快会变得复杂。使用`route`指令，两个处理程序的互斥性是隐含的，因为它们都是终端处理程序。
 </aside>
 
+而现在`file_server`将在`redir`之前被链入，因为这个顺序是按字面意思来的。
 
-And now `file_server` will be chained in before `redir` because the order is taken literally.
+## 类似的指令
 
-## Similar directives
+还有其他一些指令可以包装HTTP处理程序指令，但每个指令都有其用途，取决于你想表达的行为。
 
-There are other directives that can wrap HTTP handler directives, but each has its use depending on the behavior you want to convey:
+- [`handle`](handle)像`route`那样包装其他指令，但有两个区别。
+  - 1）handle块是相互排斥的
+  - 2）通常handle中的指令是[重新排序的](/docs/caddyfile/directives#directive-order)。
+- [`handle_path`](handle_path)的作用与`handle`相同，但它在运行其处理程序之前从请求中剥离了一个前缀。
+- [`handle_errors`](handle_errors)和`handle`一样，但只有当Caddy在处理请求时遇到错误才会调用。
 
-- [`handle`](handle) wraps other directives like `route` does, but with two distinctions: 1) handle blocks are mutually exclusive to each other, and 2) directives within a handle are [re-ordered](/docs/caddyfile/directives#directive-order) normally.
-- [`handle_path`](handle_path) does the same as `handle`, but it strips a prefix from the request before running its handlers.
-- [`handle_errors`](handle_errors) is like `handle`, but is only invoked when Caddy encounters an error during request handling.
+## 示例
 
-## Examples
-
-Strip `/api` prefix from request path just before proxying all API requests to a backend:
+在代理所有API请求到后端之前，从请求路径中去除`/api`前缀。
 
 ```caddy-d
 route /api/* {
