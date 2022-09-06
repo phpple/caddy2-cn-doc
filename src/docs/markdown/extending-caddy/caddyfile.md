@@ -1,34 +1,34 @@
 ---
-title: "Caddyfile Support"
+title: Caddyfile支持
 ---
 
-# Caddyfile Support
+# Caddyfile支持
 
-Caddy modules are automatically added to the [native JSON config](/docs/json/) by virtue of their namespace when they are [registered](https://pkg.go.dev/github.com/caddyserver/caddy/v2?tab=doc#RegisterModule), making them both usable and documented. This makes Caddyfile support purely optional, but it is often requested by users who prefer the Caddyfile.
+Caddy模块在[注册](https://pkg.go.dev/github.com/caddyserver/caddy/v2?tab=doc#RegisterModule)时，凭借其命名空间自动添加到[本地JSON配置](/docs/json/)中，使其既可使用又有记录。这使得对Caddyfile的支持纯粹是可选的，但它经常被那些喜欢Caddyfile的用户要求。
 
 ## Unmarshaler
 
-To add Caddyfile support for your module, simply implement the [`caddyfile.Unmarshaler`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Unmarshaler) interface. You get to choose the Caddyfile syntax your module has by how you parse the tokens.
+要为你的模块添加Caddyfile支持，只需实现[`caddyfile.Unmarshaler`]（https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Unmarshaler）接口。你可以通过解析标记的方式来选择你的模块的Caddyfile语法。
 
-An unmarshaler's job is simply to set up your module's type, e.g. by populating its fields, using the [`caddyfile.Dispenser`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Dispenser) passed to it. For example, a module type named `Gizmo` might have this method:
+unmarshaler的工作是简单地设置你的模块类型，例如，通过填充它的字段，使用传递给它的[`caddyfile.Dispenser`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Dispenser)。例如，一个名为`Gizmo`的模块类型可能有这样的方法。
 
 ```go
-// UnmarshalCaddyfile implements caddyfile.Unmarshaler. Syntax:
+// UnmarshalCaddyfile实现了caddyfile.Unmarshaler。语法：
 //
 //     gizmo <name> [<option>]
 //
 func (g *Gizmo) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
 		if !d.Args(&g.Name) {
-			// not enough args
+			// 没有足够的参数
 			return d.ArgErr()
 		}
 		if d.NextArg() {
-			// optional arg
+			// 可选的参数
 			g.Option = d.Val()
 		}
 		if d.NextArg() {
-			// too many args
+			// 太多参数
 			return d.ArgErr()
 		}
 	}
@@ -36,21 +36,21 @@ func (g *Gizmo) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 }
 ```
 
-It is a good idea to document the syntax in the godoc comment for the method. See the [godoc for the `caddyfile` package](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc) for more information about parsing the Caddyfile.
+在方法的godoc注释中记录语法是一个好主意。参见[`caddyfile`包的godoc](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc)，了解更多关于解析Caddyfile的信息。
 
-It is also important for an unmarshaler to accept multiple occurrences of its directive (rare, but can happen in some cases). Since the first token will typically be the module's name or directive (and can often be skipped by the unmarshaler), this usually means wrapping your parsing logic in a `for d.Next() { ... }` loop.
+对于unmarshaler来说，接受其指令的多次出现也很重要（很少见，但在某些情况下可能发生）。由于第一个标记通常是模块的名称或指令（并且通常可以被unmarshaler跳过），这通常意味着将你的解析逻辑包裹在一个`for d.Next() { ... }`循环。
 
-Make sure to check for missing or excess arguments.
+请确保检查是否有遗漏或多余的参数。
 
-You should also add an [interface guard](/docs/extending-caddy#interface-guards) to ensure the interface is satisfied properly:
+你还应该添加一个[接口防护](/docs/extending-caddy#interface-guards)，以确保接口得到正确满足。
 
 ```go
 var _ caddyfile.Unmarshaler = (*Gizmo)(nil)
 ```
 
-### Blocks
+### 块
 
-To accept more configuration than can fit on a single line, you may wish to allow a block with subdirectives. This can be done using `d.NextBlock()` and iterating until you return to the original nesting level:
+为了接受超过一行所能容纳的配置，你可能希望允许一个带有子指令的块。这可以用`d.NextBlock()`来完成, 并进行迭代, 直到返回到原来的嵌套级别。
 
 ```go
 for nesting := d.Nesting(); d.NextBlock(nesting); {
@@ -63,11 +63,12 @@ for nesting := d.Nesting(); d.NextBlock(nesting); {
 }
 ```
 
-As long as each iteration of the loop consumes the entire segment (line or block), then this is an elegant way to handle blocks.
 
-## HTTP Directives
+只要循环的每一次迭代都会消耗整个片段（行或块），那么这就是一种处理块的优雅方式。
 
-The HTTP Caddyfile is Caddy's default Caddyfile adapter syntax (or "server type"). It is extensible, meaning you can [register](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#RegisterDirective) your own "top-level" directives for your module:
+## HTTP指令
+
+HTTP Caddyfile是Caddy的默认Caddyfile适配器语法（或 "服务器类型"）。它是可扩展的，意味着你可以为你的模块[注册](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#RegisterDirective)自己的 "顶级 "指令：
 
 ```go
 func init() {
@@ -75,7 +76,7 @@ func init() {
 }
 ```
 
-If your directive only returns a single HTTP handler (as is common), you may find [`RegisterHandlerDirective`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#RegisterHandlerDirective) easier:
+如果你的指令只返回一个HTTP处理程序（这很常见），你可能会发现[`RegisterHandlerDirective`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#RegisterHandlerDirective)更容易：
 
 ```go
 func init() {
@@ -83,14 +84,14 @@ func init() {
 }
 ```
 
-The basic idea is that [the parsing function](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#UnmarshalFunc) you associate with your directive returns one or more [`ConfigValue`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#ConfigValue) values. (Or, if using `RegisterHandlerDirective`, it simply returns the populated `caddyhttp.MiddlewareHandler` value directly.) Each config value is associated with a ["class"](#classes) which helps the HTTP Caddyfile adapter to know which part(s) of the final JSON config it can be used in. All the config values get dumped into a pile from which the adapter draws when constructing the final JSON config.
+基本的想法是，你与指令相关联的[解析函数](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#UnmarshalFunc)会返回一个或多个[`ConfigValue`](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc#ConfigValue)值。(或者，如果使用 `RegisterHandlerDirective`，它只是直接返回填充的 `caddyhttp.MiddlewareHandler` 值) 。每个配置值都与一个["类"](#classes)相关联，这有助于HTTP Caddyfile适配器知道它可以用于最终JSON配置的哪一部分。所有的配置值都会被转储到一个堆中，适配器在构建最终的JSON配置时，会从中抽取。
 
-This design allows your directive to return any config values for any recognized classes, which means it can influence any parts of the config that the HTTP Caddyfile adapter has a designated class for.
+这种设计允许你的指令为任何公认的类返回任何配置值，这意味着它可以影响HTTP Caddyfile适配器有指定类的配置的任何部分。
 
-If you've already implemented the `UnmarshalCaddyfile()` method, then your parse function could be as simple as:
+如果你已经实现了`UnmarshalCaddyfile()`方法，那么你的解析函数可以像这样简单：
 
 ```go
-// parseCaddyfileHandler unmarshals tokens from h into a new middleware handler value.
+// parseCaddyfileHandler将h中的令牌解读为一个新的中间件处理值。
 func parseCaddyfileHandler(h httpcaddyfile.Helper) (caddyhttp.MiddlewareHandler, error) {
 	var g Gizmo
 	err := g.UnmarshalCaddyfile(h.Dispenser)
@@ -98,41 +99,40 @@ func parseCaddyfileHandler(h httpcaddyfile.Helper) (caddyhttp.MiddlewareHandler,
 }
 ```
 
-See the [`httpcaddyfile` package godoc](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc) for more information about how to use the `httpcaddyfile.Helper` type.
+关于如何使用`httpcaddyfile.Helper`类型的更多信息，请参阅[`httpcaddyfile`包godoc](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile?tab=doc)。
+
+### 处理顺序
+
+所有返回HTTP中间件/处理程序值的指令都需要以正确的顺序进行评估。例如，设置网站根目录的处理程序必须在访问根目录的处理程序之前，这样它就能知道目录路径是什么。
+
+HTTP Caddyfile [对标准指令有一个硬编码的顺序](/docs/caddyfile/directives#directive-order)。这确保了用户不需要知道他们的网络服务器最常见的功能的实现细节，并使他们更容易写出正确的配置。鉴于Caddyfile的可扩展性，一个单一的、硬编码的列表也可以防止非确定性。
+
+**当你注册一个新的处理指令时，它必须在使用前被添加到该列表中（在`路由`块之外）。** 这在配置中使用两种方法之一。
+
+- [`order`全局选项](/docs/caddyfile/options)只为该配置修改标准顺序。例如：`order mydir before respond`将插入一个新的指令`mydir`，在`respond`处理程序之前被评估。然后该指令就可以正常使用了。
+- 或者，在[`路由`块](/docs/caddyfile/directives/route)中使用该指令。因为路由块中的指令不会被重新排序，在路由块中使用的指令不需要出现在列表中。
+
+请为你的用户记录你的指令在列表中的正确位置，以便他们能够正确地使用它。
 
 
-### Handler order
+### 类
 
-All directives which return HTTP middleware/handler values need to be evaluated in the correct order. For example, a handler that sets the root directory of the site has to come before a handler that accesses the root directory, so that it will know what the directory path is.
+这个表格描述了HTTP Caddyfile适配器所识别的每一个带有导出类型的类。
 
-The HTTP Caddyfile [has a hard-coded ordering for the standard directives](/docs/caddyfile/directives#directive-order). This ensures that users do not need to know the implementation details of the most common functions of their web server, and makes it easier for them to write correct configurations. A single, hard-coded list also prevents nondeterminism given the extensible nature of the Caddyfile.
-
-**When you register a new handler directive, it must be added to that list before it can be used (outside of a `route` block).** This is done in configuration using one of two methods:
-
-- The [`order` global option](/docs/caddyfile/options) modifies the standard order for that configuration only. For example: `order mydir before respond` will insert a new directive `mydir` to be evaluated before the `respond` handler. Then the directive can be used normally.
-- Or, use the directive in a [`route` block](/docs/caddyfile/directives/route). Because directives in a route block are not reordered, the directives used in a route block do not need to appear in the list.
-
-Please document for your users where in the list is the right place for your directive to be ordered so that they can use it properly.
-
-
-### Classes
-
-This table describes each class with exported types that is recognized by the HTTP Caddyfile adapter:
-
-Class name | Expected type | Description
+类的名称 | 预期的类型 | 说明
 ---------- | ------------- | -----------
-bind | `[]string` | Server listener bind addresses
-tls.connection_policy | `*caddytls.ConnectionPolicy` | TLS connection policy
-route | `caddyhttp.Route` | HTTP handler route
-error_route | `*caddyhttp.Subroute` | HTTP error handling route
-tls.cert_issuer | `certmagic.Issuer` | TLS certificate issuer
-tls.cert_loader | `caddytls.CertificateLoader` | TLS certificate loader
+bind | `[]string` | 服务器监听器绑定地址
+tls.connection_policy | `*caddytls.ConnectionPolicy` | TLS连接策略
+route | `caddyhttp.Route` | HTTP处理程序路线
+error_route | `*caddyhttp.Subroute` | HTTP错误处理路由
+tls.cert_issuer | `certmagic.Issuer` | TLS证书发放者
+tls.cert_loader | `caddytls.CertificateLoader` | TLS证书加载器
 
 
-## Server Types
+## 服务类型
 
-Structurally, the Caddyfile is a simple format, so there can be different types of Caddyfile formats (sometimes called "server types") to suit different needs.
+从结构上看，Caddyfile是一种简单的格式，因此可以有不同类型的Caddyfile格式（有时称为"服务类型"）来满足不同的需要。
 
-The default Caddyfile format is the HTTP Caddyfile, which you are probably familiar with. This format primarily configures the [`http` app](/docs/modules/http) while only potentially sprinkling some config in other parts of the Caddy config structure (e.g. the `tls` app to load and automate certificates).
+默认的Caddyfile格式是HTTP Caddyfile，你可能对它很熟悉。这种格式主要配置[`http`应用程序](/docs/modules/http)，同时只可能在Caddy配置结构的其他部分洒下一些配置（例如，`tls`应用程序加载和自动化证书）。
 
-To configure apps other than HTTP, you may want to implement your own config adapter that uses [your own server type](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Adapter). The Caddyfile adapter will actually parse the input for you and give you the list of server blocks, and options, and it's up to your adapter to make sense of that structure and turn it into a JSON config.
+要配置HTTP以外的应用程序，你可能想实现你自己的配置适配器，使用[你自己的服务器类型](https://pkg.go.dev/github.com/caddyserver/caddy/v2/caddyconfig/caddyfile?tab=doc#Adapter)。Caddyfile适配器实际上将为你解析输入，并给你服务器块和选项的列表，由你的适配器来理解该结构并将其转化为JSON配置。
