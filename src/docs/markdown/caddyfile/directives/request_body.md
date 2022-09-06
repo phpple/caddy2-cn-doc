@@ -1,5 +1,5 @@
 ---
-title: request_body (Caddyfile directive)
+title: request_body (Caddyfile指令)
 ---
 
 # request_body

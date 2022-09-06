@@ -1,13 +1,13 @@
 ---
-title: respond (Caddyfile directive)
+title: respond (Caddyfile指令)
 ---
 
 # respond
 
-Writes a hard-coded/static response to the client.
+写一个硬编码/静态响应给客户端。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 respond [<matcher>] <status>|<body> [<status>] {
@@ -16,33 +16,33 @@ respond [<matcher>] <status>|<body> [<status>] {
 }
 ```
 
-- **&lt;status&gt;** is the HTTP status code to write. Default 200.
-- **&lt;body&gt;** is the response body to write.
-- **body** is an alternate way to provide a body; convenient if it is multiple lines.
-- **close** will close the client's connection to the server after writing the response.
+- **&lt;status&gt;** 是要写入的HTTP状态代码。默认为200。
+- **&lt;body&gt;** 是要写入的响应体。
+- **body** 是提供正文的另一种方式；如果是多行，则很方便。
+- **close** 将在写完响应后关闭客户端与服务器的连接。
 
-To clarify, the first non-matcher argument can be either a 3-digit status code or a response body string. If it is a body, the next argument can be the status code.
+澄清一下，第一个非匹配器参数可以是一个3位数的状态代码或一个响应体字符串。如果是一个body，下一个参数可以是状态码。
 
 <aside class="tip">
-	Responding with an error status code is different than returning an error in the handler chain, which invokes error handlers internally.
+	用错误状态代码响应与在处理程序链中返回错误不同，后者在内部调用错误处理程序。
 </aside>
 
 
-## Examples
+## 示例
 
-Write a 200 status with an empty body to all health checks:
+给所有的健康检查写一个200状态的空主体。
 
 ```caddy-d
 respond /health-check 200
 ```
 
-Write a simple response body to all requests:
+给所有的请求写一个简单的响应体。
 
 ```caddy-d
 respond "Hello, world!"
 ```
 
-Write an error response and close the connection:
+写一个错误响应并关闭连接。
 
 ```caddy-d
 respond /secret/* "Access denied" 403 {
