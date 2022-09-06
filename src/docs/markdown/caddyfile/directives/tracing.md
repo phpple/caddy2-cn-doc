@@ -1,18 +1,18 @@
 ---
-title: tracing (Caddyfile directive)
+title: tracing (Caddyfile指令)
 ---
 
 # tracing
 
-It provides integration with OpenTelemetry tracing facilities.
+它提供了与OpenTelemetry追踪设施的整合。
 
-When enabled, it will propagate an existing trace context or initialize a new one.
+当启用时，它将传播一个现有的跟踪上下文或初始化一个新的。
 
-It is based on [github.com/open-telemetry/opentelemetry-go](https://github.com/open-telemetry/opentelemetry-go).
+它基于[github.com/open-telemetry/opentelemetry-go]（https://github.com/open-telemetry/opentelemetry-go）。
 
-It uses [gRPC](https://github.com/grpc/) as an exporter protocol and  W3C [tracecontext](https://www.w3.org/TR/trace-context/) and [baggage](https://www.w3.org/TR/baggage/) as propagators.
+它使用[gRPC](https://github.com/grpc/)作为输出协议，使用W3C[tracecontext](https://www.w3.org/TR/trace-context/)和[baggage](https://www.w3.org/TR/baggage/)作为传播器。
 
-## Syntax
+## 语法
 
 ```caddy-d
 tracing {
@@ -20,28 +20,28 @@ tracing {
 }
 ```
 
-- **&lt;span_name&gt;** - is a span name. Please see span naming [guidelines](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.7.0/specification/trace/api.md).
+- **&lt;span_name&gt;** - 是一个span的名称。请参阅 span 命名[指南](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.7.0/specification/trace/api.md)。
 
-## Configuration
+## 配置
 
-### Environment variables
+### 环境变量
 
-It can be configured using the environment variables defined
-by the [OpenTelemetry Environment Variable Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md).
+可以使用[OpenTelemetry]定义的环境变量对其进行配置。
+OpenTelemetry环境变量规范](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md)。
 
-For the exporter configuration details, please
-see [spec](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.7.0/specification/protocol/exporter.md).
+关于导出器的配置细节，请
+见[spec](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.7.0/specification/protocol/exporter.md)。
 
-For example:
+比如说：
 
 ```bash
 export OTEL_EXPORTER_OTLP_HEADERS="myAuthHeader=myToken,anotherHeader=value"
 export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=https://my-otlp-endpoint:55680
 ```
 
-## Examples
+## 示例
 
-Here is a **Caddyfile** example:
+下面是一个**Caddyfile**的例子：
 
 ```
 handle /myHandler {
