@@ -16,7 +16,7 @@ title: Caddyfile概念
 8. [全局选项](#global-options)
 
 
-## 结构
+<h2 id="structure">结构</h2>
 
 下面的图片可以直观地描述Caddyfile的结构：
 
@@ -151,7 +151,7 @@ directive `"foo bar"`
 当标记包含引号文字时，反引号字符串很方便，例如JSON文本。
 
 
-## 地址
+<h2 id="addresses">地址</h2>
 
 地址总是出现在站点块的顶部，并且通常出现在Caddyfile中的第一行。
 
@@ -198,7 +198,7 @@ www.example.com
 
 
 
-## 匹配器
+<h2 id="matchers">匹配器</h2>
 
 默认情况下，注入HTTP处理程序的指令适用于所有请求（除非另有说明）。
 
@@ -219,7 +219,7 @@ root @post       /var/www  # matcher token: @post
 
 
 
-## 占位符
+<h2 id="placeholders">占位符</h2>
 
 你可以在Caddyfile中使用任何[Caddy占位符](/docs/conventions#placeholders)，但为方便起见，你还可以使用一些等效的速记符：
 
@@ -255,7 +255,7 @@ root @post       /var/www  # matcher token: @post
 
 
 
-## 片段
+<h2 id="snippets">片段</h2>
 
 你可以定义称为片段的特殊块，方法是给它们一个用括号括起来的名称：
 
@@ -293,7 +293,7 @@ b.example.com {
 ```
 
 
-## 注释
+<h2 id="comments">注释</h2>
 
 注释从行首的`#`开始并一直持续到行尾：
 
@@ -304,7 +304,7 @@ directive  # or go at the end
 
 哈希字符`#`不能出现在标记的中间（即它必须以空格开头或出现在行首）。这允许在URI或其他值中使用它而不需要引号。
 
-## 环境变量
+<h2 id="environment-variables">环境变量</h2>
 
 如果你的配置依赖于环境变量，你可以在Caddyfile中使用它们：
 
@@ -322,7 +322,7 @@ directive  # or go at the end
 如果你想将环境变量的替换推迟到运行时，你可以使用[标准`{env.*}`占位符](/docs/conventions#placeholders)。
 
 
-## 全局选项
+<h2 id="global-options">全局选项</h2>
 
 Caddyfile可以选择以没有键的特殊块开始，称为[全局选项块](/docs/caddyfile/options)：
 
