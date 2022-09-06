@@ -1,17 +1,15 @@
 ---
-title: uri (Caddyfile directive)
+title: uri (Caddyfile指令)
 ---
 
-# uri
+处理一个请求的URI。它可以剥离路径前缀/后缀或替换整个URI的子串。
 
-Manipulates a request's URI. It can strip path prefix/suffix or replace substrings on the whole URI.
-
-This directive is distinct from [`rewrite`](rewrite) in that `uri` _differentiably_ changes the URI, rather than resetting it to something completely different as `rewrite` does. While `rewrite` is treated specially as an internal redirect, `uri` is just another middleware.
+这个指令与[`rewrite`](重写)不同，`uri`是有区别地改变URI，而不是像`rewrite`那样把它重设为完全不同的东西。虽然`rewrite`被特别视为内部重定向，但`uri`只是另一个中间件。
 
 
-## Syntax
+## 语法
 
-Multiple different operations are supported:
+支持多种不同的操作：
 
 ```caddy-d
 uri [<matcher>] strip_prefix <target>
@@ -20,48 +18,48 @@ uri [<matcher>] replace      <target> <replacement> [<limit>]
 uri [<matcher>] path_regexp  <target> <replacement>
 ```
 
-- The first (non-matcher) argument specifies the operation:
-	- **strip_prefix** strips the prefix from the path.
-	- **strip_suffix** strips the suffix from the path.
-	- **replace** performs a substring replacement across the whole URI.
-	- **path_regexp** performs a regular expression replacement on the path portion of the URI.
-- **&lt;target&gt;** is the prefix, suffix, or search string/regular expression. If a prefix, the leading forward slash may be omitted, since paths always start with a forward slash.
-- **&lt;replacement&gt;** is the replacement string (only valid with `replace` and `path_regexp`). Supports using capture groups with `$name` or `${name}` syntax, or with a number for the index, such as `$1`. See the [Go documentation](https://golang.org/pkg/regexp/#Regexp.Expand) for details.
-- **&lt;limit&gt;** is an optional limit to the maximum number of replacements (only valid with `replace`).
+- 第一个（非匹配器）参数指定操作。
+	- **strip_prefix**将前缀从路径中剥离。
+	- **strip_suffix**将后缀从路径中剥离。
+	- **replace**在整个URI中进行子串替换。
+	- **path_regexp**在URI的路径部分执行正则表达式替换。
+- **&lt;target&gt;**是前缀、后缀、或搜索字符串/正则表达式。如果是前缀，前面的正斜杠可以省略，因为路径总是以正斜杠开始。
+- **&lt;replacement&gt;**是替换字符串（只对`replace`和`path_regexp`有效）。支持使用带有`$name`或`${name}`语法的捕获组，或带有数字的索引，如`$1`。详见[Go文档](https://golang.org/pkg/regexp/#Regexp.Expand)。
+- **&lt;limit&gt;**是对最大替换次数的可选限制（只对`replace`有效）。
 
-URI mutations occur on the normalized or unescaped form of the URI. However, escape sequences can be used in the prefix or suffix patterns to match only those literal escapes at those positions in the request path. For example, `uri strip_prefix /a/b` will rewrite both `/a/b/c` and `/a%2Fb/c` to `/c`; and `uri strip_prefix /a%2Fb` will rewrite `/a%2Fb/c` to `/c`, but won't match `/a/b/c`.
+URI的突变发生在URI的规范化或未转义的形式上。然而，转义序列可以在前缀或后缀模式中使用，只匹配请求路径中那些位置的文字转义。例如，`uri strip_prefix /a/b`将把`/a/b/c`和`/a%2Fb/c`改写为`/c`；`uri strip_prefix /a%2Fb`将把`/a%2Fb/c`改写为`/c`，但不会匹配`/a/b/c`。
 
-The URI path is cleaned of directory traversal dots before modifications. Additionally, multiple slashes (such as `//`) are merged unless the `<target>` contains multiple slashes too.
+URI路径在修改前会被清理掉目录遍历的点。此外，除非`<target>`也包含多个斜线，否则多个斜线（如`//`）会被合并。
 
-## Similar directives
+## 类似指令
 
-Some other directives can also manipulate the request URI.
+其他一些指令也可以对请求URI进行操作。
 
-- [`rewrite`](rewrite) changes the entire path and query to a new value instead of partially changing the value.
-- [`handle_path`](handle_path) does the same as [`handle`](handle), but it strips a prefix from the request before running its handlers. Can be used instead of `uri strip_prefix` to eliminate one extra line of configuration in many cases.
+- [`rewrite`](重写)将整个路径和查询改为新的值，而不是部分地改变值。
+- [`handle_path`](handle_path)与[`handle`](handle)的操作相同，但它在运行其处理程序之前从请求中剥离了一个前缀。在许多情况下，可以代替`uri strip_prefix`，以消除额外的一行配置。
 
 
-## Examples
+## 示例
 
-Strip `/api` from the beginning of all request paths:
+将`/api`从所有请求路径的开头剥离：
 
 ```caddy-d
 uri strip_prefix /api
 ```
 
-Strip `.php` from the end of all request paths:
+从所有请求路径的结尾去除`.php`：
 
 ```caddy-d
 uri strip_suffix .php
 ```
 
-Replace "/docs/" with "/v1/docs/" in any request URI:
+在任何请求URI中用"/v1/docs/"替换"/docs/"：
 
 ```caddy-d
 uri replace /docs/ /v1/docs/
 ```
 
-Collapse all repeated slashes in the request path (but not the request query) to a single slash:
+将请求路径中所有重复的斜线（但不是请求查询）折叠成一个斜线：
 
 ```caddy-d
 uri path_regexp /{2,} /
