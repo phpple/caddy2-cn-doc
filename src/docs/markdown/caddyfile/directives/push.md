@@ -1,21 +1,21 @@
 ---
-title: push (Caddyfile directive)
+title: push (Caddyfile指令)
 ---
 
 # push
 
-Configures the server to pre-emptively send resources to the client using HTTP/2 server push.
+配置服务器使用HTTP/2服务器预先向客户端推送资源。
 
-Resources can be linked for server push by specifying the Link header(s) of the response. This directive will automatically push resources described by upstream Link headers in these formats:
+通过指定响应的Link头，可以为服务器推送资源提供链接。这条指令将自动推送由上游Link头描述的资源，格式如下。
 
 - `<resource>; as=script`
 - `<resource>; as=script,<resource>; as=style`
 - `<resource>; nopush`
 - `<resource>;<resource2>;...`
 
-where `<resource>` begins with a forward slash `/` (i.e. is a URI path with the same host). Only same-host resources can be pushed. If a linked resource is external or if it has the `nopush` attribute, it will not be pushed.
+其中`<resource>`以正斜线`/`开头（也就是说，是一个具有相同主机的URI路径）。只有同主机的资源菜可以被推送。如果有属于外部资源的路径，或者标识了`nopush`的属性，它将不会被推送。
 
-By default, push requests will include some headers deemed safe to copy from the original request:
+默认情况下，推送请求将包括一些被认为可以从原始请求中安全复制的头信息。
 
 - Accept-Encoding
 - Accept-Language
@@ -23,12 +23,12 @@ By default, push requests will include some headers deemed safe to copy from the
 - Cache-Control
 - User-Agent
 
-as it is assumed many requests would fail without these headers; these do not need to be configured manually.
+如果没有这些头信息，许多请求都会失败；这些header头是不需要手动配置的。
 
-Push requests are virtualized internally, so they are very lightweight.
+推送请求在内部被虚拟化，所以它们是非常轻量的。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 push [<matcher>] [<resource>] {
@@ -40,26 +40,25 @@ push [<matcher>] [<resource>] {
 }
 ```
 
-- **&lt;resource&gt;** is the target URI path to push. If used within the block, may optionally be preceeded by the method (GET or POST; GET is default).
-- **&lt;headers&gt;** manipulates the headers of the push request using the same syntax as the [`header` directive](/docs/caddyfile/directives/header). Some headers are carried over by default and do not need to be explicitly configured (see above).
+- **&lt;resource&gt;** 是要推送的目标URI路径。如果在区块内使用，可以选择在前面加上方法（GET或POST；默认是GET）。
+- **&lt;headers&gt;** 使用与[`header`指令](/docs/caddyfile/directives/header)相同的语法来操作推送请求的头信息。有些头信息是默认带入的，不需要明确配置（见上文）。
 
 
+## 示例
 
-## Examples
-
-Push any resources described by `Link` headers in the response:
+在响应中推送任何由`Link`头信息描述的资源。
 
 ```caddy-d
 push
 ```
 
-Same, but also push `/resources/style.css` for all requests:
+和上面一样，但也向所有请求推送`/resources/style.css`。
 
 ```caddy-d
 push * /resources/style.css
 ```
 
-Push `/foo.jpg` only when `/foo.html` is requested by the client:
+只有在客户端请求`/foo.html`时才推送`/foo.jpg`。
 
 ```caddy-d
 push /foo.html /foo.jpg
