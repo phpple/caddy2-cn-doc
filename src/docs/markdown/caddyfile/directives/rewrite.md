@@ -1,55 +1,55 @@
 ---
-title: rewrite (Caddyfile directive)
+title: rewrite (Caddyfile指令)
 ---
 
 # rewrite
 
-Rewrites the request internally. A rewrite changes some or all of the request URI. Note that the URI does not include scheme or authority (host & port), and clients typically do not send fragments. Thus, this directive is mostly used for path and query string manipulation.
+对请求进行内部重写。重写会改变请求URI的部分或全部内容。请注意，URI不包括方案或授权（主机和端口），而且客户通常不发送片段。因此，这个指令主要用于路径和查询字符串的处理。
 
-The `rewrite` directive implies the intent to accept the request, but with modifications. It is mutually exclusive to other `rewrite` directives in the same block, so it is safe to define rewrites that would otherwise cascade into each other as only the first matching rewrite will be executed.
+重写 "指令意味着接受请求的意图，但要进行修改。它与同一区块中的其他`rewrite`指令是相互排斥的，因此可以安全地定义重写，否则会相互串联，因为只有第一个匹配的重写才会被执行。
 
-Because `rewrite` essentially performs an internal redirect, the Caddyfile adapter will not fold any subsequent, adjacent handlers into the same route if their matchers happen to be exactly the same. This allows the matchers of the next handlers to be deferred until after the rewrite. In other words, a matcher that matches a request before the `rewrite` might not match the same request after the `rewrite`. If you want your `rewrite` to share a route with other handlers, use the [`route`](route) or [`handle`](handle) directives.
+因为`rewrite`本质上是执行一个内部重定向，如果它们的匹配器碰巧完全相同，Caddyfile适配器将不会把任何后续的、相邻的处理程序折叠到同一路径中。这允许下一个处理程序的匹配器被推迟到重写之后。换句话说，一个匹配器在 "重写 "前匹配了一个请求，在 "重写"后可能就不匹配同一个请求了。如果你想让你的`rewrite`与其他处理程序共享一个路由，请使用[`route`](route)或[`handle`](handle)指令。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 rewrite [<matcher>] <to>
 ```
 
-- **&lt;to&gt;** is the URI to rewrite the request to. Only the components of the URI (path or query string) that are specified in the rewrite will be operated on. The URI path is any substring that comes before `?`. If `?` is omitted, then the whole token is considered to be the path.
+- **&lt;to&gt;** 是要重写请求的URI。只有在重写中指定的URI（路径或查询字符串）的组成部分将被操作。URI路径是在`?`之前的任何子串。如果省略了"?"，那么整个标记将被视为路径。
 
 
-## Examples
+## 示例
 
-Rewrite all requests to `foo.html`, leaving any query string unchanged:
+重写所有请求到`foo.html`, 保留任何查询字符串不变:
 
 ```caddy-d
 rewrite * /foo.html
 ```
 
-Replace the query string on API requests with `a=b`, leaving the path unchanged:
+用`a=b'替换API请求中的查询字符串，保留路径不变：
 
 ```caddy-d
 rewrite /api/* ?a=b
 ```
 
-Preserve the existing query string and add a key-value pair:
+保留现有的查询字符串，增加一个键值对：
 
 ```caddy-d
 rewrite /api/* ?{query}&a=b
 ```
 
-Change both the path and query string, preserving the original query string while adding the original path as the `p` parameter:
+同时改变路径和查询字符串，保留原来的查询字符串，同时添加原来的路径作为`p`参数：
 
 ```caddy-d
 rewrite * /index.php?{query}&p={path}
 ```
 
 
-## Similar directives
+## 类似指令
 
-There are other directives that perform rewrites, but imply a different intent or do the rewrite without a complete replacement of the URI:
+还有一些指令执行重写，但暗示了不同的意图，或者在没有完全替换URI的情况下进行重写。
 
-- [`uri`](uri) manipulates a URI (strip prefix, suffix, or substring replacement).
-- [`try_files`](try_files) rewrites the request based on the existence of files.
+- [`uri`](uri)操作URI(剥离前缀、后缀或子串替换)。
+- [`try_files`](try_files)根据文件的存在重写请求。
