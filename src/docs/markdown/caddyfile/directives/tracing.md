@@ -8,7 +8,7 @@ title: tracing (Caddyfile指令)
 
 当启用时，它将传播一个现有的跟踪上下文或初始化一个新的。
 
-它基于[github.com/open-telemetry/opentelemetry-go]（https://github.com/open-telemetry/opentelemetry-go）。
+它基于[github.com/open-telemetry/opentelemetry-go](https://github.com/open-telemetry/opentelemetry-go)。
 
 它使用[gRPC](https://github.com/grpc/)作为输出协议，使用W3C[tracecontext](https://www.w3.org/TR/trace-context/)和[baggage](https://www.w3.org/TR/baggage/)作为传播器。
 
