@@ -1,13 +1,13 @@
 ---
-title: templates (Caddyfile directive)
+title: templates (Caddyfile指令)
 ---
 
 # templates
 
-Executes the response body as a [template](/docs/modules/http.handlers.templates) document. Templates provide functional primitives for making simple dynamic pages. Features include HTTP subrequests, HTML file includes, Markdown rendering, JSON parsing, basic data structures, randomness, time, and more.
+将响应体作为[template](/docs/modules/http.handlers.templates)文件执行。模板提供了制作简单动态页面的功能基元。功能包括HTTP子请求、HTML文件包含、Markdown渲染、JSON解析、基本数据结构、随机性、时间等。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 templates [<matcher>] {
@@ -17,17 +17,17 @@ templates [<matcher>] {
 }
 ```
 
-- **mime** are the MIME types the templates middleware will act on; any responses that do not have a qualifying Content-Type will not be evaluated as templates. Default: `text/html text/plain`.
-- **between** are the opening and closing delimiters for template actions. Default: `{{printf "{{ }}"}}`. You can change them if they interfere with the rest of your document.
-- **root** is the site root, when using functions that access the file system.
+- **mime** 是模板中间件将采取行动的MIME类型；任何没有限定Content-Type的响应将不会被评估为模板。默认：`text/html text/plain`。
+- **between** 是模板操作的开端和结束定界符。默认值：`{{printf "{{ }}"}}`。如果它们妨碍了你的文档的其他部分，你可以改变它们。
+- 当使用访问文件系统的函数时，**root** 是网站根。
 
 
-## Examples
+## 示例
 
-Enable templates on all requests:
+在所有请求中启用模板。
 
 ```caddy-d
 templates
 ```
 
-For a complete example of a site using templates to serve markdown, take a look at the source for [this very website](https://github.com/caddyserver/website)! Specifically, take a look at the [`Caddyfile`](https://github.com/caddyserver/website/blob/master/Caddyfile) and [`src/docs/index.html`](https://github.com/caddyserver/website/blob/master/src/docs/index.html).
+关于一个网站使用模板提供markdown服务的完整例子，请看一下[这个网站](https://github.com/caddyserver/website)的源代码！特别是，看看[`Caddyfile`](https://github.com/caddyserver/website/blob/master/Caddyfile)和[`src/docs/index.html`](https://github.com/caddyserver/website/blob/master/src/docs/index.html)。
