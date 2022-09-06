@@ -1,51 +1,51 @@
 ---
-title: root (Caddyfile directive)
+title: root (Caddyfile指令)
 ---
 
 # root
 
-Sets the root path of the site, used by various matchers and directives that access the file system. If unset, the default site root is the current working directory.
+设置网站的根路径，由各种匹配器和访问文件系统的指令使用。如果不设置，默认的网站根目录是当前工作目录。
 
-Specifically, this directive sets the `{http.vars.root}` placeholder. It is mutually exclusive to other `root` directives in the same block, so it is safe to define multiple roots with matchers that intersect: they will not cascade and overwrite each other.
+具体来说，这个指令设置了`{http.vars.root}`占位符。它与同一区块中的其他`root'指令是相互排斥的，所以用相交的匹配器定义多个根是安全的：它们不会级联和相互覆盖。
 
-This directive does not automatically enable serving static files, so it is often used in conjunction with the [`file_server` directive](/docs/caddyfile/directives/file_server) or the [`php_fastcgi` directive](/docs/caddyfile/directives/php_fastcgi).
+该指令不会自动启用静态文件的服务，所以它通常与[`file_server`指令](/docs/caddyfile/directives/file_server)或[`php_fastcgi`指令](/docs/caddyfile/directives/php_fastcgi)一起使用。
 
 
-## Syntax
+## 语法
 
 ```caddy-d
 root [<matcher>] <path>
 ```
 
-- **&lt;path&gt;** is the path to use for the site root.
+- **&lt;path&gt;** 是用于网站根目录的路径。
 
-Note that the `<path>` argument could be confused by the parser as a [matcher token](/docs/caddyfile/matchers#syntax) if the it begins with `/`. To disambiguate, specify a wildcard matcher token (`*`). See examples below.
+注意`<path>`参数如果以`/`开头，可能会被解析器混淆为[匹配器标记]（/docs/caddyfile/matchers#syntax）。为了消除混淆，可以指定一个通配符匹配器标记（`*`）。见下面的例子。
 
-## Examples
+## 示例
 
-Set the site root to `/home/user/public_html` for all requests:
+为所有请求设置网站根目录为`/home/user/public_html`。
 
-(Note that a [wildcard matcher](/docs/caddyfile/matchers#wildcard-matchers) is required here because the first argument is ambiguous with a [path matcher](/docs/caddyfile/matchers#path-matchers).)
+(注意，这里需要一个[通配符匹配器](/docs/caddyfile/matchers#wildcard-matchers)，因为第一个参数与[路径匹配器](/docs/caddyfile/matchers#path-matchers)不明确。)
 
 ```caddy-d
 root * /home/user/public_html
 ```
 
-Set the site root to `public_html` (relative to current working directory) for all requests:
+为所有请求设置网站根目录为`public_html`（相对于当前工作目录）。
 
-(No matcher token is required here because our site root is a relative path, so it does not start with a forward slash and thus is not ambiguous.)
+(这里不需要匹配器标记，因为我们的网站根目录是一个相对路径，所以它不是以正斜杠开始的，因此不会产生歧义。)
 
 ```caddy-d
 root public_html
 ```
 
-Change the site root only for requests in `/foo/*`:
+只为`/foo/*`中的请求改变网站根。
 
 ```caddy-d
 root /foo/* /home/user/public_html/foo
 ```
 
-The `root` directive is commonly paired with [`file_server`](/docs/caddyfile/directives/file_server) to serve static files and/or with [`php_fastcgi`](/docs/caddyfile/directives/php_fastcgi) to serve a PHP site:
+root "指令通常与[`file_server`](/docs/caddyfile/directives/file_server)配对，为静态文件提供服务，或者与[`php_fastcgi`](/docs/caddyfile/directives/php_fastcgi)配对，为PHP网站提供服务。
 
 ```caddy-d
 root * /home/user/public_html
