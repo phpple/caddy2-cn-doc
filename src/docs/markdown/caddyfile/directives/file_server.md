@@ -50,7 +50,7 @@ file_server
 启用了文件列表:
 
 ```caddy-d
-文件_服务器浏览
+file_server browse
 ```
 
 只服务于`/static`文件夹中的静态文件:
@@ -63,14 +63,14 @@ file_server /static/*
 
 ```caddy-d
 root * /home/user/public_html
-文件服务器
+file_server
 ```
 
 隐藏所有`.git`文件夹及其内容。
 
 ```caddy-d
 file_server {
-	隐藏.git
+	hide .git
 }
 ```
 
@@ -78,6 +78,6 @@ file_server {
 
 ```caddy-d
 file_server {
-	预压缩 zstd br gzip
+	precompressed zstd br gzip
 }
 ```
