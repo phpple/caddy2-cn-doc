@@ -257,18 +257,35 @@ Caddy的反向代理标准配备了一些动态上游模块。请注意，使用
 
   这应该是一个相当大的数字；配置这个意味着代理将有一个`unhealthy_request_count × upstreams_count`的总同时请求的限制，任何超过这个点的请求将导致一个错误，因为没有上游可用。
 
+<h3 id="events">事件</h3>
+当上游从健康状态转变为不健康状态，或者反之，都会触发一个事件。这些事件可以用于触发其他操作，比如发送通知或记录消息。事件如下所示：
+
+- `healthy`：在上游从之前的不健康状态标记为健康时触发。
+- `unhealthy`：在上游从之前的健康状态标记为不健康时触发。
+
+在这两种情况下，`host`将作为元数据包含在事件中，以标识状态发生变化的上游。例如，可以在使用`exec`事件处理程序时将其作为占位符与`{event.data.host}`一起使用。
+
 
 <h3 id="streaming">流媒体</h3>
 
-为了提高接线效率，代理机构默认**缓冲响应。
+默认情况下，代理会对响应进行部分缓冲，以提高传输效率。
 
-- **flush_interval** <span id="flush_interval"/>是一个[持续时间值](/docs/conventions#durations)，用于调整Caddy应该多久刷新一次响应缓冲区给客户端。默认情况下，不做定期刷新。负值禁用响应缓冲区，在每次写给客户端后立即刷新。当上游的响应被识别为流式响应，或者其内容长度为`-1`时，该选项被忽略；对于这样的响应，写的内容会立即刷新到客户端。
+代理还支持WebSocket连接，它会执行HTTP升级请求，然后将连接转换为双向隧道。
 
-- **buffer_requests** <span id="buffer_requests"/> 将导致代理在向上游发送之前将整个请求正文读入一个缓冲区。这是非常低效的，只有在上游要求无延迟地读取请求体时才应该这样做（这是上游应用应该解决的问题）。
+>> 默认情况下，当配置重新加载时，WebSocket连接会被强制关闭（会向客户端和上游服务器发送Close控制消息）。每个请求都会持有对配置的引用，因此关闭旧连接是为了控制内存使用。这种关闭行为可以通过[stream_timeout](#stream_timeout)和[stream_close_delay](#stream_close_delay)选项进行自定义设置。
 
-- **buffer_responses** <span id="buffer_responses"/>将导致整个响应体在被代理到客户端之前被读取并在内存中缓冲。出于性能方面的考虑，如果可能的话，应该避免这样做，但如果后端有更严格的内存限制，这可能是有用的。
+- **flush_interval** <span id="flush_interval"/>是一个[持续时间值](/docs/conventions#durations)，用于调整Caddy刷新响应缓冲区到客户端的频率。默认情况下，不进行周期性刷新。负值（通常为`-1`）表示“低延迟模式”，它完全禁用响应缓冲，会在每次写入客户端后立即刷新。与此同时，即使客户端提前断开连接，也不会取消对后端的请求。如果响应满足以下情况之一，则该选项会被忽略，响应会被立即刷新到客户端：
+  - `Content-Type`为`text/event-stream`
+  - `Content-Length`未知
+  - 在代理的两端使用`HTTP/2`，`Content-Length`未知，并且`Accept-Encoding`未设置或为"identity"。
 
-- **max_buffer_size** <span id="max_buffer_size"/>如果启用了body buffering，这里设置用于请求和响应的缓冲区的最大尺寸。这接受[go人性化](https://github.com/dustin/go-humanize/blob/master/bytes.go)支持的所有尺寸格式。
+- **request_buffers** 会导致代理从请求体中读取最多`<size>`字节的数据到缓冲区中，然后再将其发送给上游服务器。这非常低效，只有在上游服务器需要立即读取请求体而没有延迟的情况下才应该这样做（这是上游应用程序应该修复的问题）。该选项接受所有由[go-humanize](https://github.com/dustin/go-humanize/blob/master/bytes.go)支持的大小格式。
+
+- **response_buffers** 会导致代理从响应体中读取最多`<size>`字节的数据到缓冲区中，然后再返回给客户端。基于性能考虑，应尽量避免使用此选项，但如果后端对内存有更严格的限制，这可能会有用。该选项接受所有由[go-humanize](https://github.com/dustin/go-humanize/blob/master/bytes.go)支持的大小格式。
+
+- **stream_timeout** 是一个[持续时间值](/docs/conventions#durations)，超过这个时间后，诸如WebSockets之类的流式请求将在超时结束时被强制关闭。这实质上会在连接保持开启时间过长时取消连接。一个合理的起始值可能是`24h`，以便清除一天前的连接。默认值：无超时。
+
+- **stream_close_delay** 是一个[持续时间值](/docs/conventions#durations)，它会延迟流式请求（如WebSockets）在配置卸载时被强制关闭；相反，流将保持开启状态，直到延迟完成。换句话说，启用此选项可以防止在重新加载Caddy配置时立即关闭流。启用此选项可能是一个不错的主意，以避免在前一个配置关闭时断掉了连接它们的大量客户端。一个合理的起始值可能是`5m`，以便在配置重新加载后让用户在5分钟的时间后自然地离开页面。默认值：无延迟。
 
 
 <h3 id="headers">头信息</h3>
