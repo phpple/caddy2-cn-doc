@@ -15,6 +15,7 @@ title: reverse_proxy (Caddyfile指令)
 - [负载平衡](#load-balancing)
     - [主动健康检查](#active-health-checks)
     - [被动健康检查](#passive-health-checks)
+    - [事件](#events)
 - [流媒体](#streaming)
 - [头信息](#headers)
 - [重写](#rewrites)
@@ -258,6 +259,7 @@ Caddy的反向代理标准配备了一些动态上游模块。请注意，使用
   这应该是一个相当大的数字；配置这个意味着代理将有一个`unhealthy_request_count × upstreams_count`的总同时请求的限制，任何超过这个点的请求将导致一个错误，因为没有上游可用。
 
 <h3 id="events">事件</h3>
+
 当上游从健康状态转变为不健康状态，或者反之，都会触发一个事件。这些事件可以用于触发其他操作，比如发送通知或记录消息。事件如下所示：
 
 - `healthy`：在上游从之前的不健康状态标记为健康时触发。
