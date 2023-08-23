@@ -68,7 +68,6 @@ title: "API教程"
 然后上传：
 
 <pre><code class="cmd bash">curl localhost:2019/load \
-	-X POST \
 	-H "Content-Type: application/json" \
 	-d @caddy.json
 </code></pre>
@@ -102,7 +101,6 @@ Hello, world!</code></pre>
 保存配置文件，然后通过再次运行相同的POST请求来更新Caddy的活动配置：
 
 <pre><code class="cmd bash">curl localhost:2019/load \
-	-X POST \
 	-H "Content-Type: application/json" \
 	-d @caddy.json
 </code></pre>
@@ -132,7 +130,6 @@ Instead of uploading the entire config file for a small change, let's use a powe
 
 <pre><code class="cmd bash">curl \
 	localhost:2019/config/apps/http/servers/example/routes/0/handle/0/body \
-	-X POST \
 	-H "Content-Type: application/json" \
 	-d '"Work smarter, not harder."'
 </code></pre>
@@ -172,7 +169,6 @@ Instead of uploading the entire config file for a small change, let's use a powe
 
 <pre><code class="cmd bash">curl \
 	localhost:2019/config/apps/http/servers/example/routes/0/handle/0/@id \
-	-X POST \
 	-H "Content-Type: application/json" \
 	-d '"msg"'
 </code></pre>
@@ -199,7 +195,6 @@ Instead of uploading the entire config file for a small change, let's use a powe
 
 <pre><code class="cmd bash">curl \
 	localhost:2019/id/msg/body \
-	-X POST \
 	-H "Content-Type: application/json" \
 	-d '"Some shortcuts are good."'
 </code></pre>

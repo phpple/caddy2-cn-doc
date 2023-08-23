@@ -8,6 +8,8 @@ Caddy是通过管理端点进行配置的，该端点可以使用[REST](https://
 
 **默认地址：`localhost:2019`**
 
+默认地址可以通过设置`CADDY_ADMIN`环境变量来更改。某些安装方法可能会将其设置为其他值。Caddy配置中的地址始终优先于默认设置。
+
 <aside class="tip">
 	如果你在服务器上运行不受信任的代码（哎呀😬)，请确保通过隔离进程、修补易受攻击的程序以及将端点配置为绑定到许可的unix套接字来保护你管理的端点。
 </aside>
@@ -39,8 +41,20 @@ Caddy是通过管理端点进行配置的，该端点可以使用[REST](https://
 - **[DELETE /config/[path]](#delete-configpath)**
   删除指定路径的值
 
-- **[在JSON中使用`@id`](#在JSON中使用`@id`)**
+- **[在JSON中使用`@id`](#using-id-in-json)**
   轻松遍历配置结构
+
+- **[并发配置修改](#concurrent-config-changes)**
+  在对配置进行非同步修改时避免冲突。
+
+- **[POST /adapt](#post-adapt)**
+  将配置适配为JSON格式，而不实际运行它
+
+- **[GET /pki/ca/&lt;id&gt;](#get-pkicaltidgt)**
+  返回有关特定[PKI应用](/docs/json/apps/pki/)的CA的信息
+
+- **[GET /pki/ca/&lt;id&gt;/certificates](#get-pkicaltidgtcertificates)**
+  返回特定[PKI应用](/docs/json/apps/pki/) CA的证书链
 
 - **[GET /reverse_proxy/upstreams](#get-reverse-proxyupstreams)**
   返回配置的代理上游的当前状态
@@ -58,13 +72,13 @@ Caddy是通过管理端点进行配置的，该端点可以使用[REST](https://
 
 设置新的活动配置：
 
-<pre><code class="cmd bash">curl -X POST "http://localhost:2019/load" \
+<pre><code class="cmd bash">curl "http://localhost:2019/load" \
 	-H "Content-Type: application/json" \
 	-d @caddy.json</code></pre>
 
 注意：`curl`的`-d`标志会删除换行符，因此如果你的配置格式对换行符敏感（例如 Caddyfile），请改用`--data-binary`：
 
-<pre><code class="cmd bash">curl -X POST "http://localhost:2019/load" \
+<pre><code class="cmd bash">curl "http://localhost:2019/load" \
 	-H "Content-Type: text/caddyfile" \
 	--data-binary @Caddyfile</code></pre>
 
@@ -146,14 +160,14 @@ baseSlice = append(baseSlice, newElems...)
 
 添加监听地址：
 
-<pre><code class="cmd bash">curl -X POST \
+<pre><code class="cmd bash">curl \
 	-H "Content-Type: application/json" \
 	-d '":8080"' \
 	"http://localhost:2019/config/apps/http/servers/myserver/listen"</code></pre>
 
 添加多个监听地址：
 
-<pre><code class="cmd bash">curl -X POST \
+<pre><code class="cmd bash">curl \
 	-H "Content-Type: application/json" \
 	-d '[":8080", ":5133"]' \
 	"http://localhost:2019/config/apps/http/servers/myserver/listen/..."</code></pre>
@@ -202,7 +216,7 @@ baseSlice = append(baseSlice, newElems...)
 <pre><code class="cmd bash">curl -X DELETE "http://localhost:2019/config/apps/http/servers/myserver"</code></pre>
 
 
-## 在JSON中使用`@id`
+<h2 id="using-id-in-json">在JSON中使用`@id`</h2>
 
 你可以在 JSON 文档中嵌入 ID，以便更轻松地直接访问 JSON 的这些部分。
 
@@ -231,16 +245,95 @@ baseSlice = append(baseSlice, newElems...)
 
 这更容易记忆和手写。
 
+<h2 id="concurrent-config-changes">并发配置更改</h2>
+
+<aside class="tip">
+本节适用于所有`/config/`端点。它是实验性的，可能会发生变化。
+</aside>
+
+Caddy的配置API为单个请求提供[ACID保证](https://en.wikipedia.org/wiki/ACID)，但涉及多个请求的更改如果没有适当同步，可能会导致冲突或数据丢失。
+
+例如，两个客户端可能同时使用`GET /config/foo`，在该范围内进行编辑（配置路径），然后同时调用`POST|PUT|PATCH|DELETE /config/foo/...`来应用更改，导致冲突：要么一个会覆盖另一个，要么第二个可能会将配置留在意外状态，因为它是针对不同版本的配置应用的，而不是针对准备好的版本。这是因为更改彼此不知道。
+
+Caddy的API不支持跨多个请求的事务，并且HTTP是一种无状态协议。但是，您可以使用`Etag`标头和`If-Match`标头来检测和防止所有更改的冲突，作为一种乐观并发控制。如果有任何可能同时使用Caddy的`/config/...`端点而没有同步，则对`GET /config/...`请求的所有响应都有一个名为`Etag`的HTTP尾部，其中包含该范围内内容的路径和哈希（例如`Etag: "/config/apps/http/servers 65760b8e"`）。只需在具有更改性质的请求上设置`If-Match`标头，以前一个`GET`请求的Etag尾部的值为依据。
+
+这个基本算法如下：
+
+1. 对配置的任何范围`S`执行`GET`请求。保存响应的`Etag`尾部。
+2. 对返回的配置进行所需的更改。
+3. 在范围`S`内执行`POST|PUT|PATCH|DELETE`请求，将`If-Match`标头设置为最近的`Etag`值。
+4. 如果响应是HTTP 412（前提条件失败），则从步骤1重新开始，或者在尝试次数过多后放弃。
+
+该算法可以安全地允许对Caddy的配置进行多个重叠更改，而无需显式同步。它的设计使得对配置不同部分的同时更改不需要重试：只有重叠到配置相同范围的更改才可能导致冲突，因此需要重试。
+
+## POST /adapt
+
+将配置适配为Caddy JSON格式，而不加载或运行它。如果成功，生成的JSON文档将在响应正文中返回。
+
+Content-Type标头用于指定配置格式，方式与[/load](#post-load)相同。例如，要适配Caddyfile，请设置`Content-Type: text/caddyfile`。
+
+只要关联的[配置适配器](/docs/config-adapters)已插入到您的Caddy构建中，此端点将适应任何配置格式。
+
+### 示例
+
+将Caddyfile适配为JSON：
+
+```bash
+curl "http://localhost:2019/adapt" \
+	-H "Content-Type: text/caddyfile" \
+	--data-binary @Caddyfile
+```
+
+
+## GET /pki/ca/&lt;id&gt;
+<a name="get-pkicaltidgt"></a>
+
+通过其ID返回有关特定[PKI应用](/docs/json/apps/pki/) CA的信息。如果请求的CA ID是默认值（`local`），则如果尚未创建CA，则将会创建该CA。如果其他CA ID尚未创建，则将返回错误。
+
+```bash
+curl "http://localhost:2019/pki/ca/local" | jq
+{
+	"id": "local",
+	"name": "Caddy Local Authority",
+	"root_common_name": "Caddy Local Authority - 2022 ECC Root",
+	"intermediate_common_name": "Caddy Local Authority - ECC Intermediate",
+	"root_certificate": "-----BEGIN CERTIFICATE-----\nMIIB ... gRw==\n-----END CERTIFICATE-----\n",
+	"intermediate_certificate": "-----BEGIN CERTIFICATE-----\nMIIB ... FzQ==\n-----END CERTIFICATE-----\n"
+}
+```
+
+
+## GET /pki/ca/&lt;id&gt;/certificates
+<a name="get-pkicaltidgtcertificates"></a>
+
+通过其ID返回特定[PKI应用](/docs/json/apps/pki/) CA的证书链。如果请求的CA ID是默认值（`local`），则如果尚未创建CA，则将会创建该CA。如果其他CA ID尚未创建，则将返回错误。
+
+此端点由[`caddy trust`](/docs/command-line#caddy-trust)命令在内部使用，以允许将CA的根证书安装到系统的信任存储中。
+
+```bash
+curl "http://localhost:2019/pki/ca/local/certificates"
+-----BEGIN CERTIFICATE-----
+MIIByDCCAW2gAwIBAgIQViS12trTXBS/nyxy7Zg9JDAKBggqhkjOPQQDAjAwMS4w
+...
+By75JkP6C14OfU733oElfDUMa5ctbMY53rWFzQ==
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIBpDCCAUmgAwIBAgIQTS5a+3LUKNxC6qN3ZDR8bDAKBggqhkjOPQQDAjAwMS4w
+...
+9M9t0FwCIQCAlUr4ZlFzHE/3K6dARYKusR1ck4A3MtucSSyar6lgRw==
+-----END CERTIFICATE-----
+```
 
 ## GET /reverse_proxy/upstreams
+<a name="get-reverse-proxyupstreams"></a>
 
 将配置的反向代理上游（后端）的当前状态作为 JSON 文档返回。
 
 <pre><code class="cmd"><span class="bash">curl "http://localhost:2019/reverse_proxy/upstreams" | jq</span>
 [
-	{"address": "10.0.1.1:80", "healthy": true, "num_requests": 4, "fails": 2},
-	{"address": "10.0.1.2:80", "healthy": true, "num_requests": 5, "fails": 4},
-	{"address": "10.0.1.3:80", "healthy": true, "num_requests": 3, "fails": 3}
+	{"address": "10.0.1.1:80", "num_requests": 4, "fails": 2},
+	{"address": "10.0.1.2:80", "num_requests": 5, "fails": 4},
+	{"address": "10.0.1.3:80", "num_requests": 3, "fails": 3}
 ]</code></pre>
 
 JSON 数组中的每个条目都是存储在全局上游池中的已配置[upstream](/docs/json/apps/http/servers/routes/handle/reverse_proxy/upstreams/)。

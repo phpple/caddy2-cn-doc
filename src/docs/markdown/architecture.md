@@ -21,7 +21,7 @@ CCaddy 由命令、核心库和模块组成。
 
 
 <aside class="tip">
-	模块可以向命令行界面添加子命令！比如，这就是<a href="/docs/command-line#caddy-file-server">caddy file-server</a>命令的来源。虽然核心 Caddy 命令最小化标记和环境变量的使用，但这些添加的命令可能仍然会使用它们。
+	模块可以向命令行界面添加子命令。例如，<a href="/docs/command-line#caddy-file-server"><code>caddy file-server</code></a>命令就是从这里来的。这些添加的命令可以使用任何标志或环境变量，尽管核心Caddy命令会尽量减少它们的使用。
 </aside>
 
 **[核心库](https://pkg.go.dev/github.com/caddyserver/caddy/v2?tab=doc)**，或者叫 Caddy的“核心”，主要作用是管理配置。它可以[`Run()`](https://pkg.go.dev/github.com/caddyserver/caddy/v2?tab=doc#Run) 一个新配置或[`Stop()`](https://pkg.go.dev/github.com/caddyserver/caddy/v2?tab=doc#Stop) 正在运行的配置。它还为要使用的模块提供各种实用程序、类型和值。
@@ -29,7 +29,7 @@ CCaddy 由命令、核心库和模块组成。
 **模块**做其他所有事情。许多模块内置在 Caddy 中，称为 _标准模块_。这是是对大多数用户而言最有用的。
 
 <aside class="tip">
-	有时，术语<i>模块</i>、<i>插件</i>和<i>扩展</i>可以互换使用，没太大关系。从技术上讲，所有模块都是插件，但并非所有插件都是模块。模块是专门扩展Caddy<a href="/docs/json/">配置结构</a>的一种插件。
+	有时术语“模块”、“插件”和“扩展”可以互换使用，通常这是可以的。从技术上讲，所有模块都是插件，但并非所有插件都是模块。模块是一种特定类型的插件，可以扩展Caddy的<a href="/docs/json/">配置结构</a>。
 </aside>
 
 
