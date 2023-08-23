@@ -28,7 +28,7 @@ __社区维护：__
 
 <h2 id="static-binaries">静态二进制文件</h2>
 
-只需要简单地下载Caddy二进制文件，并不会[将其安装为服务](https://caddyserver.com/docs/running#manual-installation)，这种方式在开发或升级现有安装时非常有用。
+只需要简单地下载Caddy二进制文件，并不会[将其安装为服务](/docs/running#manual-installation)，这种方式在开发或升级现有安装时非常有用。
 
 - [在GitHub上查看发布](https://github.com/caddyserver/caddy/releases)（展开“Assets”）
 - [使用官方下载页面](https://caddyserver.com/download)
@@ -59,11 +59,11 @@ sudo apt install caddy
 
 [查看Cloudsmith仓库](https://cloudsmith.io/~caddy/repos/)
 
-如果你希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
+如果你希望将包的支持文件（systemd 服务、bash 完成和默认配置）与自定义Caddy一起构建，可以在[这里](/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian)找到相关说明。
 
 <h2 id="fedora-redhat-centos">Fedora、Redhat、CentOS</h2>
 
-这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
+这个包附带了 Caddy 的两个[systemd服务](/docs/running#linux-service)单元文件，但默认情况下不启用它们。
 
 Fedora 或 RHEL/CentOS 8：
 
@@ -86,7 +86,7 @@ yum install caddy
 
 <h2 id="arch-linux-manjaro-parabola">Arch Linux, Manjaro, Parabola</h2>
 
-这个包附带了 Caddy 的两个[systemd服务](https://caddyserver.com/docs/running#linux-service)单元文件，但默认情况下不启用它们。
+这个包附带了 Caddy 的两个[systemd服务](/docs/running#linux-service)单元文件，但默认情况下不启用它们。
 
 ```bash
 pacman -Syu caddy
@@ -106,7 +106,7 @@ docker pull caddy
 
 [在 DigitalOcean 上部署 Caddy Droplet](https://marketplace.digitalocean.com/apps/caddy)
 
-通过[`apt`库](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)安装，Droplet被预先配置为将Caddy作为[systemd服务](https://caddyserver.com/docs/running#linux-service)运行。
+通过[`apt`库](/docs/install#debian-ubuntu-raspbian)安装，Droplet被预先配置为将Caddy作为[systemd服务](https://caddyserver.com/docs/running#linux-service)运行。
 
 
 ## Homebrew

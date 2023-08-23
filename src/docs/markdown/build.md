@@ -83,7 +83,7 @@ GOOS=darwin xcaddy build
 
 要求：
 
-- 根据这些[说明](https://caddyserver.com/docs/install#debian-ubuntu-raspbian)安装`caddy`
+- 根据这些[说明](/docs/install#debian-ubuntu-raspbian)安装`caddy`
 - 根据本文档中列出的过程构建自定义二进制文件。（往上看）
 - 自定义`caddy`二进制文件应位于当前目录中。
 

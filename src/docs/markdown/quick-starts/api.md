@@ -110,8 +110,8 @@ Goodbye, world!
 caddy stop
 ```
 
-使用API还可以做更多事情，包括导出配置和对配置进行细粒度地更改（而不是更新整个内容）。请务必阅读[完整的 API教程](https://caddyserver.com/docs/api-tutorial)，了解如何进行具体的操作！
+使用API还可以做更多事情，包括导出配置和对配置进行细粒度地更改（而不是更新整个内容）。请务必阅读[完整的 API教程](/docs/api-tutorial)，了解如何进行具体的操作！
 
 ## 进一步阅读
-- [完整的API教程](https://caddyserver.com/docs/api-tutorial)
-- [API文档](https://caddyserver.com/docs/api)
+- [完整的API教程](/docs/api-tutorial)
+- [API文档](/docs/api)

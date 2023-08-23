@@ -308,7 +308,7 @@ rewrite @mobile /mobile{uri}
 
 因为它接受v2的匹配器，这意味着你还可以根据请求更改站点根目录。
 
-如果提供静态文件，请记住添加[`file_server`指令](https://caddyserver.com/docs/caddyfile/directives/file_server)，因为默认情况下 Caddy 2 不假设这一点，而在 v1 中始终启用它。
+如果提供静态文件，请记住添加[`file_server`指令](/docs/caddyfile/directives/file_server)，因为默认情况下 Caddy 2 不假设这一点，而在 v1 中始终启用它。
 
 
 ### status
@@ -367,7 +367,7 @@ Caddy 2中的一个常见配置是使用`tls internal`它为非开发主机名`l
 
 ### 使用插件构建 Caddy 2
 
-Caddy 2 可以在[交互式下载页面](https://caddyserver.com/download)通过插件下载。或者，你可以使用`xcaddy`[自己构建Caddyfile](https://caddyserver.com/docs/build)选择要包含的插件。 `xcaddy`自动执行Caddy的[main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go)文件中的指令。
+Caddy 2 可以在[交互式下载页面](https://caddyserver.com/download)通过插件下载。或者，你可以使用`xcaddy`[自己构建Caddyfile](/docs/build)选择要包含的插件。 `xcaddy`自动执行Caddy的[main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go)文件中的指令。
 
 
 ## 获得帮助(Getting help)

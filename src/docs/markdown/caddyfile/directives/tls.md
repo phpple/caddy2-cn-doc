@@ -77,7 +77,7 @@ tls [internal|<email>] | [<cert_file> <key_file>] {
 - **dns_challenge_override_domain** <span id="dns_challenge_override_domain"/> 覆盖用于DNS挑战的域名。这是为了将挑战委托给一个不同的域，例如，其DNS提供商有一个[`caddy-dns`](https://github.com/caddy-dns)插件。
 - **resolvers** <span id="resolvers"/>自定义执行DNS挑战时使用的DNS解析器；这些解析器优先于系统解析器或任何默认的解析器。如果在这里设置，解析器将传播到所有配置的证书颁发者。
 - **eab** <span id="eab"/>为这个站点配置ACME外部账户绑定（EAB），使用你的CA提供的密钥ID和MAC密钥。
-- **on_demand** <span id="on_demand"/>为网站块地址中给出的主机名启用[on-demand TLS]（/docs/automatic-https#on-demand-tls）。**安全警告：**在生产中这样做是不安全的，除非你也配置了[`on_demand_tls`全局选项](https://caddyserver.com/docs/caddyfile/options#on-demand-tls)以减少滥用。
+- **on_demand** <span id="on_demand"/>为网站块地址中给出的主机名启用[on-demand TLS]（/docs/automatic-https#on-demand-tls）。**安全警告：**在生产中这样做是不安全的，除非你也配置了[`on_demand_tls`全局选项](/docs/caddyfile/options#on-demand-tls)以减少滥用。
 - **client_auth** <span id="client_auth"/>启用并配置TLS客户端认证。
     - **mode** <span id="mode"/>是验证客户端的模式。允许的值是。
 
