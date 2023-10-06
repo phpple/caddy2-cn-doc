@@ -258,7 +258,7 @@ caddy start
 
 注意：该标志`--config`不支持通过`-`选项从标准输入读取配置。
 
-不鼓励在系统服务或Windows上使用此命令。在Windows上，子进程将保持连接到终端，因此关闭窗口将强制停止Caddy，这并不明显。考虑改为将Caddy[作为服务](running.md)运行。
+不鼓励在系统服务或Windows上使用此命令。在Windows上，子进程将保持连接到终端，因此关闭窗口将强制停止Caddy，这并不明显。考虑改为将Caddy[作为服务](/doc/running)运行。
 
 启动后，你可以使用[`caddy stop`](#caddy-stop)或者[`/ stop`](api.md#post-stop)API端点退出后台进程。
 
