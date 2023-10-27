@@ -27,7 +27,7 @@ title: "API教程"
 
 <aside class="complete">运行守护程序</aside>
 
-这永远阻塞，但它在做什么？此刻……什么都没有。默认情况下，Caddy的配置（“config”）为空白。我们可以使用另一个终端中的[管理API](api.md)来验证这一点：
+这永远阻塞，但它在做什么？此刻……什么都没有。默认情况下，Caddy的配置（“config”）为空白。我们可以使用另一个终端中的[管理API](api)来验证这一点：
 
 <pre><code class="cmd bash">curl localhost:2019/config/</code></pre>
 

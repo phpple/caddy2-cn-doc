@@ -237,7 +237,7 @@ caddy run
 
 `--envfile`从指定文件加载环境变量。
 
-`--resume`使用自动保存的最后加载的配置，覆盖`--config`标志（如果存在）。使用此标志可通过机器重新启动或进程重新启动来保证配置的持久性。它在以[API](api.md)为中心的部署中最有用。
+`--resume`使用自动保存的最后加载的配置，覆盖`--config`标志（如果存在）。使用此标志可通过机器重新启动或进程重新启动来保证配置的持久性。它在以[API](api)为中心的部署中最有用。
 
 `--watch`将监视配置文件并在更改后自动重新加载它。
 ⚠️此功能仅供本地开发环境使用！
@@ -258,9 +258,9 @@ caddy start
 
 注意：该标志`--config`不支持通过`-`选项从标准输入读取配置。
 
-不鼓励在系统服务或Windows上使用此命令。在Windows上，子进程将保持连接到终端，因此关闭窗口将强制停止Caddy，这并不明显。考虑改为将Caddy[作为服务](running.md)运行。
+不鼓励在系统服务或Windows上使用此命令。在Windows上，子进程将保持连接到终端，因此关闭窗口将强制停止Caddy，这并不明显。考虑改为将Caddy[作为服务](/docs/running)运行。
 
-启动后，你可以使用[`caddy stop`](#caddy-stop)或者[`/ stop`](api.md#post-stop)API端点退出后台进程。
+启动后，你可以使用[`caddy stop`](#caddy-stop)或者[`/ stop`](api#post-stop)API端点退出后台进程。
 
 ### caddy stop
 
@@ -270,11 +270,11 @@ caddy stop[--address <interface>]
 
 > 停止（和重新启动）服务器与配置更改正交。__不要使用stop命令更改生产中的配置，除非你想要停机__。请改用[caddy reload](#caddy-reload)命令。
 
-优雅地停止正在运行的Caddy进程（而不是直接停止进程）并使其退出。它使用管理API的[`POST /stop`](api.md#post-stop)端点来执行平滑关闭。
+优雅地停止正在运行的Caddy进程（而不是直接停止进程）并使其退出。它使用管理API的[`POST /stop`](api#post-stop)端点来执行平滑关闭。
 
 `--address` 如果正在运行的实例的管理API不在默认端口上，则可以使用；也可以在此处指定备用地址。
 
-如果要停止当前配置但不想退出进程，请使用`caddy reload`空白配置或[`DELETE /config/`](api.md#delete-configpath)端点。
+如果要停止当前配置但不想退出进程，请使用`caddy reload`空白配置或[`DELETE /config/`](api#delete-configpath)端点。
 
 ### caddy trust
 

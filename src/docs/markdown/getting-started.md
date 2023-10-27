@@ -184,7 +184,7 @@ Caddyfile似乎比JSON更简单，但你应该总是使用它吗？每种方法�
 | 自动生成文档               | 文档支持手写             |
 | 更高效                    | 更易计算                |
 | 有点无聊                   | 更有意思                |
-| 了解更多：[JSON结构](referrence/json-config-structure.md) | 了解更多：[Caddyfile文档](tutorials:caddyfile.md)  |
+| 了解更多：[JSON结构](json/) | 了解更多：[Caddyfile文档](caddyfile)  |
 
 你需要根据场景选择哪种方式更适合你。
 
@@ -206,7 +206,7 @@ Caddyfile似乎比JSON更简单，但你应该总是使用它吗？每种方法�
 | 易于扩展  |  难于扩展  |
 | 很难手工操作 | 易于手工操作 |
 | 很有趣  | 也很有趣 |
-| 了解更多：[API教程](referrence/api.md) | 了解更多：[Caddyfile教程]（tutorials/caddyfile.md） |
+| 了解更多：[API教程](api) | 了解更多：[Caddyfile教程]（caddyfile） |
 
 > 使用适当的工具(例如:任何REST客户端应用程序)完全可以使用API手动管理服务器的配置。
 
