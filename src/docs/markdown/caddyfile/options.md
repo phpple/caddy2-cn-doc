@@ -305,7 +305,7 @@ listener_wrappers {
 
 从客户端的 HTTP 请求标头中解析的最大大小。它接受[go-humanize](https://github.com/dustin/go-humanize/blob/master/bytes.go)支持的所有格式。
 
-##### `protocol`
+##### `protocol`([DEPRECATED since 2022-08](https://github.com/caddyserver/caddy/blob/6d9a83376b5e19b3c0368541ee46044ab284038b/caddyconfig/httpcaddyfile/serveroptions.go#L241))
 
 - **allow_h2c** 启用 H2C（“明文 HTTP/2”或“H2 over TCP”）支持，如果客户端支持，它将通过明文 TCP 连接提供 HTTP/2。由于 Go 标准库没有实现这一点，因此使用 H2C 与该服务器的大多数其他选项不兼容。不要仅仅为了实现最大的客户端兼容性而启用它。在实践中，很少有客户端实现 H2C，甚至更少需要它。此设置仅适用于未加密的 HTTP 侦听器。⚠️实验功能；可能会更改或删除。
 
