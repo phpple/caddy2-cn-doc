@@ -4,16 +4,29 @@ title: 从源码构建
 
 # 从源码构建
 
-要求：
-- [Go](https://golang.org/doc/install) 1.16 或更新的版本
+构建 Caddy 有多种选项，如果您需要自定义构建（例如带有插件）：
+- [Git](#git)：从 Git 仓库构建
+- [`xcaddy`](#xcaddy)：使用 `xcaddy` 进行构建
+- [Docker](#docker)：构建自定义的 Docker 镜像
 
-克隆这个仓库：
+要求：
+- [Go](https://golang.org/doc/install) 1.20 或更新版本
+
+[包支持文件](#package-support-files-for-custom-builds-for-debianubunturaspbian) 部分包含了对于在 Debian 衍生系统上使用 APT 命令安装了 Caddy 但需要自定义构建可执行文件的用户的操作说明。
+
+## Git
+
+要求：
+
+- 已安装 Go（见上文）
+
+克隆存储库：
 
 ```bash
 git clone "https://github.com/caddyserver/caddy.git"
 ```
 
-如果你没有git，你可以从[GitHub](https://github.com/caddyserver/caddy)下载源代码压缩包。每个[版本](https://github.com/caddyserver/caddy/releases)也有源码快照。
+如果您没有安装 git，您可以从 [GitHub](https://github.com/caddyserver/caddy) 下载源代码作为文件归档。每个 [发布版本](https://github.com/caddyserver/caddy/releases) 也有源代码快照可用。
 
 构建：
 
@@ -22,8 +35,23 @@ cd caddy/cmd/caddy/
 go build
 ```
 
-> 由于[Go语言的一个bug](https://github.com/golang/go/issues/29228)，这些基本步骤没有嵌入版本信息。如果你想要版本(`caddy version`)，则需要将Caddy编译为依赖项而不是主模块。这方面的说明在Caddy的[main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go)文件中。当然，你也可以使用[`xcaddy`](https://caddyserver.com/docs/build#xcaddy)自动完成此操作。
+<div class="tip" markdown="1">
+由于 [Go 中的一个错误](https://github.com/golang/go/issues/29228)，这些基本步骤不会嵌入版本信息。如果您想要版本信息（`caddy version`），您需要将 Caddy 编译为依赖项而不是主模块。关于此的说明在 Caddy 的 [main.go](https://github.com/caddyserver/caddy/blob/master/cmd/caddy/main.go) 文件中。或者，您可以使用 [`xcaddy`](#xcaddy) 来自动完成此操作。
+</div>
 
+Go 程序很容易编译为其他平台。只需设置不同的 `GOOS`、`GOARCH` 和/或 `GOARM` 环境变量即可。([请参阅 go 文档了解详情。](https://golang.org/doc/install/source#environment))
+
+例如，如果您不在 Windows 上，可以这样为 Windows 编译 Caddy：
+
+```bash
+GOOS=windows go build
+```
+
+或者，如果您不在 Linux 上或不在 ARMv6 上，可以这样为 Linux ARMv6 编译 Caddy：
+
+```bash
+GOOS=linux GOARCH=arm GOARM=6 go build
+```
 
 ## xcaddy
 
