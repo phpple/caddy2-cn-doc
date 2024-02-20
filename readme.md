@@ -1,7 +1,7 @@
 Caddy v2 中文文档
 =================
 
-这是Caddy v2中文文档的网站, [https://dengxiaolong.com/caddy/v2/]([https://dengxiaolong.com/caddy/v2/).
+这是Caddy v2中文文档的网站, [https://caddy2.dengxiaolong.com/](https://caddy2.dengxiaolong.com/docs/).
 
 
 ## 要求
